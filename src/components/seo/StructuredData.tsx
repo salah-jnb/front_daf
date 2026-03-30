@@ -1,5 +1,3 @@
-import { Helmet } from "react-helmet-async";
-
 const siteUrl = import.meta.env.VITE_SITE_URL || "https://example.com";
 
 const structuredData = {
@@ -14,7 +12,9 @@ const structuredData = {
 };
 
 export const StructuredData = () => (
-  <Helmet>
-    <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-  </Helmet>
+  <script
+    type="application/ld+json"
+    // Le script contient du JSON-LD: on évite d'avoir les caractères échappés HTML
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+  />
 );
