@@ -151,7 +151,7 @@ export const SponsorsPage: React.FC = () => {
                   {sponsor.logoUrl ? (
                     <img
                       src={sponsor.logoUrl}
-                      alt="Sponsor"
+                      alt={`Sponsor logo #${sponsor.id}`}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';

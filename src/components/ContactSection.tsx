@@ -7,7 +7,7 @@ const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // placeholder
-    alert("Thank you! We'll be in touch shortly.");
+    alert("Thank you for your request. Our team will contact you shortly.");
     setForm({ name: "", email: "", phone: "", message: "" });
   };
 
@@ -16,13 +16,13 @@ const ContactSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-20">
           <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4">
-            Get in Touch
+            Contact Our Team
           </p>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Let's <span className="gradient-text">Move Together</span>
+            Plan Your <span className="gradient-text">Next Move</span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            Have any questions or want a free estimate? Reach our team directly using the details below.
+            Need an international moving quote or logistics advice? Send us your request and we will get back quickly.
           </p>
         </div>
 
@@ -31,6 +31,8 @@ const ContactSection = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid sm:grid-cols-2 gap-5">
                 <input
+                  id="contact-name"
+                  aria-label="Full Name"
                   type="text"
                   placeholder="Full Name"
                   required
@@ -39,6 +41,8 @@ const ContactSection = () => {
                   className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300"
                 />
                 <input
+                  id="contact-email"
+                  aria-label="Email Address"
                   type="email"
                   placeholder="Email Address"
                   required
@@ -48,6 +52,8 @@ const ContactSection = () => {
                 />
               </div>
               <input
+                id="contact-phone"
+                aria-label="Phone Number"
                 type="tel"
                 placeholder="Phone Number"
                 value={form.phone}
@@ -55,6 +61,8 @@ const ContactSection = () => {
                 className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300"
               />
               <textarea
+                id="contact-message"
+                aria-label="Message"
                 rows={5}
                 placeholder="Tell us about your shipment..."
                 required
@@ -76,7 +84,7 @@ const ContactSection = () => {
               <div className="flex items-start gap-4">
                 <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
                 <div>
-                  <h4 className="font-bold mb-1">Free Estimate</h4>
+                  <h4 className="font-bold mb-1">Free Moving Estimate</h4>
                   <p className="text-muted-foreground text-sm">(216)71906449</p>
                   <p className="text-muted-foreground text-sm">Demjaf@planet.tn</p>
                 </div>
@@ -86,7 +94,7 @@ const ContactSection = () => {
               <div className="flex items-start gap-4">
                 <Mail className="w-6 h-6 text-primary mt-1 shrink-0" />
                 <div>
-                  <h4 className="font-bold mb-1">Claims</h4>
+                  <h4 className="font-bold mb-1">Customer Support</h4>
                   <p className="text-muted-foreground text-sm">G.managerdemjaf@orange.tn</p>
                 </div>
               </div>

@@ -2,17 +2,17 @@ import { Download, MapPin, Phone } from "lucide-react";
 
 const policyLinks = [
   {
-    label: "Anti corruption & Bribery Statement",
+    label: "Anti-Corruption and Bribery Statement",
     href: "/documents/anti-corruption-bribery.pdf",
     download: "Anti corruption & bribery.pdf",
   },
   {
-    label: "Data protection policy",
+    label: "Data Protection Policy",
     href: "/documents/data-protection-policy.pdf",
     download: "Data protection policy.pdf",
   },
   {
-    label: "Code of ethics",
+    label: "Code of Ethics",
     href: "/documents/code-of-ethics.pdf",
     download: "Code of ethics.pdf",
   },
@@ -44,7 +44,7 @@ const Footer = () => (
         </div>
 
         <div className="glass rounded-2xl border border-border/70 p-6 md:p-8">
-          <h3 className="text-3xl font-semibold mb-6">Quick Links</h3>
+          <h3 className="text-3xl font-semibold mb-6">Policies and Documents</h3>
           <ul className="space-y-4 text-muted-foreground">
             {policyLinks.map((item) => (
               <li key={item.label} className="border-b border-border/70 pb-3 last:border-b-0 last:pb-0">
@@ -63,7 +63,7 @@ const Footer = () => (
       </div>
 
       <div className="mt-10 pt-6 border-t border-border/70 text-sm text-muted-foreground text-center">
-        © 2026 JAF Logistics. All rights reserved.
+        © 2026 JAF Logistics. International Moving and Freight Services. All rights reserved.
       </div>
     </div>
   </footer>

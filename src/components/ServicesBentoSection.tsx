@@ -20,37 +20,37 @@ const services: ServiceItem[] = [
   {
     title: "Moving",
     description:
-      "From first contact to unloading, JAF plans every detail: no-cost estimate, careful packing, labeling, transport, unpacking, and debris removal for a stress-free move.",
+      "From first contact to final setup, JAF manages every step: survey, export packing, transport, unpacking, and post-move support.",
     image: movingImage,
   },
   {
     title: "Office Move",
     description:
-      "Dedicated supervisors and trained teams handle full office relocation, IT disconnect/reconnect, asset tracking, furniture setup, and space planning with minimal downtime.",
+      "Dedicated supervisors and trained teams handle office relocation, IT coordination, asset tracking, and furniture setup with minimal downtime.",
     image: officeMoveImage,
   },
   {
     title: "Car Shipping",
     description:
-      "Door-to-door vehicle shipping with direct home pickup and delivery, pre-move condition checks, and optional storage when needed.",
+      "Door-to-door car shipping with pickup, delivery, condition checks, and optional secure storage when needed.",
     image: carShippingImage,
   },
   {
     title: "Storage",
     description:
-      "Flexible short and long-term storage options in monitored facilities, with organized handling to keep goods accessible and secure.",
+      "Flexible short and long-term storage in monitored facilities, designed to keep your items secure and accessible.",
     image: storageImage,
   },
   {
     title: "Fine Art",
     description:
-      "Specialized Fine Art crews use object-specific packing techniques and continuous training to protect fragile pieces by nature, age, and transport mode.",
+      "Specialized crews protect fine art and fragile pieces with custom packing methods adapted to each item and transport mode.",
     image: fineArtImage,
   },
   {
     title: "Pet Relocation",
     description:
-      "Worldwide pet moves with boarding coordination, export permits, vet support, customs assistance, and high-quality kennels to reduce stress.",
+      "Worldwide pet relocation with boarding support, permits, veterinary coordination, and travel kennels for safer journeys.",
     image: petRelocationImage,
   },
 ];
@@ -76,13 +76,13 @@ const ServicesBentoSection = () => (
   <section id="services-bento" className="py-24 relative section-glow">
     <div className="container mx-auto px-6">
       <div className="text-center max-w-3xl mx-auto mb-14">
-        <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4">Service Overview</p>
+        <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4">Featured Services</p>
         <h2 className="text-4xl md:text-5xl font-bold mb-5">
-          Explore Our <span className="gradient-text">Relocation Expertise</span>
+          Discover Our <span className="gradient-text">Moving Expertise</span>
         </h2>
         <p className="text-muted-foreground text-lg">
-          A visual snapshot of JAF services across household moving, office relocation, vehicle transport, storage,
-          fine art handling, and pet relocation.
+          Explore our key services: household moving, office relocation, car shipping, secure storage,
+          fine art logistics, and pet relocation.
         </p>
       </div>
 

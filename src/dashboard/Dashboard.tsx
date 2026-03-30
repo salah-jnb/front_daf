@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { DashboardProvider, useDashboard } from './DashboardContext';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { DashboardToast } from './DashboardToast';
-import { ContactsPage } from './pages/ContactsPage';
-import { OfficesPage } from './pages/OfficesPage';
-import { GeneralInfoPage } from './pages/GeneralInfoPage';
-import { SponsorsPage } from './pages/SponsorsPage';
-import { ContentBlocksPage } from './pages/ContentBlocksPage';
+
+const ContactsPage = lazy(() => import('./pages/ContactsPage').then((module) => ({ default: module.ContactsPage })));
+const OfficesPage = lazy(() => import('./pages/OfficesPage').then((module) => ({ default: module.OfficesPage })));
+const GeneralInfoPage = lazy(() =>
+  import('./pages/GeneralInfoPage').then((module) => ({ default: module.GeneralInfoPage })),
+);
+const SponsorsPage = lazy(() => import('./pages/SponsorsPage').then((module) => ({ default: module.SponsorsPage })));
+const ContentBlocksPage = lazy(() =>
+  import('./pages/ContentBlocksPage').then((module) => ({ default: module.ContentBlocksPage })),
+);
+
+const DashboardFallback: React.FC = () => (
+  <div className="min-h-[280px] flex items-center justify-center text-slate-600">Loading dashboard page...</div>
+);
 
 const DashboardLayout: React.FC = () => {
   const { sidebarOpen, setSidebarOpen, isAuthenticated, setIsAuthenticated } = useDashboard();
@@ -50,15 +59,17 @@ const DashboardLayout: React.FC = () => {
 
         <main className="flex-1 overflow-auto">
           <div className="p-6 max-w-7xl mx-auto">
-            <Routes>
-              <Route path="/" element={<Navigate to="/da/contacts" replace />} />
-              <Route path="/contacts" element={<ContactsPage />} />
-              <Route path="/offices" element={<OfficesPage />} />
-              <Route path="/general-info" element={<GeneralInfoPage />} />
-              <Route path="/sponsors" element={<SponsorsPage />} />
-              <Route path="/content-blocks" element={<ContentBlocksPage />} />
-              <Route path="*" element={<Navigate to="/da/contacts" replace />} />
-            </Routes>
+            <Suspense fallback={<DashboardFallback />}>
+              <Routes>
+                <Route path="/" element={<Navigate to="/da/contacts" replace />} />
+                <Route path="/contacts" element={<ContactsPage />} />
+                <Route path="/offices" element={<OfficesPage />} />
+                <Route path="/general-info" element={<GeneralInfoPage />} />
+                <Route path="/sponsors" element={<SponsorsPage />} />
+                <Route path="/content-blocks" element={<ContentBlocksPage />} />
+                <Route path="*" element={<Navigate to="/da/contacts" replace />} />
+              </Routes>
+            </Suspense>
           </div>
         </main>
       </div>

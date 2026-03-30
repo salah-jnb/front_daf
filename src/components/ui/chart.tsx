@@ -19,6 +19,21 @@ type ChartContextProps = {
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
+const sanitizeCssToken = (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, "");
+
+const sanitizeCssColor = (value?: string) => {
+  if (!value) {
+    return null;
+  }
+
+  // Allow common CSS color formats while blocking characters used for CSS breaking/injection.
+  const isAllowed = /^#[0-9a-fA-F]{3,8}$|^rgba?\([\d\s.,%]+\)$|^hsla?\([\d\s.,%]+\)$|^[a-zA-Z]+$|^var\(--[a-zA-Z0-9_-]+\)$/.test(
+    value,
+  );
+
+  return isAllowed ? value : null;
+};
+
 function useChart() {
   const context = React.useContext(ChartContext);
 
@@ -37,7 +52,7 @@ const ChartContainer = React.forwardRef<
   }
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId();
-  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
+  const chartId = sanitizeCssToken(`chart-${id || uniqueId.replace(/:/g, "")}`);
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -65,18 +80,22 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null;
   }
 
+  const safeId = sanitizeCssToken(id);
+
   return (
     <style
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(
             ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
+${prefix} [data-chart=${safeId}] {
 ${colorConfig
   .map(([key, itemConfig]) => {
-    const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color;
-    return color ? `  --color-${key}: ${color};` : null;
+    const color = sanitizeCssColor(itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color);
+    const safeKey = sanitizeCssToken(key);
+    return color && safeKey ? `  --color-${safeKey}: ${color};` : null;
   })
+  .filter(Boolean)
   .join("\n")}
 }
 `,

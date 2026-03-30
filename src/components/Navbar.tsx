@@ -56,13 +56,17 @@ const Navbar = () => {
         <button
           className="md:hidden text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
+          type="button"
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-navigation"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden glass mt-2 mx-4 rounded-xl p-6 animate-fade-in">
+        <div id="mobile-navigation" className="md:hidden glass mt-2 mx-4 rounded-xl p-6 animate-fade-in">
           {navLinks.map((link) => (
             <a
               key={link.href}

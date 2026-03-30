@@ -14,20 +14,20 @@ const slides = [
   {
     image: heroAir,
     title: "Air Freight",
-    subtitle: "Global Reach, Lightning Speed",
-    description: "Express air cargo solutions connecting continents with unmatched reliability and precision.",
+    subtitle: "Fast Global Air Cargo",
+    description: "Time-critical air freight solutions with secure handling, customs coordination, and reliable worldwide delivery.",
   },
   {
     image: heroRoad,
     title: "Road Transport",
-    subtitle: "Seamless Overland Logistics",
-    description: "End-to-end ground shipping with real-time tracking and on-time delivery guarantees.",
+    subtitle: "Reliable Overland Logistics",
+    description: "Flexible road transport across local and cross-border routes with clear communication and on-time performance.",
   },
   {
     image: heroSea,
     title: "Sea Freight",
-    subtitle: "Oceanic Scale, Competitive Rates",
-    description: "Full container and bulk shipping across every major trade route worldwide.",
+    subtitle: "Cost-Effective Ocean Shipping",
+    description: "FCL and LCL sea freight services designed for dependable transit times and competitive international shipping costs.",
   },
 ];
 
@@ -103,14 +103,14 @@ const HeroCarousel = () => {
                     >
                       {slide.subtitle}
                     </p>
-                    <h1
+                    <h2
                       className={`text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] mb-6 transition-all duration-700 ${
                         activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                       }`}
                       style={{ transitionDelay: "400ms" }}
                     >
                       <span className="gradient-text">{slide.title}</span>
-                    </h1>
+                    </h2>
                     <p
                       className={`text-lg text-muted-foreground max-w-lg mb-8 transition-all duration-700 ${
                         activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -120,20 +120,20 @@ const HeroCarousel = () => {
                       {slide.description}
                     </p>
                     <div
-                      className={`flex gap-4 transition-all duration-700 ${
+                      className={`flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none transition-all duration-700 ${
                         activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                       }`}
                       style={{ transitionDelay: "800ms" }}
                     >
                       <a
                         href="#contact"
-                        className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg glow-primary hover:scale-105 transition-transform duration-300"
+                        className="w-full sm:w-auto text-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-primary text-primary-foreground font-bold text-base sm:text-lg glow-primary hover:scale-105 transition-transform duration-300"
                       >
                         Get a Quote
                       </a>
                       <a
                         href="#services"
-                        className="px-8 py-4 rounded-xl border border-border text-foreground font-semibold text-lg hover:bg-secondary transition-colors duration-300"
+                        className="w-full sm:w-auto text-center whitespace-nowrap px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-border text-foreground font-semibold text-base sm:text-lg hover:bg-secondary transition-colors duration-300"
                       >
                         Our Services
                       </a>

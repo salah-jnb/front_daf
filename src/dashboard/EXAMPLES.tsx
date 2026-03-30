@@ -37,7 +37,7 @@ export function SponsorsSection() {
             {sponsor.logoUrl && (
               <img
                 src={sponsor.logoUrl}
-                alt="Sponsor"
+                alt={`Sponsor logo #${sponsor.id}`}
                 className="max-w-full max-h-16 object-contain"
               />
             )}
@@ -80,7 +80,7 @@ export function DynamicContentBlocks() {
           {block.image && (
             <img
               src={block.image}
-              alt={block.titre || block.title}
+              alt={block.titre || block.title || `Content block #${block.id}`}
               className="w-1/2 rounded-lg object-cover"
             />
           )}
