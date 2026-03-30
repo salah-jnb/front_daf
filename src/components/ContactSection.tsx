@@ -1,14 +1,98 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Phone, Mail } from "lucide-react";
 
 const ContactSection = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const apiBaseUrl = useMemo(
+    () =>
+      (localStorage.getItem("tg_api") || import.meta.env.VITE_API_URL || "http://localhost:9090").replace(
+        /\/$/,
+        "",
+      ),
+    [],
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    originCity: "",
+    destinationCity: "",
+    message: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitOk, setSubmitOk] = useState<string | null>(null);
+
+  const [infoLoading, setInfoLoading] = useState(true);
+  const [info, setInfo] = useState<{ phone1?: string; phone2?: string; email?: string } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setInfoLoading(true);
+        const res = await fetch(`${apiBaseUrl}/informations/1`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (cancelled) return;
+        setInfo({
+          phone1: data.phone1 ?? "",
+          phone2: data.phone2 ?? "",
+          email: data.email ?? "",
+        });
+      } catch {
+        if (!cancelled) setInfo(null);
+      } finally {
+        if (!cancelled) setInfoLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [apiBaseUrl]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // placeholder
-    alert("Thank you for your request. Our team will contact you shortly.");
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setSubmitError(null);
+    setSubmitOk(null);
+    setSubmitting(true);
+
+    const [firstName, ...rest] = form.name.trim().split(/\s+/);
+    const lastName = rest.join(" ");
+
+    try {
+      const payload = {
+        firstName: firstName || form.name.trim(),
+        lastName: lastName || "",
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        originCity: form.originCity.trim(),
+        // Compat: some backend DTOs use this typo (see Admin pages)
+        distnationCity: form.destinationCity.trim(),
+        // Also send the correct spelling
+        destinationCity: form.destinationCity.trim(),
+        description: form.message.trim(),
+        date: new Date().toISOString(),
+        informationId: 1,
+      };
+
+      const res = await fetch(`${apiBaseUrl}/contacts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(text || `HTTP ${res.status}`);
+      }
+
+      setSubmitOk("Thank you for your request. Our team will contact you shortly.");
+      setForm({ name: "", email: "", phone: "", originCity: "", destinationCity: "", message: "" });
+    } catch (err: any) {
+      setSubmitError(err?.message || "Erreur lors de l'envoi.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -60,6 +144,28 @@ const ContactSection = () => {
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300"
               />
+              <div className="grid sm:grid-cols-2 gap-5">
+                <input
+                  id="contact-origin"
+                  aria-label="Origin City"
+                  type="text"
+                  placeholder="Origin City"
+                  required
+                  value={form.originCity}
+                  onChange={(e) => setForm({ ...form, originCity: e.target.value })}
+                  className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300"
+                />
+                <input
+                  id="contact-destination"
+                  aria-label="Destination City"
+                  type="text"
+                  placeholder="Destination City"
+                  required
+                  value={form.destinationCity}
+                  onChange={(e) => setForm({ ...form, destinationCity: e.target.value })}
+                  className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300"
+                />
+              </div>
               <textarea
                 id="contact-message"
                 aria-label="Message"
@@ -70,11 +176,17 @@ const ContactSection = () => {
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300 resize-none"
               />
+              {submitError ? (
+                <div className="text-sm text-destructive">{submitError}</div>
+              ) : submitOk ? (
+                <div className="text-sm text-primary">{submitOk}</div>
+              ) : null}
               <button
                 type="submit"
-                className="w-full px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg glow-primary hover:scale-[1.02] transition-transform duration-300"
+                disabled={submitting}
+                className="w-full px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg glow-primary hover:scale-[1.02] transition-transform duration-300 disabled:opacity-70 disabled:hover:scale-100"
               >
-                Send Message
+                {submitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
@@ -85,8 +197,12 @@ const ContactSection = () => {
                 <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
                 <div>
                   <h4 className="font-bold mb-1">Free Moving Estimate</h4>
-                  <p className="text-muted-foreground text-sm">(216)71906449</p>
-                  <p className="text-muted-foreground text-sm">Demjaf@planet.tn</p>
+                  <p className="text-muted-foreground text-sm">
+                    {infoLoading ? "..." : info?.phone1 || "(216)71906449"}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    {infoLoading ? "..." : info?.email || "Demjaf@planet.tn"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -95,7 +211,12 @@ const ContactSection = () => {
                 <Mail className="w-6 h-6 text-primary mt-1 shrink-0" />
                 <div>
                   <h4 className="font-bold mb-1">Customer Support</h4>
-                  <p className="text-muted-foreground text-sm">G.managerdemjaf@orange.tn</p>
+                  <p className="text-muted-foreground text-sm">
+                    {infoLoading ? "..." : info?.phone2 || info?.phone1 || ""}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    {infoLoading ? "..." : info?.email || "G.managerdemjaf@orange.tn"}
+                  </p>
                 </div>
               </div>
             </div>

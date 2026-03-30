@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect, useCallback } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 
 /** Même fiche « Informations générales » : les sponsors y sont rattachés côté API. */
 const SPONSOR_INFORMATION_ID = 1;

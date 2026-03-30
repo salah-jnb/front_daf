@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef, useCallback } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 
 export default function ContentBlocks() {
   const { actionTrigger, showToast, baseUrl } = useContext(AppContext);
@@ -83,6 +83,16 @@ export default function ContentBlocks() {
     setNewBlock(prev => ({ ...prev, image: null, imagePreview: null }));
   };
 
+  const normalizeImageUrl = (img) => {
+    if (!img || typeof img !== 'string') return null;
+    const v = img.trim();
+    if (!v) return null;
+    if (v.startsWith('http://') || v.startsWith('https://')) return v;
+    const r = root();
+    if (v.startsWith('/')) return `${r}${v}`;
+    return `${r}/${v}`;
+  };
+
   /* ─── Créer ou mettre à jour un bloc via l'API ─── */
   const saveBlock = async () => {
     if (!newBlock.title.trim()) {
@@ -156,7 +166,7 @@ export default function ContentBlocks() {
 
   /* ─── Helpers ─── */
   const getTitle = (b) => b.titre || b.title || '';
-  const getImage = (b) => b.image || null;
+  const getImage = (b) => normalizeImageUrl(b.image);
 
   return (
     <>

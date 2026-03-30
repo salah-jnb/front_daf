@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 
 function formatContactDate(value) {
   if (value == null) return '—';

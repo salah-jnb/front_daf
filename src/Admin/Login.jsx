@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AppContext } from '../App';
+import { AppContext } from '../context/AppContext';
 
 export default function Login({ onLogin }) {
   const { baseUrl, showToast } = useContext(AppContext);
