@@ -191,32 +191,85 @@ const ContactSection = () => {
             </form>
           </div>
 
-          <div className="lg:col-span-2 space-y-8">
-            <div className="glass rounded-2xl p-6">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="glass rounded-2xl p-6 border border-border/70">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-bold mb-1">Call Us</h4>
+                    <p className="text-muted-foreground text-sm">Free moving estimate & support</p>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {infoLoading ? "Loading…" : "Available"}
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-3">
+                <a
+                  className="flex items-center justify-between gap-3 rounded-xl bg-secondary/60 border border-border px-4 py-3 hover:border-primary/50 transition-colors"
+                  href={`tel:${(info?.phone1 || "+216 12 345 678").replace(/\s+/g, "")}`}
+                >
+                  <span className="text-sm font-semibold text-foreground">
+                    {infoLoading ? "…" : info?.phone1 || "+216 12 345 678"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">Tap to call</span>
+                </a>
+
+                <a
+                  className="flex items-center justify-between gap-3 rounded-xl bg-secondary/60 border border-border px-4 py-3 hover:border-primary/50 transition-colors"
+                  href={`tel:${(info?.phone2 || info?.phone1 || "+216 98 765 432").replace(/\s+/g, "")}`}
+                >
+                  <span className="text-sm font-semibold text-foreground">
+                    {infoLoading ? "…" : info?.phone2 || info?.phone1 || "+216 98 765 432"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">Support line</span>
+                </a>
+
+                <a
+                  className="flex items-center justify-between gap-3 rounded-xl bg-secondary/60 border border-border px-4 py-3 hover:border-primary/50 transition-colors"
+                  href={`mailto:${info?.email || "contact@example.com"}`}
+                >
+                  <span className="text-sm font-semibold text-foreground">
+                    {infoLoading ? "…" : info?.email || "contact@example.com"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">Email us</span>
+                </a>
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+                  Fast response
+                </span>
+                <span className="text-xs px-3 py-1 rounded-full bg-secondary/60 text-muted-foreground border border-border">
+                  International moves
+                </span>
+                <span className="text-xs px-3 py-1 rounded-full bg-secondary/60 text-muted-foreground border border-border">
+                  Storage & logistics
+                </span>
+              </div>
+            </div>
+
+            <div className="glass rounded-2xl p-6 border border-border/70">
               <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
-                <div>
-                  <h4 className="font-bold mb-1">Free Moving Estimate</h4>
+                <Mail className="w-6 h-6 text-primary mt-1 shrink-0" />
+                <div className="flex-1">
+                  <h4 className="font-bold mb-1">What we can help with</h4>
                   <p className="text-muted-foreground text-sm">
-                    {infoLoading ? "..." : info?.phone1 || "(216)71906449"}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {infoLoading ? "..." : info?.email || "Demjaf@planet.tn"}
+                    Share your origin, destination and details — we’ll prepare your quote.
                   </p>
                 </div>
               </div>
-            </div>
-            <div className="glass rounded-2xl p-6">
-              <div className="flex items-start gap-4">
-                <Mail className="w-6 h-6 text-primary mt-1 shrink-0" />
-                <div>
-                  <h4 className="font-bold mb-1">Customer Support</h4>
-                  <p className="text-muted-foreground text-sm">
-                    {infoLoading ? "..." : info?.phone2 || info?.phone1 || ""}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {infoLoading ? "..." : info?.email || "G.managerdemjaf@orange.tn"}
-                  </p>
+
+              <div className="mt-5 grid sm:grid-cols-2 gap-3 text-sm">
+                <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3">
+                  <div className="text-xs text-muted-foreground">Professional moving</div>
+                  <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : "Included"}</div>
+                </div>
+                <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3">
+                  <div className="text-xs text-muted-foreground">Secure storage</div>
+                  <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : "Available"}</div>
                 </div>
               </div>
             </div>
