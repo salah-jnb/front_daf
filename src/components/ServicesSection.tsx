@@ -7,75 +7,306 @@ import {
   PawPrint,
   Truck,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
   {
     icon: Globe2,
     title: "International Moving",
-    description: "End-to-end international relocation for households and companies, from export packing to final delivery.",
+    description:
+      "End-to-end international relocation for households and companies, from export packing to final delivery.",
+    gradient: "from-blue-500 to-cyan-400",
+    glow: "rgba(59,130,246,0.25)",
   },
   {
     icon: PawPrint,
     title: "Pet Relocation",
-    description: "Safe pet moving services with documentation support, route planning, and welfare-first handling.",
+    description:
+      "Safe pet moving services with documentation support, route planning, and welfare-first handling.",
+    gradient: "from-emerald-500 to-teal-400",
+    glow: "rgba(16,185,129,0.25)",
   },
   {
     icon: Building2,
     title: "Office Moving",
-    description: "Professional office relocation planned to reduce downtime and keep business operations running smoothly.",
+    description:
+      "Professional office relocation planned to reduce downtime and keep business operations running smoothly.",
+    gradient: "from-violet-500 to-purple-400",
+    glow: "rgba(139,92,246,0.25)",
   },
   {
     icon: CarFront,
     title: "Car Shipping",
-    description: "Door-to-door vehicle shipping with secure handling for domestic and international routes.",
+    description:
+      "Door-to-door vehicle shipping with secure handling for domestic and international routes.",
+    gradient: "from-orange-500 to-amber-400",
+    glow: "rgba(249,115,22,0.25)",
   },
   {
     icon: Truck,
     title: "National Moving",
-    description: "Reliable domestic moving services for apartments, houses, and corporate spaces.",
+    description:
+      "Reliable domestic moving services for apartments, houses, and corporate spaces.",
+    gradient: "from-sky-500 to-blue-400",
+    glow: "rgba(14,165,233,0.25)",
   },
   {
     icon: Palette,
     title: "Fine Art",
-    description: "Specialized packing and transport for artworks, antiques, and fragile high-value items.",
+    description:
+      "Specialized packing and transport for artworks, antiques, and fragile high-value items.",
+    gradient: "from-pink-500 to-rose-400",
+    glow: "rgba(236,72,153,0.25)",
   },
   {
     icon: Archive,
     title: "Storage Solutions",
-    description: "Flexible short and long-term storage in secure, monitored facilities.",
+    description:
+      "Flexible short and long-term storage in secure, monitored facilities.",
+    gradient: "from-indigo-500 to-blue-400",
+    glow: "rgba(99,102,241,0.25)",
   },
 ];
 
 const ServicesSection = () => (
-  <section id="services" className="py-20 md:py-32 relative section-glow">
-    <div className="container mx-auto px-4 sm:px-6">
-      <div className="text-center max-w-2xl mx-auto mb-12 md:mb-20">
-        <p className="text-primary font-semibold text-xs sm:text-sm uppercase tracking-[0.24em] sm:tracking-[0.3em] mb-3 sm:mb-4">
-          Moving and Freight Services
-        </p>
-        <h2 className="text-3xl md:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
-          Complete <span className="gradient-text">Relocation Solutions</span>
+  <section id="services" className="services-section py-24 md:py-36 relative overflow-hidden">
+    {/* Ambient background blobs */}
+    <div className="services-bg-blob services-blob-1" aria-hidden="true" />
+    <div className="services-bg-blob services-blob-2" aria-hidden="true" />
+
+    <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      {/* Header */}
+      <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
+        <div className="services-eyebrow-wrap">
+          <span className="services-eyebrow">Moving &amp; Freight Services</span>
+        </div>
+        <h2 className="text-3xl md:text-5xl font-extrabold mb-5 leading-tight tracking-tight">
+          Complete{" "}
+          <span className="gradient-text">Relocation Solutions</span>
         </h2>
-        <p className="text-muted-foreground text-base sm:text-lg">
-          From local moving to global freight, we deliver secure, tailored logistics for homes, offices, and specialized cargo.
+        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+          From local moving to global freight, we deliver secure, tailored
+          logistics for homes, offices, and specialised cargo.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {services.map((service, i) => (
-          <div
-            key={i}
-            className="group glass rounded-2xl p-5 sm:p-8 hover:border-primary/30 transition-all duration-500 hover:-translate-y-1"
-          >
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-              <service.icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
-            </div>
-            <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{service.title}</h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.description}</p>
-          </div>
-        ))}
+      {/* Cards grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+        {services.map((service, i) => {
+          const Icon = service.icon;
+          const slug = service.title.toLowerCase().replace(/\s+/g, '-');
+          return (
+            <Link
+              key={i}
+              to={`/services/${slug}`}
+              className="service-card"
+              style={{
+                animationDelay: `${i * 80}ms`,
+                "--card-glow": service.glow,
+              } as React.CSSProperties}
+            >
+              {/* Animated border gradient */}
+              <div className="service-card-border" aria-hidden="true" />
+
+              {/* Inner content */}
+              <div className="service-card-inner">
+                {/* Icon */}
+                <div className={`service-icon-wrap bg-gradient-to-br ${service.gradient}`}>
+                  <Icon className="w-6 h-6 text-white" strokeWidth={1.8} />
+                </div>
+
+                {/* Number badge */}
+                <span className="service-number">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                  {service.description}
+                </p>
+
+                {/* Bottom accent line */}
+                <div className={`service-card-line bg-gradient-to-r ${service.gradient}`} />
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
+
+    <style>{`
+      /* ── Section background ─────────────────────────── */
+      .services-section {
+        background: hsl(var(--background));
+      }
+
+      .services-bg-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        pointer-events: none;
+        opacity: 0.35;
+      }
+      .services-blob-1 {
+        width: 600px; height: 600px;
+        top: -160px; left: -180px;
+        background: radial-gradient(circle, hsl(210 100% 55% / 0.18) 0%, transparent 70%);
+      }
+      .services-blob-2 {
+        width: 500px; height: 500px;
+        bottom: -100px; right: -140px;
+        background: radial-gradient(circle, hsl(200 100% 60% / 0.14) 0%, transparent 70%);
+      }
+
+      /* ── Eyebrow pill ───────────────────────────────── */
+      .services-eyebrow-wrap {
+        display: inline-flex;
+        margin-bottom: 1.25rem;
+      }
+      .services-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem 1.1rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        background: hsl(var(--primary) / 0.12);
+        border: 1px solid hsl(var(--primary) / 0.25);
+        color: hsl(var(--primary));
+      }
+
+      /* ── Card wrapper ───────────────────────────────── */
+      .service-card {
+        display: block;
+        text-decoration: none;
+        position: relative;
+        border-radius: 20px;
+        animation: svc-fade-up 0.55s ease both;
+        transition: transform 0.35s cubic-bezier(.22,1,.36,1);
+      }
+      .service-card:hover {
+        transform: translateY(-6px);
+      }
+      /* Glow on hover */
+      .service-card:hover::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        box-shadow: 0 0 40px 0 var(--card-glow, rgba(59,130,246,0.25));
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Animated gradient border ───────────────────── */
+      .service-card-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        padding: 1.5px;
+        background: linear-gradient(135deg,
+          hsl(var(--border) / 0.9) 0%,
+          hsl(var(--primary) / 0.35) 50%,
+          hsl(var(--border) / 0.9) 100%);
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        background-size: 200% 200%;
+        animation: border-rotate 4s linear infinite;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .service-card:hover .service-card-border {
+        opacity: 1;
+      }
+
+      /* ── Card inner ─────────────────────────────────── */
+      .service-card-inner {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1.75rem;
+        border-radius: 20px;
+        background: hsl(var(--card) / 0.7);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid hsl(var(--border) / 0.5);
+        transition: border-color 0.35s ease, background 0.35s ease;
+        overflow: hidden;
+        min-height: 220px;
+      }
+      .service-card:hover .service-card-inner {
+        border-color: hsl(var(--primary) / 0.25);
+        background: hsl(var(--card) / 0.85);
+      }
+
+      /* ── Icon ───────────────────────────────────────── */
+      .service-icon-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px -4px rgba(0,0,0,0.35);
+        transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease;
+      }
+      .service-card:hover .service-icon-wrap {
+        transform: scale(1.12) rotate(-4deg);
+        box-shadow: 0 10px 30px -6px rgba(0,0,0,0.45);
+      }
+
+      /* ── Number badge ───────────────────────────────── */
+      .service-number {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.25rem;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        color: hsl(var(--muted-foreground) / 0.4);
+        font-variant-numeric: tabular-nums;
+        transition: color 0.3s ease;
+      }
+      .service-card:hover .service-number {
+        color: hsl(var(--primary) / 0.6);
+      }
+
+      /* ── Bottom accent line ─────────────────────────── */
+      .service-card-line {
+        height: 2px;
+        border-radius: 999px;
+        margin-top: 1.25rem;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+      }
+      .service-card:hover .service-card-line {
+        transform: scaleX(1);
+      }
+
+      /* ── Animations ─────────────────────────────────── */
+      @keyframes svc-fade-up {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes border-rotate {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `}</style>
   </section>
 );
 

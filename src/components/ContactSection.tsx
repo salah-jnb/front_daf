@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Phone, Mail } from "lucide-react";
+import Lottie from "lottie-react";
+import truckAnimation from "@/assets/truck-delivery-done.json";
 
 const ContactSection = () => {
   const apiBaseUrl = useMemo(
@@ -98,16 +100,38 @@ const ContactSection = () => {
   return (
     <section id="contact" className="py-32 relative section-glow">
       <div className="container mx-auto px-6">
-        <div className="text-center max-w-2xl mx-auto mb-20">
-          <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-20 relative">
+          <p
+            className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4 opacity-0"
+            style={{ animation: "contact-fade-up 0.8s ease forwards 0.2s" }}
+          >
             Contact Our Team
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Plan Your <span className="gradient-text">Next Move</span>
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 opacity-0"
+            style={{ animation: "contact-fade-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s" }}
+          >
+            <span>Plan Your</span>
+            <span className="gradient-text flex items-center justify-center gap-2">
+              Next Move
+              <span className="inline-flex items-center justify-center w-32 h-32 md:w-48 md:h-48 -mx-2 md:-mx-4 -my-8 md:-my-12" title="JAF Logistics Truck">
+                <Lottie animationData={truckAnimation} loop={true} />
+              </span>
+            </span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p
+            className="text-muted-foreground text-lg opacity-0"
+            style={{ animation: "contact-fade-up 0.8s ease forwards 0.6s" }}
+          >
             Need an international moving quote or logistics advice? Send us your request and we will get back quickly.
           </p>
+
+          <style>{`
+            @keyframes contact-fade-up {
+              from { opacity: 0; transform: translateY(30px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+          `}</style>
         </div>
 
         <div className="grid lg:grid-cols-5 gap-12 max-w-5xl mx-auto">

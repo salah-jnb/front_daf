@@ -48,11 +48,62 @@
     --sidebar-border: 220 20% 18%;
     --sidebar-ring: 210 100% 55%;
   }
+
+  /* ── Light Mode ───────────────────────────────────────────── */
+  .light {
+    --background: 220 30% 97%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 213 94% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 25% 40%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 85%;
+    --input: 214 32% 85%;
+    --ring: 213 94% 48%;
+
+    --glow-primary: 213 94% 48%;
+    --glow-accent: 199 89% 48%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 213 94% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 32% 91%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 85%;
+    --sidebar-ring: 213 94% 48%;
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
+  }
+  /* Smooth colour transitions on theme change */
+  *, *::before, *::after {
+    transition:
+      background-color 250ms ease,
+      border-color 250ms ease,
+      color 250ms ease,
+      box-shadow 250ms ease;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
@@ -65,19 +116,24 @@
 
 @layer utilities {
   .glow-primary {
-    box-shadow: 0 0 20px hsl(210 100% 55% / 0.3), 0 0 60px hsl(210 100% 55% / 0.1);
+    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3), 0 0 60px hsl(var(--glow-primary) / 0.1);
   }
   .glow-text {
-    text-shadow: 0 0 40px hsl(210 100% 55% / 0.5);
+    text-shadow: 0 0 40px hsl(var(--glow-primary) / 0.5);
   }
   .glass {
     @apply bg-card/60 backdrop-blur-xl border border-border/50;
+  }
+  /* light mode: stronger card contrast for logo/image sections */
+  .light .glass {
+    @apply bg-white/85 border-border/60;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
   }
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
   .gradient-blue {
-    background: linear-gradient(135deg, hsl(220 30% 5%) 0%, hsl(215 40% 12%) 50%, hsl(210 50% 8%) 100%);
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--secondary)) 50%, hsl(var(--background)) 100%);
   }
   .section-glow {
     position: relative;
@@ -90,7 +146,7 @@
     transform: translate(-50%, -50%);
     width: 60%;
     height: 60%;
-    background: radial-gradient(ellipse, hsl(210 100% 55% / 0.06) 0%, transparent 70%);
+    background: radial-gradient(ellipse, hsl(var(--glow-primary) / 0.06) 0%, transparent 70%);
     pointer-events: none;
   }
 }

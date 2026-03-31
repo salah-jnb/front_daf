@@ -1,9 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
-import { Download, Mail, MapPin, Phone } from "lucide-react";
+import {
+  Download,
+  Globe,
+  Mail,
+  MapPin,
+  Phone,
+  ArrowUpRight,
+  ChevronRight,
+} from "lucide-react";
+import signatureImg from "@/assets/signature-1-600x400.png";
+
+/* ── Static data ──────────────────────────────────────────── */
+const quickLinks = [
+  { label: "Home", href: "#home" },
+  { label: "Services", href: "#services" },
+  { label: "About Us", href: "#about" },
+  { label: "Process", href: "#process" },
+  { label: "Accreditations", href: "#accreditations" },
+  { label: "Contact", href: "#contact" },
+];
 
 const policyLinks = [
   {
-    label: "Anti-Corruption and Bribery Statement",
+    label: "Anti-Corruption & Bribery Statement",
     href: "/documents/anti-corruption-bribery.pdf",
     download: "Anti corruption & bribery.pdf",
   },
@@ -19,15 +38,18 @@ const policyLinks = [
   },
 ];
 
+/* ── Footer component ─────────────────────────────────────── */
 const Footer = () => {
   const apiBaseUrl = useMemo(
     () =>
-      (localStorage.getItem("tg_api") || import.meta.env.VITE_API_URL || "http://localhost:9090").replace(
-        /\/$/,
-        "",
-      ),
+      (
+        localStorage.getItem("tg_api") ||
+        import.meta.env.VITE_API_URL ||
+        "http://localhost:9090"
+      ).replace(/\/$/, ""),
     [],
   );
+
   const [info, setInfo] = useState<{
     id?: number;
     moveProfetionelle?: string;
@@ -61,91 +83,564 @@ const Footer = () => {
   const line = (v?: string | null) => (v && v.trim() ? v.trim() : "—");
 
   return (
-    <footer className="border-t border-border bg-secondary/20 py-14">
-      <div className="container mx-auto px-6">
-        <div className="grid gap-10 lg:grid-cols-2">
-          <div className="glass rounded-2xl border border-border/70 p-6 md:p-8">
-            <a href="#home" className="inline-block mb-6">
-              <img
-                src="/brand/jaf-logo.png"
-                alt="JAF Demenagements"
-                className="h-20 md:h-24 w-auto object-contain"
-                loading="lazy"
-              />
-            </a>
-            <div className="space-y-3 text-muted-foreground text-base md:text-lg">
-              <p className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                <span>
-                  <span className="text-foreground font-semibold">Information #{info?.id ?? 1}</span>
-                  <span className="block text-muted-foreground mt-1">
-                    <span className="text-foreground/90 font-semibold">Move:</span>{" "}
-                    {line(info?.moveProfetionelle)}
-                  </span>
-                  <span className="block text-muted-foreground">
-                    <span className="text-foreground/90 font-semibold">Storage:</span>{" "}
-                    {line(info?.storageSolution)}
-                  </span>
-                  <span className="block text-muted-foreground">
-                    <span className="text-foreground/90 font-semibold">Years experience:</span>{" "}
-                    {typeof info?.yearsExperience === "number" ? info.yearsExperience : "—"}
-                  </span>
-                </span>
+    <footer className="ft-root">
+      {/* ── Partner Network Banner ───────────────────────────── */}
+      <div className="ft-partner-banner">
+        <div className="ft-partner-glow" aria-hidden="true" />
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="ft-partner-inner">
+            {/* Left: text */}
+            <div className="ft-partner-text">
+              <div className="ft-eyebrow-wrap">
+                <Globe size={13} strokeWidth={2.2} />
+                <span>International Partner Network</span>
+              </div>
+              <h2 className="ft-partner-title">
+                Trusted Partner in{" "}
+                <span className="gradient-text">Morocco</span>
+              </h2>
+              <p className="ft-partner-company">
+                Moumene International Moving Company
               </p>
-              <p className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>
-                  {line(info?.phone1)}
-                  <span className="mx-2 opacity-50">•</span>
-                  {line(info?.phone2)}
-                </span>
-              </p>
-              <p className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span>{line(info?.email)}</span>
-              </p>
-              <div className="pt-3 mt-3 border-t border-border/70 text-sm md:text-base">
-                <div className="flex flex-wrap gap-x-4 gap-y-1">
+
+              <div className="ft-partner-contacts">
+                <div className="ft-contact-row">
+                  <MapPin size={14} className="ft-contact-icon" />
                   <span>
-                    <span className="text-foreground/90 font-semibold">Offices:</span>{" "}
-                    {Array.isArray(info?.offices) ? info!.offices!.length : 0}
+                    <strong>Rabat:</strong> 37, Rue Idriss Al Akbar N 3,
+                    Hassan, Rabat 10020
                   </span>
+                </div>
+                <div className="ft-contact-row">
+                  <MapPin size={14} className="ft-contact-icon" />
                   <span>
-                    <span className="text-foreground/90 font-semibold">Sponsors:</span>{" "}
-                    {Array.isArray(info?.sponsors) ? info!.sponsors!.length : 0}
+                    <strong>Casablanca:</strong> 5, Bd Abdellah Ben Yacine,
+                    5ème Étage N 1
                   </span>
-                  <span>
-                    <span className="text-foreground/90 font-semibold">Contacts:</span>{" "}
-                    {Array.isArray(info?.contacts) ? info!.contacts!.length : 0}
-                  </span>
+                </div>
+                <div className="ft-contact-row">
+                  <Mail size={14} className="ft-contact-icon" />
+                  <a href="mailto:mimc@moumene.com" className="ft-link">
+                    mimc@moumene.com
+                  </a>
+                </div>
+                <div className="ft-contact-row">
+                  <Globe size={14} className="ft-contact-icon" />
+                  <a
+                    href="https://www.moumene.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ft-link ft-link-external"
+                  >
+                    www.moumene.com
+                    <ArrowUpRight size={11} />
+                  </a>
+                </div>
+                <div className="ft-contact-row">
+                  <Phone size={14} className="ft-contact-icon" />
+                  <span>(+212) 537 26 20 46 / 26 31 57 · GSM: (+212) 661 37 41 66</span>
                 </div>
               </div>
             </div>
+
+            {/* Right: logo card */}
+            <div className="ft-partner-logo-wrap">
+              <div className="ft-partner-logo-card">
+                <img
+                  src="/partners/mimc.jpg"
+                  alt="MIMC – Moumene International Moving Company logo"
+                  className="ft-partner-logo-img"
+                  loading="lazy"
+                />
+              </div>
+              <div className="ft-partner-badge">
+                <span className="ft-partner-badge-dot" />
+                Verified Partner
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Divider ───────────────────────────────────────────── */}
+      <div className="ft-divider" aria-hidden="true" />
+
+      {/* ── Main footer grid ──────────────────────────────────── */}
+      <div className="container mx-auto px-4 sm:px-6 pt-14 pb-10">
+        <div className="ft-grid">
+          {/* Col 1: Brand + Contact */}
+          <div className="ft-col ft-col-brand">
+            <a href="#home" className="ft-logo-link" aria-label="JAF Logistics home">
+              <img
+                src="/brand/jaf-logo.png"
+                alt="JAF Demenagements"
+                className="ft-logo"
+                loading="lazy"
+              />
+            </a>
+            <p className="ft-tagline">
+              International relocation specialists delivering safe, seamless
+              moves across the globe since 1961.
+            </p>
+
+            {/* Founder/CEO Signature */}
+            <div className="mb-8">
+              <img
+                src={signatureImg}
+                alt="Founder Signature"
+                className="w-40 h-auto opacity-70 drop-shadow-sm dark:invert transition-opacity duration-300 hover:opacity-100"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Contact info */}
+            <div className="ft-info-list">
+              {info?.phone1 && (
+                <a href={`tel:${info.phone1}`} className="ft-info-row">
+                  <div className="ft-info-icon-wrap">
+                    <Phone size={14} />
+                  </div>
+                  <span>{line(info.phone1)}</span>
+                </a>
+              )}
+              {info?.phone2 && (
+                <a href={`tel:${info.phone2}`} className="ft-info-row">
+                  <div className="ft-info-icon-wrap">
+                    <Phone size={14} />
+                  </div>
+                  <span>{line(info.phone2)}</span>
+                </a>
+              )}
+              {info?.email && (
+                <a href={`mailto:${info.email}`} className="ft-info-row">
+                  <div className="ft-info-icon-wrap">
+                    <Mail size={14} />
+                  </div>
+                  <span>{line(info.email)}</span>
+                </a>
+              )}
+              {!info && (
+                <>
+                  <div className="ft-info-row">
+                    <div className="ft-info-icon-wrap"><Phone size={14} /></div>
+                    <span className="text-muted-foreground">—</span>
+                  </div>
+                  <div className="ft-info-row">
+                    <div className="ft-info-icon-wrap"><Mail size={14} /></div>
+                    <span className="text-muted-foreground">—</span>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
-        <div className="glass rounded-2xl border border-border/70 p-6 md:p-8">
-          <h3 className="text-3xl font-semibold mb-6">Policies and Documents</h3>
-          <ul className="space-y-4 text-muted-foreground">
-            {policyLinks.map((item) => (
-              <li key={item.label} className="border-b border-border/70 pb-3 last:border-b-0 last:pb-0">
-                <a
-                  href={item.href}
-                  download={item.download}
-                  className="inline-flex items-center gap-3 hover:text-foreground transition-colors text-base md:text-lg"
-                >
-                  <Download className="w-4 h-4 text-primary" />
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {/* Col 2: Quick Links */}
+          <div className="ft-col">
+            <h3 className="ft-col-heading">Quick Links</h3>
+            <ul className="ft-link-list">
+              {quickLinks.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="ft-nav-link">
+                    <ChevronRight size={13} className="ft-nav-arrow" />
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 3: Policies */}
+          <div className="ft-col">
+            <h3 className="ft-col-heading">Policies & Documents</h3>
+            <ul className="ft-link-list">
+              {policyLinks.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    download={item.download}
+                    className="ft-nav-link"
+                  >
+                    <Download size={13} className="ft-nav-arrow" />
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* Stats strip */}
+            {info && (
+              <div className="ft-stats-strip">
+                <div className="ft-stat">
+                  <span className="ft-stat-val">
+                    {Array.isArray(info.offices) ? info.offices.length : "—"}
+                  </span>
+                  <span className="ft-stat-label">Offices</span>
+                </div>
+                <div className="ft-stat-sep" />
+                <div className="ft-stat">
+                  <span className="ft-stat-val">
+                    {typeof info.yearsExperience === "number"
+                      ? `${info.yearsExperience}+`
+                      : "65+"}
+                  </span>
+                  <span className="ft-stat-label">Yrs exp.</span>
+                </div>
+                <div className="ft-stat-sep" />
+                <div className="ft-stat">
+                  <span className="ft-stat-val">
+                    {Array.isArray(info.contacts) ? info.contacts.length : "—"}
+                  </span>
+                  <span className="ft-stat-label">Contacts</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-        <div className="mt-10 pt-6 border-t border-border/70 text-sm text-muted-foreground text-center">
-          © 2026 JAF Logistics. International Moving and Freight Services. All rights reserved.
+      {/* ── Bottom bar ────────────────────────────────────────── */}
+      <div className="ft-bottom">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="ft-bottom-inner">
+            <span>
+              © {new Date().getFullYear()} JAF Logistics. All rights reserved.
+            </span>
+            <span className="ft-bottom-sep" aria-hidden="true">·</span>
+            <span>International Moving &amp; Freight Services</span>
+          </div>
         </div>
       </div>
+
+      {/* ── Scoped styles ─────────────────────────────────────── */}
+      <style>{`
+        /* Root */
+        .ft-root {
+          position: relative;
+          background: hsl(var(--background));
+          border-top: 1px solid hsl(var(--border) / 0.6);
+          overflow: hidden;
+        }
+
+        /* ── Partner banner ── */
+        .ft-partner-banner {
+          position: relative;
+          padding: 5rem 0 4.5rem;
+          overflow: hidden;
+        }
+        .ft-partner-glow {
+          position: absolute;
+          width: 700px; height: 500px;
+          top: -180px; right: -180px;
+          background: radial-gradient(
+            ellipse,
+            hsl(var(--primary) / 0.12) 0%,
+            transparent 65%
+          );
+          pointer-events: none;
+          filter: blur(60px);
+        }
+        .ft-partner-inner {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3rem;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .ft-partner-text {
+          flex: 1 1 340px;
+          max-width: 560px;
+        }
+
+        /* Eyebrow */
+        .ft-eyebrow-wrap {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.3rem 0.9rem;
+          border-radius: 999px;
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          background: hsl(var(--primary) / 0.12);
+          border: 1px solid hsl(var(--primary) / 0.25);
+          color: hsl(var(--primary));
+          margin-bottom: 1.1rem;
+        }
+
+        /* Title */
+        .ft-partner-title {
+          font-size: clamp(1.8rem, 3vw, 2.8rem);
+          font-weight: 800;
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+          margin-bottom: 0.5rem;
+          color: hsl(var(--foreground));
+        }
+        .ft-partner-company {
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: hsl(var(--muted-foreground));
+          margin-bottom: 1.5rem;
+        }
+
+        /* Contact rows */
+        .ft-partner-contacts {
+          display: flex;
+          flex-direction: column;
+          gap: 0.6rem;
+        }
+        .ft-contact-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.6rem;
+          font-size: 0.85rem;
+          color: hsl(var(--muted-foreground));
+          line-height: 1.5;
+        }
+        .ft-contact-icon {
+          color: hsl(var(--primary));
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+        .ft-link {
+          color: hsl(var(--primary));
+          text-decoration: none;
+          font-weight: 500;
+          transition: opacity 0.2s ease;
+        }
+        .ft-link:hover { opacity: 0.75; }
+        .ft-link-external {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        /* Partner logo card */
+        .ft-partner-logo-wrap {
+          flex: 0 0 auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
+        }
+        .ft-partner-logo-card {
+          width: 300px;
+          max-width: 90vw;
+          border-radius: 20px;
+          border: 1px solid hsl(var(--border) / 0.7);
+          background: hsl(var(--card) / 0.8);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          padding: 1.5rem;
+          box-shadow:
+            0 4px 24px hsl(var(--primary) / 0.08),
+            0 1px 0 hsl(var(--border) / 0.5) inset;
+          transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .ft-partner-logo-card:hover {
+          box-shadow: 0 8px 40px hsl(var(--primary) / 0.18);
+          transform: translateY(-3px);
+        }
+        .ft-partner-logo-img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          border-radius: 10px;
+        }
+        .ft-partner-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.25rem 0.8rem;
+          border-radius: 999px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          background: hsl(var(--primary) / 0.1);
+          border: 1px solid hsl(var(--primary) / 0.25);
+          color: hsl(var(--primary));
+        }
+        .ft-partner-badge-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: hsl(var(--primary));
+          box-shadow: 0 0 6px hsl(var(--primary) / 0.6);
+          animation: ft-pulse 2s ease-in-out infinite;
+        }
+        @keyframes ft-pulse {
+          0%,100% { opacity: 1; transform: scale(1); }
+          50%      { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        /* ── Gradient divider ── */
+        .ft-divider {
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            hsl(var(--primary) / 0.4) 30%,
+            hsl(var(--accent) / 0.4) 70%,
+            transparent 100%
+          );
+          margin: 0 1.5rem;
+        }
+
+        /* ── Main footer grid ── */
+        .ft-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        @media (min-width: 640px) {
+          .ft-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+          .ft-grid { grid-template-columns: 1.5fr 1fr 1.4fr; }
+        }
+
+        .ft-col { display: flex; flex-direction: column; gap: 0; }
+        .ft-col-brand {}
+
+        /* Logo */
+        .ft-logo-link { display: inline-block; margin-bottom: 1.25rem; }
+        .ft-logo { height: 60px; width: auto; object-fit: contain; }
+
+        /* Tagline */
+        .ft-tagline {
+          font-size: 0.875rem;
+          color: hsl(var(--muted-foreground));
+          line-height: 1.7;
+          max-width: 36ch;
+          margin-bottom: 1.5rem;
+        }
+
+        /* Info list */
+        .ft-info-list { display: flex; flex-direction: column; gap: 0.6rem; }
+        .ft-info-row {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-size: 0.85rem;
+          color: hsl(var(--muted-foreground));
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+        .ft-info-row:hover { color: hsl(var(--foreground)); }
+        .ft-info-icon-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px; height: 28px;
+          border-radius: 8px;
+          background: hsl(var(--primary) / 0.1);
+          border: 1px solid hsl(var(--primary) / 0.2);
+          color: hsl(var(--primary));
+          flex-shrink: 0;
+        }
+
+        /* Col heading */
+        .ft-col-heading {
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: hsl(var(--foreground));
+          margin-bottom: 1.1rem;
+          padding-bottom: 0.6rem;
+          border-bottom: 1px solid hsl(var(--border) / 0.6);
+        }
+
+        /* Nav links list */
+        .ft-link-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.05rem;
+        }
+        .ft-nav-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.45rem 0;
+          font-size: 0.875rem;
+          color: hsl(var(--muted-foreground));
+          text-decoration: none;
+          border-bottom: 1px solid hsl(var(--border) / 0.3);
+          width: 100%;
+          transition: color 0.2s ease, padding-left 0.2s ease;
+        }
+        .ft-nav-link:last-child { border-bottom: none; }
+        .ft-nav-link:hover {
+          color: hsl(var(--primary));
+          padding-left: 0.35rem;
+        }
+        .ft-nav-arrow {
+          color: hsl(var(--primary) / 0.5);
+          flex-shrink: 0;
+          transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .ft-nav-link:hover .ft-nav-arrow {
+          color: hsl(var(--primary));
+          transform: translateX(2px);
+        }
+
+        /* Stats strip */
+        .ft-stats-strip {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-top: 1.5rem;
+          padding: 0.75rem 1rem;
+          border-radius: 12px;
+          background: hsl(var(--primary) / 0.06);
+          border: 1px solid hsl(var(--primary) / 0.15);
+        }
+        .ft-stat {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.1rem;
+        }
+        .ft-stat-val {
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: hsl(var(--primary));
+          line-height: 1;
+        }
+        .ft-stat-label {
+          font-size: 0.6rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: hsl(var(--muted-foreground));
+        }
+        .ft-stat-sep {
+          width: 1px;
+          height: 28px;
+          background: hsl(var(--border));
+          flex-shrink: 0;
+        }
+
+        /* ── Bottom bar ── */
+        .ft-bottom {
+          border-top: 1px solid hsl(var(--border) / 0.5);
+          padding: 1.25rem 0;
+        }
+        .ft-bottom-inner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 0.5rem 1rem;
+          font-size: 0.78rem;
+          color: hsl(var(--muted-foreground));
+          text-align: center;
+        }
+        .ft-bottom-sep { opacity: 0.4; }
+      `}</style>
     </footer>
   );
 };

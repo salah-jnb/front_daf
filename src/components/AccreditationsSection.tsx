@@ -56,12 +56,14 @@ const AccreditationsSection = () => {
             {logos.slice(0, 15).map((src, idx) => (
               <article
                 key={`${src}-${idx}`}
-                className="glass border border-border/70 rounded-3xl p-4 sm:p-5 flex items-center justify-center min-h-[140px]"
+                className="glass border border-border/70 rounded-3xl p-4 sm:p-5 flex items-center justify-center min-h-[140px] hover:border-primary/40 transition-all duration-300 hover:shadow-md"
+                style={{ boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.06)" }}
               >
                 <img
                   src={src}
                   alt={`Sponsor ${idx + 1}`}
-                  className="w-full max-w-[170px] h-auto object-contain"
+                  className="w-full max-w-[170px] h-auto object-contain transition-all duration-300 hover:scale-105"
+                  style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.15))" }}
                   loading="lazy"
                   decoding="async"
                 />
@@ -70,21 +72,23 @@ const AccreditationsSection = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-10 md:gap-16 items-stretch max-w-5xl mx-auto">
-            <article className="glass border border-border/70 rounded-3xl p-4 sm:p-6 md:p-8 flex items-center justify-center min-h-[220px] sm:min-h-[280px] md:min-h-[330px]">
+            <article className="glass border border-border/70 rounded-3xl p-4 sm:p-6 md:p-8 flex items-center justify-center min-h-[220px] sm:min-h-[280px] md:min-h-[330px] hover:border-primary/40 transition-all duration-300 hover:shadow-lg">
               <img
                 src="/partners/iamx.png"
                 alt="IAMX Validated"
-                className="w-full max-w-[190px] sm:max-w-[230px] md:max-w-[250px] h-auto object-contain"
+                className="w-full max-w-[190px] sm:max-w-[230px] md:max-w-[250px] h-auto object-contain transition-transform duration-300 hover:scale-105"
+                style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))" }}
                 loading="lazy"
               />
             </article>
 
-            <article className="glass border border-border/70 rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[220px] sm:min-h-[280px] md:min-h-[330px]">
+            <article className="glass border border-border/70 rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col justify-center items-center text-center min-h-[220px] sm:min-h-[280px] md:min-h-[330px] hover:border-primary/40 transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-center mb-4 sm:mb-5 w-full">
                 <img
                   src="/partners/iam.png"
                   alt="IAM - International Association of Movers"
-                  className="w-full max-w-[200px] sm:max-w-[240px] md:max-w-[260px] h-auto object-contain mx-auto"
+                  className="w-full max-w-[200px] sm:max-w-[240px] md:max-w-[260px] h-auto object-contain mx-auto transition-transform duration-300 hover:scale-105"
+                  style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))" }}
                   loading="lazy"
                 />
               </div>

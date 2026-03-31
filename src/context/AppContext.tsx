@@ -47,7 +47,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    const root = document.documentElement;
+    root.setAttribute("data-theme", theme);
+    if (theme === "dark") {
+      root.classList.add("dark");
+      root.classList.remove("light");
+    } else {
+      root.classList.remove("dark");
+      root.classList.add("light");
+    }
   }, [theme]);
 
   const toggleTheme = () => {
