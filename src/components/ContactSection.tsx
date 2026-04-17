@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Phone, Mail } from "lucide-react";
 import Lottie from "lottie-react";
-import truckAnimation from "@/assets/truck-delivery-done.json";
+import truckAnimation from "../assets/truck-delivery-done.json";
 
 const ContactSection = () => {
   const apiBaseUrl = useMemo(
@@ -97,6 +97,8 @@ const ContactSection = () => {
     }
   };
 
+  const LottieComponent = Lottie && (Lottie as any).default ? (Lottie as any).default : Lottie;
+
   return (
     <section id="contact" className="py-32 relative section-glow">
       <div className="container mx-auto px-6">
@@ -115,7 +117,7 @@ const ContactSection = () => {
             <span className="gradient-text flex items-center justify-center gap-2">
               Next Move
               <span className="inline-flex items-center justify-center w-32 h-32 md:w-48 md:h-48 -mx-2 md:-mx-4 -my-8 md:-my-12" title="JAF Logistics Truck">
-                <Lottie animationData={truckAnimation} loop={true} />
+                <LottieComponent animationData={truckAnimation} loop={true} />
               </span>
             </span>
           </h2>
