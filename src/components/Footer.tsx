@@ -303,7 +303,15 @@ const Footer = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="ft-bottom-inner">
             <span>
-              © {new Date().getFullYear()} JAF Logistics. All rights reserved.
+              © {new Date().getFullYear()} JAF Logistics.{" "}
+              <a 
+                href="/polices.txt" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-primary transition-colors hover:underline"
+              >
+                All rights reserved.
+              </a>
             </span>
             <span className="ft-bottom-sep" aria-hidden="true">·</span>
             <span>International Moving &amp; Freight Services</span>
