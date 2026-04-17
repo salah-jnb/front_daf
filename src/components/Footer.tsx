@@ -9,6 +9,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import signatureImg from "@/assets/signature-1-600x400.png";
+import mimcLogo from "@/assets/partners/mimc.jpeg";
 
 /* ── Static data ──────────────────────────────────────────── */
 const quickLinks = [
@@ -147,7 +148,7 @@ const Footer = () => {
             <div className="ft-partner-logo-wrap">
               <div className="ft-partner-logo-card">
                 <img
-                  src="/partners/mimc.jpg"
+                  src={mimcLogo}
                   alt="MIMC – Moumene International Moving Company logo"
                   className="ft-partner-logo-img"
                   loading="lazy"

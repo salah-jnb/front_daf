@@ -13,9 +13,9 @@ import "swiper/css/pagination";
 
 /* ─── Image gallery with crossfade transitions ───────────────────────────── */
 function ImageGallery({ images, color }: { images: string[]; color: string }) {
-  const [active, setActive]   = useState(0);
-  const [prev, setPrev]       = useState<number | null>(null);
-  const [dir, setDir]         = useState<"next" | "prev">("next");
+  const [active, setActive] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+  const [dir, setDir] = useState<"next" | "prev">("next");
   const [animating, setAnimating] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -192,12 +192,17 @@ function ImageGallery({ images, color }: { images: string[]; color: string }) {
 export default function ServiceDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const service  = slug ? getServiceBySlug(slug) : undefined;
+  const service = slug ? getServiceBySlug(slug) : undefined;
 
   // 404 redirect
   useEffect(() => {
     if (slug && !service) navigate("/", { replace: true });
   }, [slug, service, navigate]);
+
+  // Scroll to top on navigation
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [slug]);
 
   if (!service) return null;
 
@@ -213,7 +218,7 @@ export default function ServiceDetailPage() {
         image={service.images[0]}
       />
 
-      <Navbar />
+      <Navbar lightTextOnTop={false} />
 
       <main className="svc-page min-h-screen" style={{ "--svc-color": service.color } as React.CSSProperties}>
         {/* ── Hero banner ─────────────────────────────────────── */}
@@ -308,8 +313,8 @@ export default function ServiceDetailPage() {
                 pagination={{ clickable: true, el: '.svc-swiper-pagination' }}
                 spaceBetween={24}
                 breakpoints={{
-                  0:    { slidesPerView: 1 },
-                  640:  { slidesPerView: 2 },
+                  0: { slidesPerView: 1 },
+                  640: { slidesPerView: 2 },
                   1024: { slidesPerView: 3 },
                 }}
                 className="svc-others-swiper pb-10"

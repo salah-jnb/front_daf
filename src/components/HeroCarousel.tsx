@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -35,6 +36,7 @@ const slides = [
 ];
 
 const HeroCarousel = () => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -144,13 +146,13 @@ const HeroCarousel = () => {
                     </p>
                     <div className="overflow-hidden mb-6 py-2 flex flex-wrap gap-x-4 md:gap-x-6 gap-y-2">
                       {slide.title.split(" ").map((word, wIdx) => (
-                        <div key={wIdx} className="overflow-hidden">
+                        <div key={wIdx} className="overflow-hidden pb-[0.4em] -mb-[0.4em]">
                           <h2
                             className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
                               }`}
                             style={{ transitionDelay: activeIndex === i ? `${400 + wIdx * 150}ms` : "0ms" }}
                           >
-                            <span className="block pb-2 -mb-2" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5d8ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                            <span className="block pb-[0.3em]" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5d8ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                               {word}
                             </span>
                           </h2>
@@ -170,7 +172,7 @@ const HeroCarousel = () => {
                       style={{ transitionDelay: activeIndex === i ? "700ms" : "0ms" }}
                     >
                       <MagneticButton
-                        href="#contact"
+                        onClick={() => navigate('/contact')}
                         className="w-full sm:w-auto text-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg glow-primary shadow-[0_0_20px_rgba(249,115,22,0.3)] z-20"
                       >
                         Get a Quote

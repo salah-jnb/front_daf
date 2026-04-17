@@ -11,7 +11,11 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const Navbar = () => {
+interface NavbarProps {
+  lightTextOnTop?: boolean;
+}
+
+const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useContext(AppContext);
@@ -49,7 +53,11 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${
-                  scrolled ? "text-muted-foreground hover:text-foreground" : "text-white/95 hover:text-white drop-shadow-md"
+                  scrolled 
+                    ? "text-muted-foreground hover:text-foreground" 
+                    : lightTextOnTop 
+                      ? "text-white/95 hover:text-white drop-shadow-md" 
+                      : "text-foreground/80 hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -59,7 +67,11 @@ const Navbar = () => {
                 key={link.href}
                 to={link.href}
                 className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${
-                  scrolled ? "text-muted-foreground hover:text-foreground" : "text-white/95 hover:text-white drop-shadow-md"
+                  scrolled 
+                    ? "text-muted-foreground hover:text-foreground" 
+                    : lightTextOnTop 
+                      ? "text-white/95 hover:text-white drop-shadow-md" 
+                      : "text-foreground/80 hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -82,7 +94,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center gap-3">
           <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
           <button
-            className={`transition-colors ${scrolled ? "text-foreground" : "text-white drop-shadow-md"}`}
+            className={`transition-colors ${scrolled ? "text-foreground" : (lightTextOnTop ? "text-white drop-shadow-md" : "text-foreground")}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             type="button"
             aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}

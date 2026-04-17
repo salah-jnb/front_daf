@@ -13,7 +13,7 @@ const HowWeWorkPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar lightTextOnTop={false} />
       <div className="min-h-screen bg-background pt-24 md:pt-32">
         
         {/* 1. HERO - COMPANY HISTORY */}

@@ -16,7 +16,7 @@ const ContactPage = () => (
       path="/contact"
       image="/brand/jaf-logo.png"
     />
-    <Navbar />
+    <Navbar lightTextOnTop={false} />
     <main className="min-h-screen pt-24" style={{ background: "hsl(var(--background))" }}>
       <Suspense fallback={<SectionFallback />}>
         <ContactSection />
