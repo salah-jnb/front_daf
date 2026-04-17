@@ -1,16 +1,16 @@
 // ─── Asset imports ────────────────────────────────────────────────────────────
-import carShipping from "@/assets/CarShipping.jpeg";
-import officeMove from "@/assets/OfficeMove.jpeg";
-import fineArt from "@/assets/finArt.jpeg";
-import heroAir from "@/assets/hero-air.jpg";
-import heroRoad from "@/assets/hero-road.jpg";
-import heroSea from "@/assets/hero-sea.jpg";
-import intlMoving from "@/assets/internationalmoving.png";
-import moving from "@/assets/moving.jpeg";
+import carShipping from "@/assets/CarShipping.webp";
+import officeMove from "@/assets/OfficeMove.webp";
+import fineArt from "@/assets/finArt.webp";
+import heroAir from "@/assets/hero-air.webp";
+import heroRoad from "@/assets/hero-road.webp";
+import heroSea from "@/assets/hero-sea.webp";
+import intlMoving from "@/assets/internationalmoving.webp";
+import moving from "@/assets/moving.webp";
 import petReloc from "@/assets/petRelocation.webp";
-import petReloc2 from "@/assets/petrelocatio.png";
-import storage from "@/assets/storage.jpeg";
-import carShipping2 from "@/assets/carshiping.jpeg";
+import petReloc2 from "@/assets/petrelocatio.webp";
+import storage from "@/assets/storage.webp";
+import carShipping2 from "@/assets/carshiping.webp";
 
 
 export type ServiceData = {

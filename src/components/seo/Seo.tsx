@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 type SeoProps = {
   title: string;
@@ -9,7 +10,7 @@ type SeoProps = {
 
 const siteName = import.meta.env.VITE_SITE_NAME || "JAF Logistics";
 const siteUrl = import.meta.env.VITE_SITE_URL || "https://example.com";
-const defaultImage = import.meta.env.VITE_OG_IMAGE || "/brand/jaf-logo.png";
+const defaultImage = import.meta.env.VITE_OG_IMAGE || jafLogo;
 const googleVerification = import.meta.env.VITE_GSC_VERIFICATION;
 
 export const Seo = ({ title, description, path = "/", image = defaultImage }: SeoProps) => {

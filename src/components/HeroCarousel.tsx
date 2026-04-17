@@ -10,9 +10,9 @@ import "swiper/css/pagination";
 
 import MagneticButton from "./MagneticButton";
 
-import heroAir from "@/assets/hero-air.jpg";
-import heroRoad from "@/assets/hero-road.jpg";
-import heroSea from "@/assets/hero-sea.jpg";
+import heroAir from "@/assets/hero-air.webp";
+import heroRoad from "@/assets/hero-road.webp";
+import heroSea from "@/assets/hero-sea.webp";
 
 const slides = [
   {

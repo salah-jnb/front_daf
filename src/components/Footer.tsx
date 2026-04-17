@@ -8,8 +8,9 @@ import {
   ArrowUpRight,
   ChevronRight,
 } from "lucide-react";
-import signatureImg from "@/assets/signature-1-600x400.png";
-import mimcLogo from "@/assets/partners/mimc.jpeg";
+import signatureImg from "@/assets/signature-1-600x400.webp";
+import mimcLogo from "@/assets/partners/mimc.webp";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 /* ── Static data ──────────────────────────────────────────── */
 const quickLinks = [
@@ -180,7 +181,7 @@ const Footer = () => {
           <div className="ft-col ft-col-brand">
             <a href="#home" className="ft-logo-link" aria-label="JAF Logistics home">
               <img
-                src="/brand/jaf-logo.png"
+                src={jafLogo}
                 alt="JAF Demenagements"
                 className="ft-logo"
                 loading="lazy"
@@ -312,10 +313,10 @@ const Footer = () => {
           <div className="ft-bottom-inner">
             <span>
               © {new Date().getFullYear()} JAF Logistics.{" "}
-              <a 
-                href="/polices.txt" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="/polices.txt"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-primary transition-colors hover:underline"
               >
                 All rights reserved.

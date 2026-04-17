@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 const navLinks = [
   { label: "Home", href: "/#home" },
@@ -38,7 +39,7 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
         {/* Logo */}
         <a href="#home" className="inline-flex items-center">
           <img
-            src="/brand/jaf-logo.png"
+            src={jafLogo}
             alt="JAF Demenagements"
             className="h-12 md:h-14 w-auto object-contain"
             loading="eager"

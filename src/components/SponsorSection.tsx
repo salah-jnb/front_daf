@@ -1,4 +1,5 @@
 import { Globe, Mail, Phone } from "lucide-react";
+import mimcLogo from "@/assets/partners/mimc.webp";
 
 const SponsorSection = () => (
   <section id="sponsor" className="py-20 relative">
@@ -26,7 +27,7 @@ const SponsorSection = () => (
           <div className="flex justify-center lg:justify-end">
             <div className="w-full max-w-[360px] rounded-2xl border border-border/70 bg-card/60 p-6">
               <img
-                src="/partners/mimc.jpg"
+                src={mimcLogo}
                 alt="MIMC logo"
                 className="w-full h-auto object-contain rounded-md"
                 loading="lazy"

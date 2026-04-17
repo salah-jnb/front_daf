@@ -1,7 +1,7 @@
 import { BadgeCheck, CarFront, Headset, Ship, Truck, Umbrella, Warehouse } from "lucide-react";
-import heroAir from "@/assets/hero-air.jpg";
-import heroRoad from "@/assets/hero-road.jpg";
-import heroSea from "@/assets/hero-sea.jpg";
+import heroAir from "@/assets/hero-air.webp";
+import heroRoad from "@/assets/hero-road.webp";
+import heroSea from "@/assets/hero-sea.webp";
 
 const metrics = [
   { icon: Umbrella, value: "+30000", label: "Moves Completed" },
