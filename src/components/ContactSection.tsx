@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import Lottie from "lottie-react";
 import truckAnimation from "../assets/truck-delivery-done.json";
 
@@ -28,22 +28,41 @@ const ContactSection = () => {
   const [infoLoading, setInfoLoading] = useState(true);
   const [info, setInfo] = useState<{ phone1?: string; phone2?: string; email?: string } | null>(null);
 
+  const [offices, setOffices] = useState<{ id: number; officeName: string }[]>([]);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
         setInfoLoading(true);
-        const res = await fetch(`${apiBaseUrl}/informations/1`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (cancelled) return;
-        setInfo({
-          phone1: data.phone1 ?? "",
-          phone2: data.phone2 ?? "",
-          email: data.email ?? "",
-        });
+        const [resInfo, resOffices] = await Promise.all([
+          fetch(`${apiBaseUrl}/informations/1`),
+          fetch(`${apiBaseUrl}/offices`)
+        ]);
+
+        if (resInfo.ok) {
+          const data = await resInfo.json();
+          if (!cancelled) {
+            setInfo({
+              phone1: data.phone1 ?? "",
+              phone2: data.phone2 ?? "",
+              email: data.email ?? "",
+            });
+          }
+        }
+        
+        if (resOffices.ok) {
+          const dataOffices = await resOffices.json();
+          if (!cancelled) {
+            setOffices(Array.isArray(dataOffices) ? dataOffices : []);
+          }
+        }
+
       } catch {
-        if (!cancelled) setInfo(null);
+        if (!cancelled) {
+           setInfo(null);
+           setOffices([]);
+        }
       } finally {
         if (!cancelled) setInfoLoading(false);
       }
@@ -297,6 +316,33 @@ const ContactSection = () => {
                   <div className="text-xs text-muted-foreground">Secure storage</div>
                   <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : "Available"}</div>
                 </div>
+              </div>
+            </div>
+
+            <div className="glass rounded-2xl p-6 border border-border/70">
+              <div className="flex items-start gap-4">
+                <MapPin className="w-6 h-6 text-primary mt-1 shrink-0" />
+                <div className="flex-1">
+                  <h4 className="font-bold mb-1">Our Offices</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Find us at these locations
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-3 text-sm">
+                {infoLoading ? (
+                  <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3 text-muted-foreground">Loading offices...</div>
+                ) : offices.length > 0 ? (
+                  offices.map((office) => (
+                    <div key={office.id} className="rounded-xl bg-secondary/60 border border-border px-4 py-3 flex items-start gap-2">
+                       <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+                       <div className="font-semibold text-foreground">{office.officeName}</div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3 text-muted-foreground">No offices available currently.</div>
+                )}
               </div>
             </div>
           </div>

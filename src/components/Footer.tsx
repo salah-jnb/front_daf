@@ -63,17 +63,32 @@ const Footer = () => {
     sponsors?: unknown[];
     contacts?: unknown[];
   } | null>(null);
+  
+  const [offices, setOffices] = useState<any[]>([]);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(`${apiBaseUrl}/informations/1`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (!cancelled) setInfo(data);
+        const [resInfo, resOffices] = await Promise.all([
+          fetch(`${apiBaseUrl}/informations/1`),
+          fetch(`${apiBaseUrl}/offices`)
+        ]);
+        
+        if (resInfo.ok) {
+          const data = await resInfo.json();
+          if (!cancelled) setInfo(data);
+        }
+        
+        if (resOffices.ok) {
+          const dataOffices = await resOffices.json();
+          if (!cancelled) setOffices(dataOffices);
+        }
       } catch {
-        if (!cancelled) setInfo(null);
+        if (!cancelled) {
+          setInfo(null);
+          setOffices([]);
+        }
       }
     })();
     return () => {
@@ -105,20 +120,12 @@ const Footer = () => {
               </p>
 
               <div className="ft-partner-contacts">
-                <div className="ft-contact-row">
-                  <MapPin size={14} className="ft-contact-icon" />
-                  <span>
-                    <strong>Rabat:</strong> 37, Rue Idriss Al Akbar N 3,
-                    Hassan, Rabat 10020
-                  </span>
-                </div>
-                <div className="ft-contact-row">
-                  <MapPin size={14} className="ft-contact-icon" />
-                  <span>
-                    <strong>Casablanca:</strong> 5, Bd Abdellah Ben Yacine,
-                    5ème Étage N 1
-                  </span>
-                </div>
+                {offices.map((office) => (
+                  <div key={office.id} className="ft-contact-row">
+                    <MapPin size={14} className="ft-contact-icon" />
+                    <span>{office.officeName}</span>
+                  </div>
+                ))}
                 <div className="ft-contact-row">
                   <Mail size={14} className="ft-contact-icon" />
                   <a href="mailto:mimc@moumene.com" className="ft-link">
