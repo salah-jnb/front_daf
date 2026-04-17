@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /da/
+Disallow: /login
 
-Host: https://www.example.com
-Sitemap: https://www.example.com/sitemap.xml
+Host: https://jaf-logistics.com
+Sitemap: https://jaf-logistics.com/sitemap.xml

@@ -61,7 +61,7 @@ const AccreditationsSection = () => {
               >
                 <img
                   src={src}
-                  alt={`Sponsor ${idx + 1}`}
+                  alt={`JAF Logistics Accredited Partner - ${idx + 1}`}
                   className="w-full max-w-[170px] h-auto object-contain transition-all duration-300 hover:scale-105"
                   style={{ filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.15))" }}
                   loading="lazy"
