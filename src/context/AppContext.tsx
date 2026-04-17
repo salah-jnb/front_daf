@@ -32,9 +32,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [toastMsg, setToastMsg] = useState("");
   const [toastOk, setToastOk] = useState(true);
 
-  const [baseUrl, setBaseUrl] = useState(
-    localStorage.getItem("tg_api") || import.meta.env.VITE_API_URL || "http://localhost:9090",
-  );
+  const [baseUrl, setBaseUrl] = useState(() => {
+    return localStorage.getItem('tg_api') || import.meta.env.VITE_API_URL || "";
+  });
   const [actionTrigger, setActionTrigger] = useState<{ action: string; ts: number } | null>(null);
 
   const [admin, setAdmin] = useState(() => {

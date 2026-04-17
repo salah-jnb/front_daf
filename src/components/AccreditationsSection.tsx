@@ -5,7 +5,7 @@ type Sponsor = { id?: number; image?: string };
 const AccreditationsSection = () => {
   const apiBaseUrl = useMemo(
     () =>
-      (localStorage.getItem("tg_api") || import.meta.env.VITE_API_URL || "http://localhost:9090").replace(
+      (localStorage.getItem("tg_api") || import.meta.env.VITE_API_URL || "").replace(
         /\/$/,
         "",
       ),
