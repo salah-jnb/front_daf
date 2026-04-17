@@ -84,7 +84,7 @@ const AboutSection = () => (
           >
             {/* Animated Background Image */}
             <div 
-              className="absolute inset-0 transition-transform duration-[1.2s] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110"
+              className="absolute inset-0 transition-transform duration-1000 ease-out group-hover:scale-110"
               style={{
                 backgroundImage: `url(${item.image})`,
                 backgroundSize: "cover",
@@ -120,7 +120,7 @@ const AboutSection = () => (
             </div>
             
             {/* Quick sweeping light effect on initial hover */}
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 pointer-events-none transition-opacity duration-1000 bg-gradient-to-tr from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full ease-[cubic-bezier(0.4,0,0.2,1)]" style={{ transitionDuration: '1.5s' }} />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 pointer-events-none transition-opacity duration-1000 bg-gradient-to-tr from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full ease-in-out" style={{ transitionDuration: '1.5s' }} />
           </article>
         ))}
       </div>

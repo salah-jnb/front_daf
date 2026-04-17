@@ -9,7 +9,7 @@ type SeoProps = {
 };
 
 const siteName = import.meta.env.VITE_SITE_NAME || "JAF Logistics";
-const siteUrl = import.meta.env.VITE_SITE_URL || "https://example.com";
+const siteUrl = import.meta.env.VITE_SITE_URL || "https://jaf-logistics.com";
 const defaultImage = import.meta.env.VITE_OG_IMAGE || jafLogo;
 const googleVerification = import.meta.env.VITE_GSC_VERIFICATION;
 

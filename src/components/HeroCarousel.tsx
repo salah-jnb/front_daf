@@ -148,7 +148,7 @@ const HeroCarousel = () => {
                       {slide.title.split(" ").map((word, wIdx) => (
                         <div key={wIdx} className="overflow-hidden pb-[0.4em] -mb-[0.4em]">
                           <h2
-                            className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
+                            className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-1000 ease-out ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
                               }`}
                             style={{ transitionDelay: activeIndex === i ? `${400 + wIdx * 150}ms` : "0ms" }}
                           >
@@ -167,7 +167,7 @@ const HeroCarousel = () => {
                       {slide.description}
                     </p>
                     <div
-                      className={`flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"
+                      className={`flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none transition-transform duration-1000 ease-out ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"
                         }`}
                       style={{ transitionDelay: activeIndex === i ? "700ms" : "0ms" }}
                     >
