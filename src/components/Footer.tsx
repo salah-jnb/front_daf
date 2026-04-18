@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import signatureImg from "@/assets/signature-1-600x400.webp";
 import mimcLogo from "@/assets/partners/mimc.webp";
-import jafLogo from "@/assets/logo_jaf-566x412.webp";
+import jafLogo from "@/assets/logo_jaf-small.webp";
 
 /* ── Static data ──────────────────────────────────────────── */
 const quickLinks = [
