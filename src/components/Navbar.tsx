@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import jafLogo from "@/assets/logo_jaf-small.webp";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 const navLinks = [
   { label: "Home", href: "/#home" },
@@ -31,9 +31,8 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass py-3 shadow-sm border-b border-border/40" : "bg-transparent py-5"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass py-3 shadow-sm border-b border-border/40" : "bg-transparent py-5"
+        }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6">
         {/* Logo */}
@@ -55,13 +54,12 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
               <a
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${
-                  scrolled 
-                    ? "text-muted-foreground hover:text-foreground" 
-                    : lightTextOnTop 
-                      ? "text-white/95 hover:text-white drop-shadow-md" 
+                className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${scrolled
+                    ? "text-muted-foreground hover:text-foreground"
+                    : lightTextOnTop
+                      ? "text-white/95 hover:text-white drop-shadow-md"
                       : "text-foreground/80 hover:text-foreground"
-                }`}
+                  }`}
               >
                 {link.label}
               </a>
@@ -69,13 +67,12 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
               <Link
                 key={link.href}
                 to={link.href}
-                className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${
-                  scrolled 
-                    ? "text-muted-foreground hover:text-foreground" 
-                    : lightTextOnTop 
-                      ? "text-white/95 hover:text-white drop-shadow-md" 
+                className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${scrolled
+                    ? "text-muted-foreground hover:text-foreground"
+                    : lightTextOnTop
+                      ? "text-white/95 hover:text-white drop-shadow-md"
                       : "text-foreground/80 hover:text-foreground"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>

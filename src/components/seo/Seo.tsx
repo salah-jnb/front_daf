@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import jafLogo from "@/assets/logo_jaf-small.webp";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 type SeoProps = {
   title: string;

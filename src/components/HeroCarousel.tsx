@@ -12,7 +12,7 @@ import MagneticButton from "./MagneticButton";
 
 import heroAir from "@/assets/hero-air.webp";
 import heroRoad from "@/assets/hero-road.webp";
-import heroSea from "../assets/hero-sea-small.webp";
+import heroSea from "@/assets/hero-sea.webp";
 
 const slides = [
   {

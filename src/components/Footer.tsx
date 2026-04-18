@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import signatureImg from "@/assets/signature-1-600x400.webp";
 import mimcLogo from "@/assets/partners/mimc.webp";
-import jafLogo from "@/assets/logo_jaf-small.webp";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 /* ── Static data ──────────────────────────────────────────── */
 const quickLinks = [
@@ -64,7 +64,7 @@ const Footer = () => {
     sponsors?: unknown[];
     contacts?: unknown[];
   } | null>(null);
-  
+
   const [offices, setOffices] = useState<any[]>([]);
 
   useEffect(() => {
@@ -75,12 +75,12 @@ const Footer = () => {
           fetch(`${apiBaseUrl}/informations/1`),
           fetch(`${apiBaseUrl}/offices`)
         ]);
-        
+
         if (resInfo.ok) {
           const data = await resInfo.json();
           if (!cancelled) setInfo(data);
         }
-        
+
         if (resOffices.ok) {
           const dataOffices = await resOffices.json();
           if (!cancelled) setOffices(dataOffices);

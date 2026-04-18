@@ -4,7 +4,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import { Seo } from "@/components/seo/Seo";
 import { StructuredData } from "@/components/seo/StructuredData";
 import FloatingCallButton from "@/components/FloatingCallButton";
-import jafLogo from "@/assets/logo_jaf-small.webp";
+import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 const ServicesSection = lazy(() => import("@/components/ServicesSection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
