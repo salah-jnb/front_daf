@@ -43,6 +43,8 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
             alt="JAF Demenagements"
             className="h-12 md:h-14 w-auto object-contain"
             loading="eager"
+            width={115}
+            height={84}
           />
         </a>
 
