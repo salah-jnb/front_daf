@@ -116,8 +116,6 @@ const HeroCarousel = () => {
                 <img
                   src={slide.image}
                   alt={slide.title}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  fetchPriority={i === 0 ? "high" : "auto"}
                   className={`w-full h-full object-cover transition-transform [transition-duration:6000ms] ${activeIndex === i ? "scale-110" : "scale-100"
                     }`}
                   width={1920}
