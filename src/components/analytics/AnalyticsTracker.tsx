@@ -15,25 +15,36 @@ const initAnalytics = () => {
     return;
   }
 
-  if (document.getElementById("ga4-script")) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.id = "ga4-script";
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-  document.head.appendChild(script);
-
+  // Setup the global queue immediately so events can be recorded
   window.dataLayer = window.dataLayer || [];
-  window.gtag = (...args: unknown[]) => {
-    window.dataLayer.push(args);
+  window.gtag = function (...args: unknown[]) {
+    // Note: GTAG officially expects 'arguments', so we must use a regular function,
+    // but pushing 'arguments' in TS requires a workaround or using the spread args as an array.
+    // The standard snippet does: dataLayer.push(arguments);
+    // Since we use TypeScript, we can push arguments directly if we ignore the type,
+    // or keep the existing array push which may or may not be perfectly compatible.
+    // Let's use the exact standard GA4 implementation:
+    window.dataLayer.push(arguments);
   };
 
   window.gtag("js", new Date());
   window.gtag("config", measurementId, {
     send_page_view: false,
   });
+
+  if (document.getElementById("ga4-script")) {
+    return;
+  }
+
+  // Delay downloading the heavy Google script by 3.5 seconds
+  // This drastically improves mobile PageSpeed Insights (LCP/FCP)
+  setTimeout(() => {
+    const script = document.createElement("script");
+    script.id = "ga4-script";
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    document.head.appendChild(script);
+  }, 3500);
 };
 
 export const AnalyticsTracker = () => {
