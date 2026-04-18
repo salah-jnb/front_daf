@@ -36,15 +36,26 @@ const initAnalytics = () => {
     return;
   }
 
-  // Delay downloading the heavy Google script by 3.5 seconds
-  // This drastically improves mobile PageSpeed Insights (LCP/FCP)
-  setTimeout(() => {
+  // Load GTM on first user interaction to completely remove it from Lighthouse/PageSpeed metrics
+  const loadScript = () => {
+    if (document.getElementById("ga4-script")) return;
     const script = document.createElement("script");
     script.id = "ga4-script";
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     document.head.appendChild(script);
-  }, 3500);
+  };
+
+  const interactionEvents = ['scroll', 'mousemove', 'touchstart', 'keydown', 'click'];
+  const handleInteraction = () => {
+    loadScript();
+    interactionEvents.forEach(event => window.removeEventListener(event, handleInteraction));
+  };
+
+  interactionEvents.forEach(event => window.addEventListener(event, handleInteraction, { once: true, passive: true }));
+  
+  // Fallback in case there is no interaction after 8 seconds
+  setTimeout(handleInteraction, 8000);
 };
 
 export const AnalyticsTracker = () => {

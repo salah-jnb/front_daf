@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import jafLogo from "@/assets/logo_jaf-566x412.webp";
+import jafLogo from "@/assets/logo_jaf-small.webp";
 
 const navLinks = [
   { label: "Home", href: "/#home" },

@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import { Seo } from "@/components/seo/Seo";
 import FloatingCallButton from "@/components/FloatingCallButton";
-import jafLogo from "@/assets/logo_jaf-566x412.webp";
+import jafLogo from "@/assets/logo_jaf-small.webp";
 
 const ContactSection = lazy(() => import("@/components/ContactSection"));
 const Footer = lazy(() => import("@/components/Footer"));
