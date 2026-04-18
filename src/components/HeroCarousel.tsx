@@ -120,6 +120,7 @@ const HeroCarousel = () => {
                     }`}
                   width={1920}
                   height={1080}
+                  {...(i === 0 ? { fetchPriority: "high", loading: "eager" } : { loading: "lazy" })}
                 />
               </div>
 
