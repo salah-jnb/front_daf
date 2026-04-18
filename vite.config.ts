@@ -30,4 +30,22 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+              return 'vendor';
+            }
+            if (id.includes('lucide-react') || id.includes('swiper')) {
+              return 'ui';
+            }
+            return 'deps';
+          }
+        },
+      },
+    },
+    cssCodeSplit: true,
+  },
 }));
