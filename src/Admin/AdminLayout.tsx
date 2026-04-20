@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-
+import "./admin.css";
 const routeMeta: Record<string, [string, string]> = {
   "/da/dashboard": ["Dashboard", "Vue d'ensemble"],
   "/da/contacts": ["Contacts", "Gestion des demandes de contact entrantes"],

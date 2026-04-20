@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import LoginPage from "./Login";
 import { AppContext } from "../context/AppContext";
+import "./admin.css";
 
 export default function LoginRoute() {
   const navigate = useNavigate();
