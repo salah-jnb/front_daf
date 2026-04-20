@@ -82,7 +82,7 @@ const ServiceSlideCard = ({ title, description, image, slug, onClick }: ServiceI
         <h3 className="sbs-card-title">{t('servicesData.' + slug + '.title', title)}</h3>
         <p className="sbs-card-desc">{t('servicesData.' + slug + '.description', description)}</p>
         <div className="sbs-card-cta">
-          <span>{t('services.learnMore', 'Learn more')}</span>
+          <span>{t('services.learnMore', 'Voir plus')}</span>
           <ArrowUpRight className="sbs-cta-icon" size={15} strokeWidth={2.2} />
         </div>
       </div>
@@ -224,9 +224,9 @@ const ServicesBentoSection = () => {
         inset: 0;
         background: linear-gradient(
           to top,
-          rgba(0,0,0,0.85) 0%,
-          rgba(0,0,0,0.2) 60%,
-          rgba(0,0,0,0) 100%
+          rgba(0,0,0,0.95) 0%,
+          rgba(0,0,0,0.6) 40%,
+          rgba(0,0,0,0) 80%
         );
         z-index: 2;
         transition: opacity 0.5s ease;
@@ -236,28 +236,19 @@ const ServicesBentoSection = () => {
         opacity: 0.8;
       }
 
-      /* ── Content (Glass Panel) ── */
+      /* ── Content ── */
       .sbs-card-content {
         position: relative;
         z-index: 10;
-        margin: 1.25rem;
         padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        gap: 0.6rem;
-        transform: translateY(12px);
-        transition: transform 0.5s cubic-bezier(.19,1,.22,1), background 0.5s ease, border-color 0.5s ease;
-        background: rgba(20, 25, 40, 0.4);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        gap: 0.5rem;
+        transform: translateY(8px);
+        transition: transform 0.5s cubic-bezier(.19,1,.22,1);
       }
       .sbs-card:hover .sbs-card-content {
         transform: translateY(0);
-        background: rgba(20, 25, 40, 0.6);
-        border-color: rgba(255, 255, 255, 0.25);
       }
 
       /* ── Tag ── */
@@ -292,7 +283,7 @@ const ServicesBentoSection = () => {
         line-height: 1.6;
         max-width: 52ch;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-shadow: 0 1px 4px rgba(0,0,0,0.5);
@@ -305,12 +296,10 @@ const ServicesBentoSection = () => {
         gap: 0.4rem;
         font-size: 0.85rem;
         font-weight: 800;
-        color: #fff;
+        color: hsl(var(--primary));
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        margin-top: 0.5rem;
-        padding-top: 0.75rem;
-        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 0.25rem;
       }
       .sbs-cta-icon {
         color: hsl(var(--primary));
