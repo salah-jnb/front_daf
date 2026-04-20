@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -16,6 +17,7 @@ type ServiceItem = {
   description: string;
   image: string;
   slug?: string;
+  keywords?: string[];
 };
 
 type Block = {
@@ -24,6 +26,7 @@ type Block = {
   title?: string;
   description?: string;
   image?: string;
+  motcle?: string[];
 };
 
 function normalizeImageUrl(image: string, baseUrl: string) {
@@ -48,12 +51,12 @@ const SkeletonCard = () => (
 );
 
 /* ─── Single service slide card ────────────────────────────── */
-const ServiceSlideCard = ({ title, description, image, slug }: ServiceItem) => {
+const ServiceSlideCard = ({ title, description, image, slug, onClick }: ServiceItem & { onClick: () => void }) => {
   const [imgError, setImgError] = useState(false);
   const { t } = useTranslation();
 
   return (
-    <Link to={`/services/${slug}`} className="sbs-card" style={{ textDecoration: 'none' }}>
+    <div onClick={onClick} className="sbs-card" style={{ textDecoration: 'none' }} role="button" tabIndex={0}>
       {/* Image layer */}
       <div className="sbs-card-media">
         {!imgError ? (
@@ -86,7 +89,7 @@ const ServiceSlideCard = ({ title, description, image, slug }: ServiceItem) => {
 
       {/* Corner accent */}
       <div className="sbs-card-corner" aria-hidden="true" />
-    </Link>
+    </div>
   );
 };
 
@@ -172,7 +175,7 @@ const ServicesBentoSection = () => {
         position: relative;
         border-radius: 28px;
         overflow: hidden;
-        min-height: 480px;
+        min-height: 340px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -270,24 +273,15 @@ const ServicesBentoSection = () => {
         background: hsl(var(--primary));
         color: #fff;
         box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
-        opacity: 0;
-        transform: translateY(6px);
-        transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
         margin-bottom: 0.25rem;
-      }
-      .sbs-card:hover .sbs-card-tag {
-        opacity: 1;
-        transform: translateY(0);
       }
 
       /* ── Title ── */
       .sbs-card-title {
-        font-family: 'Outfit', sans-serif;
-        font-size: clamp(1.4rem, 2.5vw, 1.85rem);
-        font-weight: 800;
-        line-height: 1.15;
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        font-weight: 700;
+        line-height: 1.3;
         color: #ffffff;
-        letter-spacing: -0.01em;
         text-shadow: 0 2px 8px rgba(0,0,0,0.5);
       }
 
@@ -298,17 +292,10 @@ const ServicesBentoSection = () => {
         line-height: 1.6;
         max-width: 52ch;
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
         text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-      }
-      .sbs-card:hover .sbs-card-desc {
-        opacity: 1;
-        transform: translateY(0);
       }
 
       /* ── CTA ── */
@@ -321,16 +308,9 @@ const ServicesBentoSection = () => {
         color: #fff;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
         margin-top: 0.5rem;
         padding-top: 0.75rem;
         border-top: 1px solid rgba(255,255,255,0.1);
-      }
-      .sbs-card:hover .sbs-card-cta {
-        opacity: 1;
-        transform: translateY(0);
       }
       .sbs-cta-icon {
         color: hsl(var(--primary));
@@ -430,7 +410,7 @@ const ServicesBentoSection = () => {
       /* ── Skeleton loader ── */
       .sbs-skeleton {
         border-radius: 28px;
-        min-height: 480px;
+        min-height: 340px;
         overflow: hidden;
         background: hsl(var(--card));
         border: 1px solid hsl(var(--border) / 0.3);
@@ -476,6 +456,8 @@ function ServicesBentoSwiper() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+  const { t } = useTranslation();
 
   const root = useMemo(() => baseUrl.replace(/\/$/, ""), [baseUrl]);
 
@@ -519,6 +501,7 @@ function ServicesBentoSwiper() {
           description: b.description ?? "",
           image: normalizeImageUrl(b.image || "", root),
           slug: slugMap[lowerTitle] || lowerTitle.replace(/\s+/g, '-'),
+          keywords: b.motcle || [],
         };
       })
       .filter((s) => s.title && s.image);
@@ -581,10 +564,58 @@ function ServicesBentoSwiper() {
       >
         {services.map((service, idx) => (
           <SwiperSlide key={`${service.title}-${idx}`}>
-            <ServiceSlideCard {...service} />
+            <ServiceSlideCard {...service} onClick={() => setSelectedService(service)} />
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {/* Details Modal via Portal */}
+      {selectedService && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6" style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
+          <div className="bg-background border border-border/50 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative" style={{ animation: 'sbs-scale-in 0.3s ease-out' }}>
+            <button onClick={() => setSelectedService(null)} className="absolute top-4 right-4 z-[110] w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center border border-white/20 hover:bg-black/80 transition shadow-lg">
+              ✕
+            </button>
+            <div className="h-56 sm:h-72 w-full relative">
+              <img src={selectedService.image} alt={selectedService.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+            </div>
+            <div className="px-6 sm:px-8 pb-8 -mt-16 relative z-10">
+              <div className="inline-block px-3 py-1 mb-4 text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 rounded-full border border-primary/20 backdrop-blur-md">
+                {t('services.serviceTag', 'Service')}
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t('servicesData.' + selectedService.slug + '.title', selectedService.title)}</h2>
+              
+              {selectedService.keywords && selectedService.keywords.length > 0 && (
+                <div className="mb-6 flex flex-wrap gap-2">
+                  {selectedService.keywords.map((kw, i) => (
+                    <span key={i} className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-semibold uppercase tracking-wider rounded-lg border border-border/50">
+                      {kw}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap text-lg">
+                {t('servicesData.' + selectedService.slug + '.description', selectedService.description)}
+              </p>
+              
+              <div className="mt-8 flex justify-end">
+                <button onClick={() => setSelectedService(null)} className="px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:-translate-y-1 transition-transform">
+                  Fermer les détails
+                </button>
+              </div>
+            </div>
+          </div>
+          <style>{`
+            @keyframes sbs-scale-in {
+              0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+              100% { opacity: 1; transform: scale(1) translateY(0); }
+            }
+          `}</style>
+        </div>,
+        document.body
+      )}
 
       {/* Custom nav row */}
       <div className="sbs-nav-row">

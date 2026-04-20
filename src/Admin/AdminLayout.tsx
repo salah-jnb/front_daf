@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
@@ -167,8 +167,13 @@ function Topbar({ setSidebarOpen }: { setSidebarOpen: (v: boolean) => void }) {
 }
 
 export default function AdminLayout() {
-  const { admin, logout } = useContext(AppContext);
+  const { admin, logout, setTheme } = useContext(AppContext);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setTheme("dark");
+    localStorage.setItem("tg_theme", "dark");
+  }, [setTheme]);
 
   if (!admin) return <Navigate to="/login" replace />;
 

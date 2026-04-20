@@ -8,7 +8,7 @@ export default function ContentBlocks() {
   const [saving, setSaving] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [newBlock, setNewBlock] = useState({ title: '', description: '', image: null, imagePreview: null });
+  const [newBlock, setNewBlock] = useState({ title: '', description: '', image: null, imagePreview: null, motCles: [] });
   const [deleteData, setDeleteData] = useState(null);
   const [viewBlock, setViewBlock] = useState(null);
   const fileInputRef = useRef();
@@ -40,7 +40,7 @@ export default function ContentBlocks() {
   useEffect(() => {
     if (actionTrigger?.action === 'new-block') {
       setEditId(null);
-      setNewBlock({ title: '', description: '', image: null, imagePreview: null });
+      setNewBlock({ title: '', description: '', image: null, imagePreview: null, motCles: [] });
       setModalOpen(true);
     }
   }, [actionTrigger]);
@@ -51,7 +51,8 @@ export default function ContentBlocks() {
       title: block.titre || block.title || '',
       description: block.description || '',
       image: block.image,
-      imagePreview: block.image
+      imagePreview: block.image,
+      motCles: block.motcle || []
     });
     setModalOpen(true);
   };
@@ -93,6 +94,22 @@ export default function ContentBlocks() {
     return `${r}/${v}`;
   };
 
+  const addKeyword = () => {
+    setNewBlock(prev => ({ ...prev, motCles: [...(prev.motCles || []), ''] }));
+  };
+
+  const handleKeywordChange = (index, value) => {
+    const newKeywords = [...(newBlock.motCles || [])];
+    newKeywords[index] = value;
+    setNewBlock(prev => ({ ...prev, motCles: newKeywords }));
+  };
+
+  const removeKeyword = (index) => {
+    const newKeywords = [...(newBlock.motCles || [])];
+    newKeywords.splice(index, 1);
+    setNewBlock(prev => ({ ...prev, motCles: newKeywords }));
+  };
+
   /* ─── Créer ou mettre à jour un bloc via l'API ─── */
   const saveBlock = async () => {
     if (!newBlock.title.trim()) {
@@ -105,6 +122,14 @@ export default function ContentBlocks() {
       const fd = new FormData();
       fd.append('titre', newBlock.title.trim());
       fd.append('description', newBlock.description || '');
+
+      if (newBlock.motCles && newBlock.motCles.length > 0) {
+        newBlock.motCles.forEach((mc) => {
+          if (mc.trim()) {
+            fd.append('motcle', mc.trim());
+          }
+        });
+      }
 
       // Si c'est un vrai fichier (File object), on l'ajoute
       if (newBlock.image instanceof File) {
@@ -142,6 +167,7 @@ export default function ContentBlocks() {
 
       setModalOpen(false);
       setEditId(null);
+      setNewBlock({ title: '', description: '', image: null, imagePreview: null, motCles: [] });
       await loadBlocks();
     } catch (e) {
       showToast(`Erreur : ${e.message || 'Impossible de sauvegarder'}`, false);
@@ -208,7 +234,7 @@ export default function ContentBlocks() {
             </svg>
             <p style={{fontWeight: 500, fontSize: '15px', color: 'var(--txt2)'}}>Aucun bloc de contenu</p>
             <p style={{fontSize: '13px'}}>Commencez par créer votre premier bloc avec un titre, une description et une image.</p>
-            <button className="btn btn-p" onClick={() => { setEditId(null); setNewBlock({ title: '', description: '', image: null, imagePreview: null }); setModalOpen(true); }} style={{marginTop: '8px'}}>
+            <button className="btn btn-p" onClick={() => { setEditId(null); setNewBlock({ title: '', description: '', image: null, imagePreview: null, motCles: [] }); setModalOpen(true); }} style={{marginTop: '8px'}}>
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>
               Créer mon premier bloc
             </button>
@@ -284,6 +310,18 @@ export default function ContentBlocks() {
                 <label>Description</label>
                 <textarea value={viewBlock.description || ''} readOnly style={{opacity: 0.8, minHeight: '100px'}}></textarea>
               </div>
+              
+              {viewBlock.motcle && viewBlock.motcle.length > 0 && (
+                <div className="fg" style={{marginBottom: '16px'}}>
+                  <label>Mots-clés</label>
+                  <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '6px'}}>
+                    {viewBlock.motcle.map((mc, idx) => (
+                      <span key={idx} className="badge bg-light" style={{padding: '4px 8px', borderRadius: '4px', background: '#eef2f6', color: '#1e293b', border: '1px solid #cbd5e1'}}>{mc}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
                 <span className="badge bb">ID: {viewBlock.id}</span>
                 <span className="badge bp">{getImage(viewBlock) ? 'Avec image' : 'Sans image'}</span>
@@ -344,7 +382,7 @@ export default function ContentBlocks() {
           </div>
 
           {/* Description Input */}
-          <div className="fg">
+          <div className="fg" style={{marginBottom: '16px'}}>
             <label>Description <code className="f">description</code></label>
             <textarea
               value={newBlock.description}
@@ -352,6 +390,30 @@ export default function ContentBlocks() {
               placeholder="Décrivez le contenu de ce bloc..."
               style={{minHeight: '120px'}}
             ></textarea>
+          </div>
+
+          {/* Keywords Input */}
+          <div className="fg" style={{marginBottom: '16px'}}>
+            <label>Mots-clés <code className="f">motcle</code></label>
+            {newBlock.motCles && newBlock.motCles.map((mc, idx) => (
+              <div key={idx} style={{display: 'flex', gap: '8px', marginBottom: '8px'}}>
+                <input
+                  type="text"
+                  value={mc}
+                  onChange={e => handleKeywordChange(idx, e.target.value)}
+                  placeholder="Ex: react"
+                  style={{flex: 1}}
+                />
+                <button className="btn btn-sm btn-d" onClick={() => removeKeyword(idx)} type="button" style={{padding: '0 12px'}}>
+                  ✕
+                </button>
+              </div>
+            ))}
+            <div style={{marginTop: '4px'}}>
+              <button className="btn btn-sm" onClick={addKeyword} type="button" style={{background: '#f1f5f9', color: '#334155', border: '1px solid #cbd5e1'}}>
+                + un autre mot
+              </button>
+            </div>
           </div>
 
           <div className="f-acts">

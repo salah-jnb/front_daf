@@ -16,6 +16,7 @@ export type AppContextValue = {
 
   theme: ThemeMode;
   toggleTheme: () => void;
+  setTheme: (t: ThemeMode) => void;
 
   admin: any;
   setAdmin: (admin: any) => void;
@@ -92,6 +93,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       triggerAction,
       theme,
       toggleTheme,
+      setTheme,
       admin,
       setAdmin,
       logout,
