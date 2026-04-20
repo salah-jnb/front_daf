@@ -30,4 +30,25 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
+  build: {
+    target: "esnext",
+    minify: "terser",
+    cssMinify: true,
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-swiper": ["swiper"],
+          "vendor-icons": ["lucide-react"],
+          "vendor-i18n": ["i18next", "react-i18next"],
+        },
+      },
+    },
+  },
 }));
