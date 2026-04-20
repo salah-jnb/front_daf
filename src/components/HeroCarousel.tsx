@@ -133,6 +133,7 @@ const HeroCarousel = () => {
                     }`}
                   width={1920}
                   height={1080}
+                  fetchPriority={i === 0 ? "high" : "auto"}
                 />
               </div>
 
