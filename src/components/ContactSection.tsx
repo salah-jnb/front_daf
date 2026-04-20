@@ -1,7 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
-import Lottie from "lottie-react";
-import truckAnimation from "../assets/truck-delivery-done.json";
+
+// Lazy load Lottie (346KB!) — only download when Contact section is visible
+const LottieWrapper = lazy(() =>
+  Promise.all([
+    import("lottie-react"),
+    import("../assets/truck-delivery-done.json"),
+  ]).then(([lottieModule, animationModule]) => ({
+    default: (props: any) => {
+      const LottieComp = (lottieModule as any).default || lottieModule;
+      return <LottieComp animationData={animationModule.default} {...props} />;
+    },
+  }))
+);
 
 const ContactSection = () => {
   const apiBaseUrl = useMemo(
@@ -116,7 +127,7 @@ const ContactSection = () => {
     }
   };
 
-  const LottieComponent = Lottie && (Lottie as any).default ? (Lottie as any).default : Lottie;
+
 
   return (
     <section id="contact" className="py-32 relative section-glow">
@@ -136,7 +147,9 @@ const ContactSection = () => {
             <span className="gradient-text flex items-center justify-center gap-2">
               Next Move
               <span className="inline-flex items-center justify-center w-32 h-32 md:w-48 md:h-48 -mx-2 md:-mx-4 -my-8 md:-my-12" title="JAF Logistics Truck">
-                <LottieComponent animationData={truckAnimation} loop={true} />
+                <Suspense fallback={<div className="w-32 h-32 md:w-48 md:h-48" />}>
+                  <LottieWrapper loop={true} />
+                </Suspense>
               </span>
             </span>
           </h2>

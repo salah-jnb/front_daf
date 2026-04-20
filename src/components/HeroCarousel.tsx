@@ -39,6 +39,7 @@ const HeroCarousel = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -55,6 +56,12 @@ const HeroCarousel = () => {
     el.addEventListener("mousemove", handleMouseMove);
     return () => el.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
+
+  // After first paint, enable animations for subsequent slides
+  useEffect(() => {
+    const timer = setTimeout(() => setIsFirstRender(false), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section id="home" ref={containerRef} className="relative w-full h-screen overflow-hidden">
@@ -138,9 +145,9 @@ const HeroCarousel = () => {
                 <div className="container mx-auto px-6">
                   <div className="max-w-2xl mt-32 md:mt-40">
                     <p
-                      className={`text-blue-400 font-semibold text-sm uppercase tracking-[0.3em] mb-4 transition-all duration-700 ${activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                      className={`text-blue-400 font-semibold text-sm uppercase tracking-[0.3em] mb-4 transition-all duration-700 ${(isFirstRender && i === 0) || activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                         }`}
-                      style={{ transitionDelay: "200ms" }}
+                      style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : "200ms" }}
                     >
                       {slide.subtitle}
                     </p>
@@ -148,9 +155,9 @@ const HeroCarousel = () => {
                       {slide.title.split(" ").map((word, wIdx) => (
                         <div key={wIdx} className="overflow-hidden pb-[0.4em] -mb-[0.4em]">
                           <h2
-                            className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-1000 ease-out ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
+                            className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-1000 ease-out ${(isFirstRender && i === 0) || activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
                               }`}
-                            style={{ transitionDelay: activeIndex === i ? `${400 + wIdx * 150}ms` : "0ms" }}
+                            style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : (activeIndex === i ? `${400 + wIdx * 150}ms` : "0ms") }}
                           >
                             <span className="block pb-[0.3em]" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5d8ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                               {word}
@@ -160,16 +167,16 @@ const HeroCarousel = () => {
                       ))}
                     </div>
                     <p
-                      className={`text-lg text-white/80 max-w-lg mb-8 transition-all duration-700 ${activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      className={`text-lg text-white/80 max-w-lg mb-8 transition-all duration-700 ${(isFirstRender && i === 0) || activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                         }`}
-                      style={{ transitionDelay: "600ms" }}
+                      style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : "600ms" }}
                     >
                       {slide.description}
                     </p>
                     <div
-                      className={`flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none transition-transform duration-1000 ease-out ${activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"
+                      className={`flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none transition-transform duration-1000 ease-out ${(isFirstRender && i === 0) || activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"
                         }`}
-                      style={{ transitionDelay: activeIndex === i ? "700ms" : "0ms" }}
+                      style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : (activeIndex === i ? "700ms" : "0ms") }}
                     >
                       <MagneticButton
                         onClick={() => navigate('/contact')}
