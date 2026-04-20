@@ -24,19 +24,42 @@ const HeroCarousel = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isFirstRender, setIsFirstRender] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  const updateRect = useCallback(() => {
+    if (containerRef.current) {
+      rectRef.current = containerRef.current.getBoundingClientRect();
+    }
+  }, []);
+
+  useEffect(() => {
+    updateRect();
+    window.addEventListener('resize', updateRect, { passive: true });
+    window.addEventListener('scroll', updateRect, { passive: true });
+    return () => {
+      window.removeEventListener('resize', updateRect);
+      window.removeEventListener('scroll', updateRect);
+    };
+  }, [updateRect]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    setMousePos({ x, y });
+    if (!rectRef.current) return;
+    
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = rectRef.current!;
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      setMousePos({ x, y });
+    });
   }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    el.addEventListener("mousemove", handleMouseMove);
+    el.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => el.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
 

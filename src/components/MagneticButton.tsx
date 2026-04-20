@@ -10,23 +10,38 @@ interface MagneticButtonProps {
 const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className, onClick, href }) => {
   const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const rectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  const handleMouseEnter = () => {
+    if (buttonRef.current) {
+      rectRef.current = buttonRef.current.getBoundingClientRect();
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!buttonRef.current) return;
+    if (!buttonRef.current || !rectRef.current) return;
     const { clientX, clientY } = e;
-    const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
     
-    // Magnetic pull (max 20px)
-    const pullX = (clientX - centerX) * 0.3;
-    const pullY = (clientY - centerY) * 0.3;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
     
-    setPosition({ x: pullX, y: pullY });
+    rafRef.current = requestAnimationFrame(() => {
+      const { left, top, width, height } = rectRef.current!;
+      const centerX = left + width / 2;
+      const centerY = top + height / 2;
+      
+      // Magnetic pull (max 20px)
+      const pullX = (clientX - centerX) * 0.3;
+      const pullY = (clientY - centerY) * 0.3;
+      
+      setPosition({ x: pullX, y: pullY });
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
     setPosition({ x: 0, y: 0 });
+    rectRef.current = null;
   };
 
   const Component = href ? "a" : "button";
@@ -35,6 +50,7 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className, on
     Component,
     {
       ref: buttonRef,
+      onMouseEnter: handleMouseEnter,
       onMouseMove: handleMouseMove,
       onMouseLeave: handleMouseLeave,
       onClick: onClick,
