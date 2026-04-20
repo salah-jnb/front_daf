@@ -13,6 +13,7 @@ const Offices = lazy(() => import("./Admin/Offices"));
 const GeneralInfo = lazy(() => import("./Admin/GeneralInfo"));
 const Sponsors = lazy(() => import("./Admin/Sponsors"));
 const ContentBlocks = lazy(() => import("./Admin/ContentBlocks"));
+const WhyChooseUs = lazy(() => import("./Admin/WhyChooseUs"));
 const ServiceDetailPage = lazy(() => import("@/pages/ServiceDetailPage"));
 const ContactPage = lazy(() => import("@/pages/ContactPage"));
 const HowWeWorkPage = lazy(() => import("@/pages/HowWeWorkPage"));
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="general-info" element={<Suspense fallback={<SectionFallback />}><GeneralInfo /></Suspense>} />
           <Route path="sponsors" element={<Suspense fallback={<SectionFallback />}><Sponsors /></Suspense>} />
           <Route path="content-blocks" element={<Suspense fallback={<SectionFallback />}><ContentBlocks /></Suspense>} />
+          <Route path="why-choose-us" element={<Suspense fallback={<SectionFallback />}><WhyChooseUs /></Suspense>} />
           <Route path="*" element={<Suspense fallback={<SectionFallback />}><NotFound /></Suspense>} />
         </Route>
 

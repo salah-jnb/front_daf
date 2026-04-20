@@ -9,6 +9,7 @@ const routeMeta: Record<string, [string, string]> = {
   "/da/general-info": ["Infos Générales", "Paramètres et informations de l'entreprise"],
   "/da/sponsors": ["Sponsors", "Gestion des logos partenaires et sponsors"],
   "/da/content-blocks": ["Blocs de Contenu", "Titre · Description · Image — Gestion modulaire"],
+  "/da/why-choose-us": ["Pourquoi Nous", "Gérer les chiffres clés affichés sur le site"],
 };
 
 function Sidebar({
@@ -58,6 +59,9 @@ function Sidebar({
           </NavLink>
           <NavLink to="/da/sponsors" onClick={() => setOpen(false)} className={({ isActive }) => `ni ${isActive ? "active" : ""}`}>
             Sponsors
+          </NavLink>
+          <NavLink to="/da/why-choose-us" onClick={() => setOpen(false)} className={({ isActive }) => `ni ${isActive ? "active" : ""}`}>
+            Pourquoi Nous
           </NavLink>
 
           <div className="nlabel" style={{ marginTop: "8px" }}>
@@ -150,6 +154,11 @@ function Topbar({ setSidebarOpen }: { setSidebarOpen: (v: boolean) => void }) {
         {location.pathname === "/da/content-blocks" && (
           <button className="btn btn-p" onClick={() => triggerAction("new-block")}>
             + Nouveau Bloc
+          </button>
+        )}
+        {location.pathname === "/da/why-choose-us" && (
+          <button className="btn btn-p" onClick={() => triggerAction("new-why-choose-us")}>
+            + Nouvelle Entrée
           </button>
         )}
       </div>
