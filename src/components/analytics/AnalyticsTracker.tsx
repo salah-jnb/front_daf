@@ -32,19 +32,29 @@ const initAnalytics = () => {
     send_page_view: false,
   });
 
-  if (document.getElementById("ga4-script")) {
-    return;
-  }
-
-  // Delay downloading the heavy Google script by 3.5 seconds
+  // Delay downloading the heavy Google script until user interaction or 5 seconds
   // This drastically improves mobile PageSpeed Insights (LCP/FCP)
-  setTimeout(() => {
+  const loadScript = () => {
+    if (document.getElementById("ga4-script")) return;
     const script = document.createElement("script");
     script.id = "ga4-script";
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     document.head.appendChild(script);
-  }, 3500);
+  };
+
+  const timer = setTimeout(loadScript, 5000);
+  const handleInteraction = () => {
+    loadScript();
+    clearTimeout(timer);
+    ['scroll', 'mousemove', 'touchstart', 'click', 'keydown'].forEach(event => {
+      window.removeEventListener(event, handleInteraction);
+    });
+  };
+
+  ['scroll', 'mousemove', 'touchstart', 'click', 'keydown'].forEach(event => {
+    window.addEventListener(event, handleInteraction, { once: true, passive: true });
+  });
 };
 
 export const AnalyticsTracker = () => {
