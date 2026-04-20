@@ -1,76 +1,31 @@
-import {
-  Archive,
-  Building2,
-  CarFront,
-  Globe2,
-  Palette,
-  PawPrint,
-  Truck,
-} from "lucide-react";
+import { Globe, PawPrint, Building2, Car, Truck, Palette, Package, Archive } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useBlocks, slugify } from "@/hooks/useBlocks";
 
-const services = [
-  {
-    icon: Globe2,
-    title: "International Moving",
-    description:
-      "End-to-end international relocation for households and companies, from export packing to final delivery.",
-    gradient: "from-blue-500 to-cyan-400",
-    glow: "rgba(59,130,246,0.25)",
-  },
-  {
-    icon: PawPrint,
-    title: "Pet Relocation",
-    description:
-      "Safe pet moving services with documentation support, route planning, and welfare-first handling.",
-    gradient: "from-emerald-500 to-teal-400",
-    glow: "rgba(16,185,129,0.25)",
-  },
-  {
-    icon: Building2,
-    title: "Office Moving",
-    description:
-      "Professional office relocation planned to reduce downtime and keep business operations running smoothly.",
-    gradient: "from-violet-500 to-purple-400",
-    glow: "rgba(139,92,246,0.25)",
-  },
-  {
-    icon: CarFront,
-    title: "Car Shipping",
-    description:
-      "Door-to-door vehicle shipping with secure handling for domestic and international routes.",
-    gradient: "from-orange-500 to-amber-400",
-    glow: "rgba(249,115,22,0.25)",
-  },
-  {
-    icon: Truck,
-    title: "National Moving",
-    description:
-      "Reliable domestic moving services for apartments, houses, and corporate spaces.",
-    gradient: "from-sky-500 to-blue-400",
-    glow: "rgba(14,165,233,0.25)",
-  },
-  {
-    icon: Palette,
-    title: "Fine Art",
-    description:
-      "Specialized packing and transport for artworks, antiques, and fragile high-value items.",
-    gradient: "from-pink-500 to-rose-400",
-    glow: "rgba(236,72,153,0.25)",
-  },
-  {
-    icon: Archive,
-    title: "Storage Solutions",
-    description:
-      "Flexible short and long-term storage in secure, monitored facilities.",
-    gradient: "from-indigo-500 to-blue-400",
-    glow: "rgba(99,102,241,0.25)",
-  },
+const GRADIENTS = [
+  { grad: "from-blue-500 to-cyan-400", glow: "rgba(59,130,246,0.25)" },
+  { grad: "from-emerald-500 to-teal-400", glow: "rgba(16,185,129,0.25)" },
+  { grad: "from-violet-500 to-purple-400", glow: "rgba(139,92,246,0.25)" },
+  { grad: "from-orange-500 to-amber-400", glow: "rgba(249,115,22,0.25)" },
+  { grad: "from-sky-500 to-blue-400", glow: "rgba(14,165,233,0.25)" },
+  { grad: "from-pink-500 to-rose-400", glow: "rgba(236,72,153,0.25)" },
+  { grad: "from-indigo-500 to-blue-400", glow: "rgba(99,102,241,0.25)" },
+];
+
+const ICONS = [
+  Globe,
+  PawPrint,
+  Building2,
+  Car,
+  Truck,
+  Palette,
+  Package,
 ];
 
 const ServicesSection = () => {
   const { t } = useTranslation();
+  const { blocks, loading } = useBlocks();
 
   return (
   <section id="services" className="services-section py-24 md:py-36 relative overflow-hidden">
@@ -93,49 +48,54 @@ const ServicesSection = () => {
         </p>
       </div>
 
-      {/* Cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
-        {services.map((service, i) => {
-          const Icon = service.icon;
-          const slug = service.title.toLowerCase().replace(/\s+/g, '-');
-          return (
-            <Link
-              key={i}
-              to={`/services/${slug}`}
-              className="service-card"
-              style={{
-                animationDelay: `${i * 80}ms`,
-                "--card-glow": service.glow,
-              } as React.CSSProperties}
-            >
-              {/* Animated border gradient */}
-              <div className="service-card-border" aria-hidden="true" />
+      {/* Cards flex container */}
+      <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
+        {loading ? (
+          <div className="w-full text-center py-10 text-muted-foreground">Loading services...</div>
+        ) : (
+          blocks.map((block, i) => {
+            const slug = slugify(block.titre);
+            const style = GRADIENTS[i % GRADIENTS.length];
+            const IconComponent = ICONS[i % ICONS.length];
+            return (
+              <Link
+                key={block.id || i}
+                to={`/services/${slug}`}
+                className="service-card w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)] flex-shrink-0"
+                style={{
+                  animationDelay: `${i * 80}ms`,
+                  "--card-glow": style.glow,
+                } as React.CSSProperties}
+              >
+                {/* Animated border gradient */}
+                <div className="service-card-border" aria-hidden="true" />
 
-              {/* Inner content */}
-              <div className="service-card-inner">
-                {/* Icon */}
-                <div className={`service-icon-wrap bg-gradient-to-br ${service.gradient}`}>
-                  <Icon className="w-6 h-6 text-white" strokeWidth={1.8} />
+                {/* Inner content */}
+                <div className="service-card-inner">
+                  {/* Icon */}
+                  <div className={`service-icon-wrap bg-gradient-to-br ${style.grad} overflow-hidden flex items-center justify-center`}>
+                    <IconComponent className="w-6 h-6 text-white" strokeWidth={1.8} />
+                  </div>
+
+                  {/* Number badge */}
+                  <span className="service-number">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
+                    {t('servicesData.' + slug + '.title', block.titre)}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
+                    {t('servicesData.' + slug + '.description', block.description)}
+                  </p>
+
+                  {/* Bottom accent line */}
+                  <div className={`service-card-line bg-gradient-to-r ${style.grad}`} />
                 </div>
-
-                {/* Number badge */}
-                <span className="service-number">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
-                <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
-                  {t('servicesData.' + slug + '.title', service.title)}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                  {t('servicesData.' + slug + '.description', service.description)}
-                </p>
-
-                {/* Bottom accent line */}
-                <div className={`service-card-line bg-gradient-to-r ${service.gradient}`} />
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })
+        )}
       </div>
     </div>
 

@@ -1,230 +1,95 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, Phone } from "lucide-react";
-import { getServiceBySlug, SERVICES } from "@/data/servicesData";
+import { ArrowLeft, Phone, CheckCircle2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Seo } from "@/components/seo/Seo";
 import Navbar from "@/components/Navbar";
 import FloatingCallButton from "@/components/FloatingCallButton";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { useBlockBySlug, slugify, getColorForIndex } from "@/hooks/useBlocks";
 
-/* ─── Image gallery with crossfade transitions ───────────────────────────── */
-function ImageGallery({ images, color }: { images: string[]; color: string }) {
-  const [active, setActive] = useState(0);
-  const [prev, setPrev] = useState<number | null>(null);
-  const [dir, setDir] = useState<"next" | "prev">("next");
-  const [animating, setAnimating] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+/* ── Gradient palette (cycled per card index) ── */
+const GRADIENTS = [
+  "from-blue-500 to-cyan-400",
+  "from-emerald-500 to-teal-400",
+  "from-violet-500 to-purple-400",
+  "from-orange-500 to-amber-400",
+  "from-sky-500 to-blue-400",
+  "from-pink-500 to-rose-400",
+  "from-indigo-500 to-blue-400",
+];
 
-  const go = (targetIdx: number, direction: "next" | "prev") => {
-    if (animating || targetIdx === active) return;
-    setDir(direction);
-    setPrev(active);
-    setActive(targetIdx);
-    setAnimating(true);
-    setTimeout(() => { setPrev(null); setAnimating(false); }, 700);
-  };
-
-  const next = () => go((active + 1) % images.length, "next");
-  const back = () => go((active - 1 + images.length) % images.length, "prev");
-
-  // Auto-advance every 4 s
-  useEffect(() => {
-    timerRef.current = setTimeout(next, 4000);
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
-  }, [active]); // eslint-disable-line
-
+/* ─── Loading skeleton ─────────────────────────────────────────── */
+function PageSkeleton() {
   return (
-    <div className="svc-gallery">
-      <style>{`
-        .svc-gallery {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 16/9;
-          border-radius: 24px;
-          overflow: hidden;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.45);
-        }
-
-        /* each image layer */
-        .svc-gallery-img {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: none;
-        }
-        /* the outgoing image fades out + slight scale */
-        .svc-gallery-img.leaving {
-          animation: gal-leave 0.7s ease forwards;
-        }
-        /* the incoming image fades in + scales in from slightly larger */
-        .svc-gallery-img.entering {
-          animation: gal-enter 0.7s ease forwards;
-        }
-
-        @keyframes gal-enter {
-          from { opacity: 0; transform: scale(1.05); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-        @keyframes gal-leave {
-          from { opacity: 1; transform: scale(1); }
-          to   { opacity: 0; transform: scale(0.97); }
-        }
-
-        /* dots */
-        .svc-gallery-dots {
-          position: absolute;
-          bottom: 16px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          gap: 8px;
-          z-index: 20;
-        }
-        .svc-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.5);
-          border: none;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          padding: 0;
-        }
-        .svc-dot.active {
-          width: 24px;
-          border-radius: 4px;
-          background: #fff;
-        }
-
-        /* arrows */
-        .svc-gallery-arrow {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 20;
-          background: rgba(0,0,0,0.42);
-          backdrop-filter: blur(6px);
-          border: 1px solid rgba(255,255,255,0.18);
-          border-radius: 50%;
-          width: 44px;
-          height: 44px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          cursor: pointer;
-          transition: background 0.25s ease, transform 0.25s ease;
-        }
-        .svc-gallery-arrow:hover {
-          background: rgba(0,0,0,0.65);
-          transform: translateY(-50%) scale(1.08);
-        }
-        .svc-gallery-arrow.left  { left:  16px; }
-        .svc-gallery-arrow.right { right: 16px; }
-
-        /* dark gradient at bottom for dots overlap */
-        .svc-gallery::after {
-          content: '';
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 90px;
-          background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
-          pointer-events: none;
-          z-index: 10;
-        }
-      `}</style>
-
-      {/* Outgoing image */}
-      {prev !== null && (
-        <img
-          key={`prev-${prev}`}
-          src={images[prev]}
-          alt=""
-          className="svc-gallery-img leaving"
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Active / incoming image */}
-      <img
-        key={`active-${active}`}
-        src={images[active]}
-        alt={`Service image ${active + 1}`}
-        className={`svc-gallery-img ${animating ? "entering" : ""}`}
-      />
-
-      {/* Arrows */}
-      {images.length > 1 && (
-        <>
-          <button className="svc-gallery-arrow left" onClick={back} aria-label="Previous image">
-            <ChevronLeft size={20} />
-          </button>
-          <button className="svc-gallery-arrow right" onClick={next} aria-label="Next image">
-            <ChevronRight size={20} />
-          </button>
-        </>
-      )}
-
-      {/* Dots */}
-      {images.length > 1 && (
-        <div className="svc-gallery-dots">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              className={`svc-dot ${i === active ? "active" : ""}`}
-              onClick={() => go(i, i > active ? "next" : "prev")}
-              aria-label={`Image ${i + 1}`}
-            />
-          ))}
+    <main className="svc-page min-h-screen">
+      <Navbar lightTextOnTop={false} />
+      <div className="container mx-auto px-4 sm:px-6 pt-32 pb-20">
+        <div className="svc-hero-grid">
+          <div className="svc-hero-text">
+            <div className="svc-skel-pill" />
+            <div className="svc-skel-title" />
+            <div className="svc-skel-line w-3/4" />
+            <div className="svc-skel-line w-full" />
+            <div className="svc-skel-line w-5/6" />
+            <div className="svc-skel-btn" />
+          </div>
+          <div className="svc-skel-img" />
         </div>
-      )}
-    </div>
+      </div>
+
+      <style>{`
+        .svc-skel-pill { width: 100px; height: 28px; border-radius: 999px; background: hsl(var(--muted)); animation: skel-shimmer 1.8s ease-in-out infinite; margin-bottom: 1rem; }
+        .svc-skel-title { width: 70%; height: 48px; border-radius: 12px; background: hsl(var(--muted)); animation: skel-shimmer 1.8s ease-in-out infinite; animation-delay: 0.1s; margin-bottom: 1.5rem; }
+        .svc-skel-line { height: 16px; border-radius: 999px; background: hsl(var(--muted)); animation: skel-shimmer 1.8s ease-in-out infinite; margin-bottom: 0.75rem; }
+        .svc-skel-btn { width: 200px; height: 52px; border-radius: 50px; background: hsl(var(--muted)); animation: skel-shimmer 1.8s ease-in-out infinite; animation-delay: 0.3s; margin-top: 1rem; }
+        .svc-skel-img { aspect-ratio: 16/9; border-radius: 24px; background: hsl(var(--muted)); animation: skel-shimmer 1.8s ease-in-out infinite; animation-delay: 0.2s; }
+        @keyframes skel-shimmer { 0% { opacity: 0.4; } 50% { opacity: 0.75; } 100% { opacity: 0.4; } }
+      `}</style>
+    </main>
   );
 }
 
-/* ─── Page component ─────────────────────────────────────────────────────── */
+/* ─── Page component ─────────────────────────────────────────── */
 export default function ServiceDetailPage() {
   const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const service = slug ? getServiceBySlug(slug) : undefined;
+  const { block, others, index, loading } = useBlockBySlug(slug);
 
-  // 404 redirect
+  const color = getColorForIndex(index);
+  const grad = GRADIENTS[index % GRADIENTS.length];
+
+  // 404 redirect (only after loading finishes)
   useEffect(() => {
-    if (slug && !service) navigate("/", { replace: true });
-  }, [slug, service, navigate]);
+    if (!loading && slug && !block) navigate("/", { replace: true });
+  }, [slug, block, loading, navigate]);
 
   // Scroll to top on navigation
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [slug]);
 
-  if (!service) return null;
-
-  // Other services (full list for carousel)
-  const others = SERVICES.filter((s) => s.slug !== service.slug);
+  if (loading) return <PageSkeleton />;
+  if (!block) return null;
 
   return (
     <>
       <Seo
-        title={service.seo.title}
-        description={service.seo.description}
-        path={`/services/${service.slug}`}
-        image={service.images[0]}
+        title={`${block.titre} | JAF Logistics`}
+        description={block.description}
+        path={`/services/${slugify(block.titre)}`}
+        image={block.imageUrl}
       />
 
       <Navbar lightTextOnTop={false} />
 
-      <main className="svc-page min-h-screen" style={{ "--svc-color": service.color } as React.CSSProperties}>
+      <main className="svc-page min-h-screen" style={{ "--svc-color": color } as React.CSSProperties}>
         {/* ── Hero banner ─────────────────────────────────────── */}
-        <div className="svc-hero" style={{ background: `linear-gradient(135deg, ${service.color}22 0%, transparent 60%)` }}>
+        <div className="svc-hero" style={{ background: `linear-gradient(135deg, ${color}22 0%, transparent 60%)` }}>
           <div className="container mx-auto px-4 sm:px-6 pt-32 pb-20">
             {/* Back link */}
             <Link
@@ -240,69 +105,85 @@ export default function ServiceDetailPage() {
               {/* Text side */}
               <div className="svc-hero-text">
                 <div className="svc-eyebrow">{t('svcDetails.service')}</div>
-                <h1 className="svc-title"
-                  style={{ "--svc-color": service.color } as React.CSSProperties}>
-                  {t('servicesData.' + service.slug + '.title', service.title)}
+                <h1 className="svc-title" style={{ "--svc-color": color } as React.CSSProperties}>
+                  {block.titre}
                 </h1>
-                <p className="svc-subtitle">{t('servicesData.' + service.slug + '.subtitle', service.subtitle)}</p>
-                <p className="svc-body">{t('servicesData.' + service.slug + '.longDescription', service.longDescription)}</p>
+                <p className="svc-body">{block.description}</p>
 
                 <a
                   href="tel:+21671906446"
                   className="svc-cta-btn"
-                  style={{ background: `linear-gradient(135deg, ${service.color} 0%, ${service.color}cc 100%)` }}
+                  style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)` }}
                 >
                   <Phone size={18} />
                   <span>{t('svcDetails.quote')}</span>
                 </a>
               </div>
 
-              {/* Gallery side */}
+              {/* Image side */}
               <div className="svc-hero-gallery">
-                <ImageGallery images={service.images} color={service.color} />
+                {block.imageUrl ? (
+                  <div className="svc-single-img-wrap">
+                    <img
+                      src={block.imageUrl}
+                      alt={block.titre}
+                      className="svc-single-img"
+                    />
+                  </div>
+                ) : (
+                  <div className="svc-img-placeholder">
+                    <span>📦</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── Features grid ───────────────────────────────────── */}
-        <section className="svc-features-section">
-          <div className="container mx-auto px-4 sm:px-6 py-20">
-            <div className="svc-section-label">{t('svcDetails.included')}</div>
-            <h2 className="svc-section-title">{t('svcDetails.features')}</h2>
+        {/* ── Mots-clés / Caractéristiques Clés ──────────────── */}
+        {block.motcle && block.motcle.length > 0 && (
+          <section className="svc-features-section">
+            <div className="container mx-auto px-4 sm:px-6 py-20">
+              <div className="svc-section-label">{t('svcDetails.included', 'Au programme')}</div>
+              <h2 className="svc-section-title">{t('svcDetails.features', 'Caractéristiques Clés')}</h2>
 
-            <div className="svc-features-grid">
-              {service.features.map((feat, i) => (
-                <div key={i} className="svc-feature-card" style={{ animationDelay: `${i * 70}ms` }}>
-                  <CheckCircle2
-                    className="svc-feature-icon"
-                    size={22}
-                    style={{ color: service.color }}
-                    strokeWidth={2.2}
-                  />
-                  <span>{t('servicesData.' + service.slug + '.f' + i, feat)}</span>
-                </div>
-              ))}
+              <div className="svc-features-grid">
+                {block.motcle.map((kw, i) => (
+                  <div
+                    key={i}
+                    className="svc-feature-card"
+                    style={{ animationDelay: `${i * 70}ms` }}
+                  >
+                    <CheckCircle2
+                      className="svc-feature-icon"
+                      size={22}
+                      style={{ color }}
+                      strokeWidth={2.2}
+                    />
+                    <span>{kw}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── CTA strip ─────────────────────────────────────────── */}
         <section
           className="svc-cta-strip"
-          style={{ background: `linear-gradient(135deg, ${service.color}18 0%, ${service.color}08 100%)` }}
+          style={{ background: `linear-gradient(135deg, ${color}18 0%, ${color}08 100%)` }}
         >
           <div className="container mx-auto px-4 sm:px-6 py-16 text-center">
             <h2 className="svc-cta-heading">{t('svcDetails.ctaHeading')}</h2>
             <p className="svc-cta-sub">{t('svcDetails.ctaSub')}</p>
-            <a href="tel:+21671906446" className="svc-cta-btn inline-flex" style={{ background: `linear-gradient(135deg, ${service.color} 0%, ${service.color}cc 100%)` }}>
+            <a href="tel:+21671906446" className="svc-cta-btn inline-flex" style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)` }}>
               <Phone size={18} />
               <span>{t('svcDetails.ctaBtn')}</span>
             </a>
           </div>
         </section>
 
-        {/* ── Other services ──────────────────────────────────── */}
+        {/* ── Other services carousel ──────────────────────────── */}
         {others.length > 0 && (
           <section className="svc-others-section">
             <div className="container mx-auto px-4 sm:px-6 py-20">
@@ -310,7 +191,7 @@ export default function ServiceDetailPage() {
               <h2 className="svc-section-title">{t('svcDetails.otherSvc')}</h2>
 
               <Swiper
-                modules={[Autoplay, Navigation, Pagination]}
+                modules={[Autoplay, Pagination]}
                 autoplay={{ delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true }}
                 pagination={{ clickable: true, el: '.svc-swiper-pagination' }}
                 spaceBetween={24}
@@ -321,29 +202,37 @@ export default function ServiceDetailPage() {
                 }}
                 className="svc-others-swiper pb-10"
               >
-                {others.map((s) => (
-                  <SwiperSlide key={s.slug}>
-                    <Link
-                      to={`/services/${s.slug}`}
-                      className="svc-other-card"
-                    >
-                      <img
-                        src={s.images[0]}
-                        alt={s.title}
-                        className="svc-other-img"
-                        loading="lazy"
-                      />
-                      <div className="svc-other-overlay" />
-                      <div className="svc-other-content">
-                        <span
-                          className="svc-other-dot"
-                          style={{ background: s.color }}
-                        />
-                        <span className="svc-other-title">{t('servicesData.' + s.slug + '.title', s.title)}</span>
-                      </div>
-                    </Link>
-                  </SwiperSlide>
-                ))}
+                {others.map((s, i) => {
+                  const otherSlug = slugify(s.titre);
+                  const otherColor = getColorForIndex(i);
+                  return (
+                    <SwiperSlide key={s.id || i}>
+                      <Link
+                        to={`/services/${otherSlug}`}
+                        className="svc-other-card"
+                      >
+                        {s.imageUrl ? (
+                          <img
+                            src={s.imageUrl}
+                            alt={s.titre}
+                            className="svc-other-img"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="svc-other-img-fallback" />
+                        )}
+                        <div className="svc-other-overlay" />
+                        <div className="svc-other-content">
+                          <span
+                            className="svc-other-dot"
+                            style={{ background: otherColor }}
+                          />
+                          <span className="svc-other-title">{s.titre}</span>
+                        </div>
+                      </Link>
+                    </SwiperSlide>
+                  );
+                })}
               </Swiper>
               <div className="svc-swiper-pagination text-center mt-6" />
             </div>
@@ -422,12 +311,6 @@ export default function ServiceDetailPage() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
-        .svc-subtitle {
-          font-size: 1.15rem;
-          font-weight: 600;
-          color: hsl(var(--muted-foreground));
-          margin-bottom: 1.25rem;
-        }
         .svc-body {
           font-size: 1rem;
           line-height: 1.75;
@@ -455,7 +338,37 @@ export default function ServiceDetailPage() {
           box-shadow: 0 14px 40px rgba(0,0,0,0.35);
         }
 
-        /* ── Features ── */
+        /* ── Single image display ── */
+        .svc-single-img-wrap {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16/9;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+        }
+        .svc-single-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s ease;
+        }
+        .svc-single-img-wrap:hover .svc-single-img {
+          transform: scale(1.04);
+        }
+        .svc-img-placeholder {
+          width: 100%;
+          aspect-ratio: 16/9;
+          border-radius: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 4rem;
+          background: hsl(var(--muted));
+          border: 1px dashed hsl(var(--border));
+        }
+
+        /* ── Features / Caractéristiques Clés ── */
         .svc-features-section {
           border-bottom: 1px solid hsl(var(--border) / 0.4);
         }
@@ -568,6 +481,11 @@ export default function ServiceDetailPage() {
         }
         .svc-other-card:hover .svc-other-img {
           transform: scale(1.07);
+        }
+        .svc-other-img-fallback {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
         }
         .svc-other-overlay {
           position: absolute;
