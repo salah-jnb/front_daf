@@ -122,15 +122,15 @@ const ServicesBentoSection = () => {
 
     <style>{`
       /* ── Section ── */
-      .sbs-section { background: hsl(var(--background)); }
+      .sbs-section { background: #030814; }
 
       /* ── Ambient blobs ── */
       .sbs-blob {
         position: absolute;
         border-radius: 50%;
-        filter: blur(120px);
+        filter: blur(140px);
         pointer-events: none;
-        opacity: 0.25;
+        opacity: 0.3;
       }
       .sbs-blob-a {
         width: 600px; height: 600px;

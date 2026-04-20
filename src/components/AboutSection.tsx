@@ -76,7 +76,7 @@ const AboutSection = () => {
   }, []);
 
   return (
-  <section id="about" className="py-20 md:py-32 relative overflow-hidden bg-[#0f2044] text-[#cbd5e1] border-y border-white/5">
+  <section id="about" className="py-12 md:py-16 relative overflow-hidden bg-[#0f2044] text-[#cbd5e1] border-y border-white/5">
     {/* Abstract background blobs for extra interactivity feel */}
     <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
     <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
@@ -94,7 +94,7 @@ const AboutSection = () => {
         </h2>
       </div>
 
-      <div className="flex justify-center mb-16 md:mb-24 relative">
+      <div className="flex justify-center mb-8 md:mb-12 relative">
         <div className="grid grid-cols-1 sm:grid-cols-3 bg-white/5 backdrop-blur-3xl rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl shadow-black/40 w-full max-w-5xl">
           {metricsLoading ? (
             // Skeleton loader while fetching backend data
@@ -146,7 +146,7 @@ const AboutSection = () => {
         {getHighlights(t).map((item) => (
           <article
             key={item.title}
-            className="group relative h-[320px] sm:h-[380px] overflow-hidden rounded-3xl border border-border/40 cursor-default shadow-lg"
+            className="group relative h-[260px] sm:h-[300px] overflow-hidden rounded-3xl border border-border/40 cursor-default shadow-lg"
           >
             {/* Animated Background Image */}
             <div 
