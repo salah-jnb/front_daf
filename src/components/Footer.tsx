@@ -359,6 +359,8 @@ const Footer = () => {
           position: relative;
           padding: 5rem 0 4.5rem;
           overflow: hidden;
+          background: linear-gradient(135deg, #050b14 0%, #0a1835 100%);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .ft-partner-glow {
           position: absolute;
@@ -536,7 +538,7 @@ const Footer = () => {
 
         /* Logo */
         .ft-logo-link { display: inline-block; margin-bottom: 1.25rem; }
-        .ft-logo { height: 60px; width: auto; object-fit: contain; }
+        .ft-logo { height: 110px; width: auto; object-fit: contain; }
 
         /* Tagline */
         .ft-tagline {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BadgeCheck, CarFront, Headset, Ship, Truck, Umbrella, Warehouse } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 import heroAir from "@/assets/hero-air.webp";
 import heroRoad from "@/assets/hero-road.webp";
 import heroSea from "@/assets/hero-sea.webp";
@@ -81,13 +82,13 @@ const AboutSection = () => {
     <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
 
     <div className="relative z-10 mx-auto w-full max-w-[1320px] px-4 sm:px-6">
-      <div className="flex flex-col items-center justify-center text-center mb-16 md:mb-24">
+      <div className="flex flex-col items-center justify-center text-center mb-8 md:mb-12">
         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#0f2044] border border-blue-400/30 flex items-center justify-center mb-6 shadow-lg shadow-blue-900/40 ring-1 ring-white/10 relative group cursor-default">
           <CarFront className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-rotate-6" strokeWidth={1.8} />
           <div className="absolute inset-0 rounded-2xl animate-ping opacity-20 bg-blue-400" style={{ animationDuration: '3s' }}/>
         </div>
         
-        <h2 className="text-2xl sm:text-3xl md:text-[38px] font-extrabold tracking-[0.15em] uppercase text-white relative inline-block drop-shadow-md">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-widest uppercase text-white relative inline-block drop-shadow-md">
           {t('about.whyChooseUs', 'WHY CHOOSE US')}
           <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-blue-400 to-primary rounded-full shadow-sm" />
         </h2>
@@ -100,13 +101,13 @@ const AboutSection = () => {
             [...Array(3)].map((_, i) => (
               <div
                 key={`skel-${i}`}
-                className={`relative overflow-hidden px-6 md:px-12 py-10 sm:py-14 text-center sm:text-left sm:min-w-[260px] border-white/10 ${i < 2 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
+                className={`relative overflow-hidden px-4 md:px-8 py-6 sm:py-8 text-center sm:text-left sm:min-w-[260px] border-white/10 ${i < 2 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
               >
                 <div className="flex items-center justify-center sm:justify-start gap-4">
                   <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse" />
                   <div className="h-12 w-32 rounded bg-white/10 animate-pulse" />
                 </div>
-                <div className="w-12 h-1.5 bg-white/10 my-5 mx-auto sm:mx-0 rounded-full animate-pulse" />
+                <div className="w-12 h-1.5 bg-white/10 my-4 mx-auto sm:mx-0 rounded-full animate-pulse" />
                 <div className="h-4 w-40 rounded bg-white/10 mx-auto sm:mx-0 animate-pulse" />
               </div>
             ))
@@ -115,7 +116,7 @@ const AboutSection = () => {
               return (
               <div
                 key={metric.id}
-                className={`group/metric relative overflow-hidden px-6 md:px-12 py-10 sm:py-14 text-center sm:text-left border-white/10 transition-all duration-500 hover:bg-white/5 ${i < metrics.length - 1 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
+                className={`group/metric relative overflow-hidden px-4 md:px-8 py-6 sm:py-8 text-center sm:text-left border-white/10 transition-all duration-500 hover:bg-white/5 ${i < metrics.length - 1 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
               >
                 {/* Metric Hover Glow */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full group-hover/metric:translate-x-full transition-transform duration-1000 ease-in-out" />
@@ -124,9 +125,11 @@ const AboutSection = () => {
                   <div className="p-3 bg-blue-900/30 rounded-xl mb-2 sm:mb-0 shadow-sm border border-blue-400/20 transition-all duration-500 group-hover/metric:bg-blue-600/60 group-hover/metric:border-blue-400/50">
                     <IconComp className="w-6 h-6 text-blue-300 transition-all duration-500 group-hover/metric:text-white group-hover/metric:scale-110" />
                   </div>
-                  <p className="text-[30px] md:text-[38px] leading-none font-black font-['Outfit'] text-white tracking-tight drop-shadow-sm">{metric.value}</p>
+                  <p className="text-[24px] md:text-[32px] leading-none font-extrabold font-['Outfit'] text-white tracking-tight drop-shadow-sm">
+                    <AnimatedCounter value={metric.value} duration={3000} />
+                  </p>
                 </div>
-                <div className="relative z-10 w-12 h-1.5 bg-white/10 my-6 mx-auto sm:mx-0 transition-all duration-500 group-hover/metric:w-24 group-hover/metric:bg-blue-400 rounded-full" />
+                <div className="relative z-10 w-12 h-1.5 bg-white/10 my-4 mx-auto sm:mx-0 transition-all duration-500 group-hover/metric:w-24 group-hover/metric:bg-blue-400 rounded-full" />
                 <p className="relative z-10 text-[13px] sm:text-[15px] tracking-[0.1em] text-blue-200 uppercase font-bold transition-colors duration-300 group-hover/metric:text-white">
                   {metric.id === 1 ? t('about.metrics.moves', metric.label) : 
                    metric.id === 2 ? t('about.metrics.space', metric.label) : 
@@ -167,7 +170,7 @@ const AboutSection = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-lg md:text-xl font-extrabold uppercase tracking-widest text-white mb-2 leading-tight transition-transform duration-500">{item.title}</h3>
+              <h3 className="text-base md:text-lg font-bold uppercase tracking-wider text-white mb-2 leading-tight transition-transform duration-500">{item.title}</h3>
               
               {/* Animated Underline */}
               <div className="w-12 h-[3px] bg-primary transition-all duration-500 group-hover:w-24 group-hover:bg-amber-400 rounded-full" />

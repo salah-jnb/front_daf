@@ -474,6 +474,28 @@ function ServicesBentoSwiper() {
 
   const services: ServiceItem[] = useMemo(() => {
     const slugMap: Record<string, string> = {
+      // Keys should be lowercase and without accents for easier matching
+      "international moving": "international-moving",
+      "demenagement international": "international-moving",
+      "pet relocation": "pet-relocation",
+      "demenagement d'animaux": "pet-relocation",
+      "demenagement danimaux": "pet-relocation",
+      "office moving": "office-moving",
+      "transfert d'entreprise": "office-moving",
+      "transfert dentreprise": "office-moving",
+      "car shipping": "car-shipping",
+      "transport de vehicules": "car-shipping",
+      "national moving": "national-moving",
+      "demenagement national": "national-moving",
+      "fine art": "fine-art",
+      "fine art logistics": "fine-art",
+      "logistique oeuvres d'art": "fine-art",
+      "logistique oeuvres dart": "fine-art",
+      "storage solutions": "storage-solutions",
+      "garde-meubles": "storage-solutions",
+      "garde meubles": "storage-solutions",
+      
+      // Legacy highlight keys
       "secure storage facilities": "storage-solutions",
       "professional movers": "national-moving",
       "dedicated move coordinators": "office-moving",
@@ -484,7 +506,9 @@ function ServicesBentoSwiper() {
     return blocks
       .map((b) => {
         const title = getTitle(b);
-        const lowerTitle = title.toLowerCase().trim();
+        const lowerTitle = title.toLowerCase().trim()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove accents
+
         return {
           title,
           description: b.description ?? "",

@@ -5,6 +5,7 @@ import { Seo } from "@/components/seo/Seo";
 import { StructuredData } from "@/components/seo/StructuredData";
 import FloatingCallButton from "@/components/FloatingCallButton";
 import jafLogo from "@/assets/logo_jaf-566x412.webp";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 const ServicesSection = lazy(() => import("@/components/ServicesSection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
@@ -30,11 +31,21 @@ const Index = () => (
       <h1 className="sr-only">JAF Logistics international moving, relocation, and freight services</h1>
       <HeroCarousel />
       <Suspense fallback={<SectionFallback />}>
-        <ServicesSection />
-        <AboutSection />
+        <RevealOnScroll>
+          <ServicesSection />
+        </RevealOnScroll>
+        <RevealOnScroll delay={100}>
+          <AboutSection />
+        </RevealOnScroll>
+        
         <ProcessSection />
-        <ServicesBentoSection />
-        <AccreditationsSection />
+        
+        <RevealOnScroll delay={100}>
+          <ServicesBentoSection />
+        </RevealOnScroll>
+        <RevealOnScroll delay={200}>
+          <AccreditationsSection />
+        </RevealOnScroll>
 
         <Footer />
       </Suspense>

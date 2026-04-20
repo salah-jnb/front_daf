@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 const ProcessSection = () => {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ const ProcessSection = () => {
   return (
   <section id="process" className="py-20 md:py-32 relative section-glow">
     <div className="container mx-auto px-4 sm:px-6">
-      <div className="text-center max-w-2xl mx-auto mb-12 md:mb-20">
+      <RevealOnScroll className="text-center max-w-2xl mx-auto mb-12 md:mb-20">
         <p className="text-primary font-semibold text-xs sm:text-sm uppercase tracking-[0.24em] sm:tracking-[0.3em] mb-3 sm:mb-4">
           {t('process.eyebrow', "How It Works")}
         </p>
@@ -43,20 +44,22 @@ const ProcessSection = () => {
         <p className="text-muted-foreground text-base sm:text-lg">
           {t('process.desc', "A simple four-step process from planning to safe final delivery.")}
         </p>
-      </div>
+      </RevealOnScroll>
 
       <div className="grid md:grid-cols-4 gap-4 sm:gap-8 relative">
         {/* Connection line */}
-        <div className="hidden md:block absolute top-12 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <RevealOnScroll delay={200} className="hidden md:block absolute top-12 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
         {steps.map((step, i) => (
-          <div key={i} className="relative text-center group glass md:bg-transparent rounded-2xl border border-border/70 md:border-0 p-5 md:p-0">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto rounded-full glass flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:border-primary/40 transition-all duration-500">
-              <span className="text-xl sm:text-2xl font-black gradient-text">{step.number}</span>
+          <RevealOnScroll key={i} delay={300 + (i * 200)} className="w-full relative">
+            <div className="relative text-center group glass md:bg-transparent rounded-2xl border border-border/70 md:border-0 p-5 md:p-0 h-full">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto rounded-full glass flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:border-primary/40 transition-all duration-500">
+                <span className="text-xl sm:text-2xl font-black gradient-text">{step.number}</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3">{step.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">{step.description}</p>
             </div>
-            <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3">{step.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">{step.description}</p>
-          </div>
+          </RevealOnScroll>
         ))}
       </div>
     </div>
