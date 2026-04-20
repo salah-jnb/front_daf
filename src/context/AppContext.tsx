@@ -26,7 +26,7 @@ export const AppContext = createContext<AppContextValue>(null as any);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<ThemeMode>(
-    (localStorage.getItem("tg_theme") as ThemeMode) || "dark",
+    (localStorage.getItem("tg_theme") as ThemeMode) || "light",
   );
   const [toastShow, setToastShow] = useState(false);
   const [toastMsg, setToastMsg] = useState("");

@@ -333,9 +333,10 @@ const Footer = () => {
         /* Root */
         .ft-root {
           position: relative;
-          background: hsl(var(--background));
-          border-top: 1px solid hsl(var(--border) / 0.6);
+          background: #0f2044;
+          border-top: 1px solid rgba(255,255,255,0.08);
           overflow: hidden;
+          color: #cbd5e1;
         }
 
         /* ── Partner banner ── */
@@ -350,7 +351,7 @@ const Footer = () => {
           top: -180px; right: -180px;
           background: radial-gradient(
             ellipse,
-            hsl(var(--primary) / 0.12) 0%,
+            rgba(59,130,246,0.15) 0%,
             transparent 65%
           );
           pointer-events: none;
@@ -379,9 +380,9 @@ const Footer = () => {
           font-weight: 700;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          background: hsl(var(--primary) / 0.12);
-          border: 1px solid hsl(var(--primary) / 0.25);
-          color: hsl(var(--primary));
+          background: rgba(59,130,246,0.15);
+          border: 1px solid rgba(59,130,246,0.3);
+          color: #60a5fa;
           margin-bottom: 1.1rem;
         }
 
@@ -392,12 +393,12 @@ const Footer = () => {
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin-bottom: 0.5rem;
-          color: hsl(var(--foreground));
+          color: #f1f5f9;
         }
         .ft-partner-company {
           font-size: 1.05rem;
           font-weight: 600;
-          color: hsl(var(--muted-foreground));
+          color: #94a3b8;
           margin-bottom: 1.5rem;
         }
 
@@ -412,16 +413,16 @@ const Footer = () => {
           align-items: flex-start;
           gap: 0.6rem;
           font-size: 0.85rem;
-          color: hsl(var(--muted-foreground));
+          color: #94a3b8;
           line-height: 1.5;
         }
         .ft-contact-icon {
-          color: hsl(var(--primary));
+          color: #60a5fa;
           flex-shrink: 0;
           margin-top: 2px;
         }
         .ft-link {
-          color: hsl(var(--primary));
+          color: #60a5fa;
           text-decoration: none;
           font-weight: 500;
           transition: opacity 0.2s ease;
@@ -445,18 +446,18 @@ const Footer = () => {
           width: 300px;
           max-width: 90vw;
           border-radius: 20px;
-          border: 1px solid hsl(var(--border) / 0.7);
-          background: hsl(var(--card) / 0.8);
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.05);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
           padding: 1.5rem;
           box-shadow:
-            0 4px 24px hsl(var(--primary) / 0.08),
-            0 1px 0 hsl(var(--border) / 0.5) inset;
+            0 4px 24px rgba(59,130,246,0.1),
+            0 1px 0 rgba(255,255,255,0.05) inset;
           transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         .ft-partner-logo-card:hover {
-          box-shadow: 0 8px 40px hsl(var(--primary) / 0.18);
+          box-shadow: 0 8px 40px rgba(59,130,246,0.2);
           transform: translateY(-3px);
         }
         .ft-partner-logo-img {
@@ -473,15 +474,15 @@ const Footer = () => {
           border-radius: 999px;
           font-size: 0.7rem;
           font-weight: 600;
-          background: hsl(var(--primary) / 0.1);
-          border: 1px solid hsl(var(--primary) / 0.25);
-          color: hsl(var(--primary));
+          background: rgba(59,130,246,0.12);
+          border: 1px solid rgba(59,130,246,0.3);
+          color: #60a5fa;
         }
         .ft-partner-badge-dot {
           width: 6px; height: 6px;
           border-radius: 50%;
-          background: hsl(var(--primary));
-          box-shadow: 0 0 6px hsl(var(--primary) / 0.6);
+          background: #60a5fa;
+          box-shadow: 0 0 6px rgba(96,165,250,0.6);
           animation: ft-pulse 2s ease-in-out infinite;
         }
         @keyframes ft-pulse {
@@ -495,8 +496,8 @@ const Footer = () => {
           background: linear-gradient(
             90deg,
             transparent 0%,
-            hsl(var(--primary) / 0.4) 30%,
-            hsl(var(--accent) / 0.4) 70%,
+            rgba(59,130,246,0.4) 30%,
+            rgba(56,189,248,0.4) 70%,
             transparent 100%
           );
           margin: 0 1.5rem;
@@ -525,7 +526,7 @@ const Footer = () => {
         /* Tagline */
         .ft-tagline {
           font-size: 0.875rem;
-          color: hsl(var(--muted-foreground));
+          color: #94a3b8;
           line-height: 1.7;
           max-width: 36ch;
           margin-bottom: 1.5rem;
@@ -538,20 +539,20 @@ const Footer = () => {
           align-items: center;
           gap: 0.6rem;
           font-size: 0.85rem;
-          color: hsl(var(--muted-foreground));
+          color: #94a3b8;
           text-decoration: none;
           transition: color 0.2s ease;
         }
-        .ft-info-row:hover { color: hsl(var(--foreground)); }
+        .ft-info-row:hover { color: #f1f5f9; }
         .ft-info-icon-wrap {
           display: flex;
           align-items: center;
           justify-content: center;
           width: 28px; height: 28px;
           border-radius: 8px;
-          background: hsl(var(--primary) / 0.1);
-          border: 1px solid hsl(var(--primary) / 0.2);
-          color: hsl(var(--primary));
+          background: rgba(59,130,246,0.12);
+          border: 1px solid rgba(59,130,246,0.25);
+          color: #60a5fa;
           flex-shrink: 0;
         }
 
@@ -561,10 +562,10 @@ const Footer = () => {
           font-weight: 700;
           letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: hsl(var(--foreground));
+          color: #f1f5f9;
           margin-bottom: 1.1rem;
           padding-bottom: 0.6rem;
-          border-bottom: 1px solid hsl(var(--border) / 0.6);
+          border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         /* Nav links list */
@@ -582,24 +583,24 @@ const Footer = () => {
           gap: 0.4rem;
           padding: 0.45rem 0;
           font-size: 0.875rem;
-          color: hsl(var(--muted-foreground));
+          color: #94a3b8;
           text-decoration: none;
-          border-bottom: 1px solid hsl(var(--border) / 0.3);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
           width: 100%;
           transition: color 0.2s ease, padding-left 0.2s ease;
         }
         .ft-nav-link:last-child { border-bottom: none; }
         .ft-nav-link:hover {
-          color: hsl(var(--primary));
+          color: #60a5fa;
           padding-left: 0.35rem;
         }
         .ft-nav-arrow {
-          color: hsl(var(--primary) / 0.5);
+          color: rgba(96,165,250,0.5);
           flex-shrink: 0;
           transition: color 0.2s ease, transform 0.2s ease;
         }
         .ft-nav-link:hover .ft-nav-arrow {
-          color: hsl(var(--primary));
+          color: #60a5fa;
           transform: translateX(2px);
         }
 
@@ -611,8 +612,8 @@ const Footer = () => {
           margin-top: 1.5rem;
           padding: 0.75rem 1rem;
           border-radius: 12px;
-          background: hsl(var(--primary) / 0.06);
-          border: 1px solid hsl(var(--primary) / 0.15);
+          background: rgba(59,130,246,0.08);
+          border: 1px solid rgba(59,130,246,0.18);
         }
         .ft-stat {
           flex: 1;
@@ -624,7 +625,7 @@ const Footer = () => {
         .ft-stat-val {
           font-size: 1.1rem;
           font-weight: 800;
-          color: hsl(var(--primary));
+          color: #60a5fa;
           line-height: 1;
         }
         .ft-stat-label {
@@ -632,18 +633,18 @@ const Footer = () => {
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: hsl(var(--muted-foreground));
+          color: #94a3b8;
         }
         .ft-stat-sep {
           width: 1px;
           height: 28px;
-          background: hsl(var(--border));
+          background: rgba(255,255,255,0.1);
           flex-shrink: 0;
         }
 
         /* ── Bottom bar ── */
         .ft-bottom {
-          border-top: 1px solid hsl(var(--border) / 0.5);
+          border-top: 1px solid rgba(255,255,255,0.08);
           padding: 1.25rem 0;
         }
         .ft-bottom-inner {
@@ -653,7 +654,7 @@ const Footer = () => {
           flex-wrap: wrap;
           gap: 0.5rem 1rem;
           font-size: 0.78rem;
-          color: hsl(var(--muted-foreground));
+          color: #64748b;
           text-align: center;
         }
         .ft-bottom-sep { opacity: 0.4; }

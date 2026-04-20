@@ -27,11 +27,11 @@ const FloatingCallButton = () => {
         .fcb-tooltip {
           pointer-events: none;
           background: rgba(255, 255, 255, 0.97);
-          border: 1px solid rgba(30, 100, 220, 0.18);
+          border: 1px solid rgba(37, 211, 102, 0.22);
           border-radius: 18px;
           padding: 12px 18px;
           box-shadow:
-            0 8px 32px rgba(30, 100, 220, 0.18),
+            0 8px 32px rgba(37, 211, 102, 0.18),
             0 2px 8px rgba(0,0,0,0.08);
           transform: translateY(8px) scale(0.94);
           opacity: 0;
@@ -50,7 +50,7 @@ const FloatingCallButton = () => {
           font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: #1e64dc;
+          color: #25D366;
           margin-bottom: 3px;
         }
         .fcb-tooltip-title {
@@ -62,7 +62,7 @@ const FloatingCallButton = () => {
         .fcb-tooltip-number {
           font-size: 17px;
           font-weight: 800;
-          color: #1e64dc;
+          color: #25D366;
           letter-spacing: 0.03em;
         }
 
@@ -74,11 +74,11 @@ const FloatingCallButton = () => {
           gap: 0;
           height: 60px;
           border-radius: 30px;
-          background: linear-gradient(135deg, #1e64dc 0%, #0ea5e9 100%);
+          background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
           border: none;
           cursor: pointer;
           box-shadow:
-            0 6px 24px rgba(30, 100, 220, 0.45),
+            0 6px 24px rgba(37, 211, 102, 0.45),
             0 2px 8px rgba(0,0,0,0.12);
           overflow: hidden;
           text-decoration: none;
@@ -98,7 +98,7 @@ const FloatingCallButton = () => {
           padding: 0 20px;
           transform: translateY(-3px) scale(1.03);
           box-shadow:
-            0 12px 40px rgba(30, 100, 220, 0.55),
+            0 12px 40px rgba(37, 211, 102, 0.55),
             0 4px 16px rgba(0,0,0,0.15);
         }
         .fcb-btn:active {
@@ -166,7 +166,7 @@ const FloatingCallButton = () => {
           width: 60px;
           height: 60px;
           border-radius: 50%;
-          border: 2.5px solid rgba(30, 100, 220, 0.55);
+          border: 2.5px solid rgba(37, 211, 102, 0.55);
           animation: fcb-pulse 2.2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
           pointer-events: none;
           right: 0;
@@ -174,7 +174,7 @@ const FloatingCallButton = () => {
         }
         .fcb-pulse-ring:nth-child(2) {
           animation-delay: 0.75s;
-          border-color: rgba(14, 165, 233, 0.4);
+          border-color: rgba(18, 140, 126, 0.4);
         }
 
         @keyframes fcb-pulse {
