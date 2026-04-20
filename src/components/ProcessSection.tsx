@@ -1,38 +1,47 @@
-const steps = [
-  {
-    number: "01",
-    title: "Request Your Quote",
-    description: "Tell us about your move or shipment and receive a clear, competitive estimate.",
-  },
-  {
-    number: "02",
-    title: "Custom Planning",
-    description: "Our logistics team builds the right plan, timeline, and packing strategy for your needs.",
-  },
-  {
-    number: "03",
-    title: "Secure Handling",
-    description: "Your belongings are packed, handled, and loaded using strict safety and quality standards.",
-  },
-  {
-    number: "04",
-    title: "Track and Deliver",
-    description: "Track your shipment progress and receive delivery on time with proactive support.",
-  },
-];
+import { useTranslation } from "react-i18next";
 
-const ProcessSection = () => (
+const ProcessSection = () => {
+  const { t } = useTranslation();
+  
+  const steps = [
+    {
+      number: "01",
+      title: t('process.s1.title', "Request Your Quote"),
+      description: t('process.s1.desc', "Tell us about your move or shipment and receive a clear, competitive estimate."),
+    },
+    {
+      number: "02",
+      title: t('process.s2.title', "Custom Planning"),
+      description: t('process.s2.desc', "Our logistics team builds the right plan, timeline, and packing strategy for your needs."),
+    },
+    {
+      number: "03",
+      title: t('process.s3.title', "Secure Handling"),
+      description: t('process.s3.desc', "Your belongings are packed, handled, and loaded using strict safety and quality standards."),
+    },
+    {
+      number: "04",
+      title: t('process.s4.title', "Track and Deliver"),
+      description: t('process.s4.desc', "Track your shipment progress and receive delivery on time with proactive support."),
+    },
+  ];
+
+  return (
   <section id="process" className="py-20 md:py-32 relative section-glow">
     <div className="container mx-auto px-4 sm:px-6">
       <div className="text-center max-w-2xl mx-auto mb-12 md:mb-20">
         <p className="text-primary font-semibold text-xs sm:text-sm uppercase tracking-[0.24em] sm:tracking-[0.3em] mb-3 sm:mb-4">
-          How It Works
+          {t('process.eyebrow', "How It Works")}
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
-          Simple. <span className="gradient-text">Streamlined.</span> Reliable.
+          {t('process.title', "Simple. Streamlined. Reliable.").split('.').map((p, i, a) => 
+            i === a.length - 1 || p === "" ? <span key={i}>{p}</span> :
+            i === 1 ? <span key={i} className="gradient-text"> {p}. </span> :
+            <span key={i}>{p}. </span>
+          )}
         </h2>
         <p className="text-muted-foreground text-base sm:text-lg">
-          A simple four-step process from planning to safe final delivery.
+          {t('process.desc', "A simple four-step process from planning to safe final delivery.")}
         </p>
       </div>
 
@@ -52,6 +61,7 @@ const ProcessSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default ProcessSection;

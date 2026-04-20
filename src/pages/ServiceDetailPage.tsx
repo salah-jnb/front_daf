@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, Phone } from "lucide-react";
 import { getServiceBySlug, SERVICES } from "@/data/servicesData";
+import { useTranslation } from "react-i18next";
 import { Seo } from "@/components/seo/Seo";
 import Navbar from "@/components/Navbar";
 import FloatingCallButton from "@/components/FloatingCallButton";
@@ -190,6 +191,7 @@ function ImageGallery({ images, color }: { images: string[]; color: string }) {
 
 /* ─── Page component ─────────────────────────────────────────────────────── */
 export default function ServiceDetailPage() {
+  const { t } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const service = slug ? getServiceBySlug(slug) : undefined;
@@ -231,19 +233,19 @@ export default function ServiceDetailPage() {
               onClick={(e) => { e.preventDefault(); navigate(-1); }}
             >
               <ArrowLeft size={16} />
-              <span>All Services</span>
+              <span>{t('svcDetails.back')}</span>
             </Link>
 
             <div className="svc-hero-grid">
               {/* Text side */}
               <div className="svc-hero-text">
-                <div className="svc-eyebrow">Service</div>
+                <div className="svc-eyebrow">{t('svcDetails.service')}</div>
                 <h1 className="svc-title"
                   style={{ "--svc-color": service.color } as React.CSSProperties}>
-                  {service.title}
+                  {t('servicesData.' + service.slug + '.title', service.title)}
                 </h1>
-                <p className="svc-subtitle">{service.subtitle}</p>
-                <p className="svc-body">{service.longDescription}</p>
+                <p className="svc-subtitle">{t('servicesData.' + service.slug + '.subtitle', service.subtitle)}</p>
+                <p className="svc-body">{t('servicesData.' + service.slug + '.longDescription', service.longDescription)}</p>
 
                 <a
                   href="tel:+21671906446"
@@ -251,7 +253,7 @@ export default function ServiceDetailPage() {
                   style={{ background: `linear-gradient(135deg, ${service.color} 0%, ${service.color}cc 100%)` }}
                 >
                   <Phone size={18} />
-                  <span>Get a Free Quote — (+216) 71 906 446</span>
+                  <span>{t('svcDetails.quote')}</span>
                 </a>
               </div>
 
@@ -266,8 +268,8 @@ export default function ServiceDetailPage() {
         {/* ── Features grid ───────────────────────────────────── */}
         <section className="svc-features-section">
           <div className="container mx-auto px-4 sm:px-6 py-20">
-            <div className="svc-section-label">What's included</div>
-            <h2 className="svc-section-title">Key Features</h2>
+            <div className="svc-section-label">{t('svcDetails.included')}</div>
+            <h2 className="svc-section-title">{t('svcDetails.features')}</h2>
 
             <div className="svc-features-grid">
               {service.features.map((feat, i) => (
@@ -278,7 +280,7 @@ export default function ServiceDetailPage() {
                     style={{ color: service.color }}
                     strokeWidth={2.2}
                   />
-                  <span>{feat}</span>
+                  <span>{t('servicesData.' + service.slug + '.f' + i, feat)}</span>
                 </div>
               ))}
             </div>
@@ -291,11 +293,11 @@ export default function ServiceDetailPage() {
           style={{ background: `linear-gradient(135deg, ${service.color}18 0%, ${service.color}08 100%)` }}
         >
           <div className="container mx-auto px-4 sm:px-6 py-16 text-center">
-            <h2 className="svc-cta-heading">Ready to get started?</h2>
-            <p className="svc-cta-sub">Our team is available 6 days a week to answer your questions.</p>
+            <h2 className="svc-cta-heading">{t('svcDetails.ctaHeading')}</h2>
+            <p className="svc-cta-sub">{t('svcDetails.ctaSub')}</p>
             <a href="tel:+21671906446" className="svc-cta-btn inline-flex" style={{ background: `linear-gradient(135deg, ${service.color} 0%, ${service.color}cc 100%)` }}>
               <Phone size={18} />
-              <span>(+216) 71 906 446 — Call us now</span>
+              <span>{t('svcDetails.ctaBtn')}</span>
             </a>
           </div>
         </section>
@@ -304,8 +306,8 @@ export default function ServiceDetailPage() {
         {others.length > 0 && (
           <section className="svc-others-section">
             <div className="container mx-auto px-4 sm:px-6 py-20">
-              <div className="svc-section-label">Explore more</div>
-              <h2 className="svc-section-title">Other Services</h2>
+              <div className="svc-section-label">{t('svcDetails.more')}</div>
+              <h2 className="svc-section-title">{t('svcDetails.otherSvc')}</h2>
 
               <Swiper
                 modules={[Autoplay, Navigation, Pagination]}
@@ -337,7 +339,7 @@ export default function ServiceDetailPage() {
                           className="svc-other-dot"
                           style={{ background: s.color }}
                         />
-                        <span className="svc-other-title">{s.title}</span>
+                        <span className="svc-other-title">{t('servicesData.' + s.slug + '.title', s.title)}</span>
                       </div>
                     </Link>
                   </SwiperSlide>

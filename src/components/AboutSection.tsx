@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BadgeCheck, CarFront, Headset, Ship, Truck, Umbrella, Warehouse } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import heroAir from "@/assets/hero-air.webp";
 import heroRoad from "@/assets/hero-road.webp";
 import heroSea from "@/assets/hero-sea.webp";
@@ -7,35 +8,36 @@ import heroSea from "@/assets/hero-sea.webp";
 // Icon pool used to cycle through for dynamically loaded metrics
 const metricIcons = [Umbrella, Warehouse, Ship, Truck, Headset, BadgeCheck];
 
-const highlights = [
+const getHighlights = (t: any) => [
   {
     icon: Warehouse,
-    title: "Secure Storage Facilities",
-    desc: "Climate-controlled units monitored 24/7 to safeguard your most valuable assets and inventory.",
+    title: t('about.highlights.storage.title', "Secure Storage Facilities"),
+    desc: t('about.highlights.storage.desc', "Climate-controlled units monitored 24/7 to safeguard your most valuable assets and inventory."),
     image: heroSea,
   },
   {
     icon: Truck,
-    title: "Professional Movers",
-    desc: "A rigorously trained team devoted to handling your belongings with the utmost care and precision.",
+    title: t('about.highlights.movers.title', "Professional Movers"),
+    desc: t('about.highlights.movers.desc', "A rigorously trained team devoted to handling your belongings with the utmost care and precision."),
     image: heroRoad,
   },
   {
     icon: Headset,
-    title: "Dedicated Coordinators",
-    desc: "Your personal moving assistant managing every detail from door to door for total peace of mind.",
+    title: t('about.highlights.coordinators.title', "Dedicated Coordinators"),
+    desc: t('about.highlights.coordinators.desc', "Your personal moving assistant managing every detail from door to door for total peace of mind."),
     image: heroAir,
   },
   {
     icon: BadgeCheck,
-    title: "Worldwide Accreditation",
-    desc: "Certified by top global logistics networks, guaranteeing international quality standards.",
+    title: t('about.highlights.accreditation.title', "Worldwide Accreditation"),
+    desc: t('about.highlights.accreditation.desc', "Certified by top global logistics networks, guaranteeing international quality standards."),
     image: heroSea,
   },
 ];
 
 const AboutSection = () => {
-  const [metrics, setMetrics] = useState<{ id: number; value: string; label: string }[]>([]);
+  const { t } = useTranslation();
+  const [metrics, setMetrics] = useState<{ id: number; value: string; label: string; icon: any }[]>([]);
   const [metricsLoading, setMetricsLoading] = useState(true);
 
   useEffect(() => {
@@ -46,77 +48,99 @@ const AboutSection = () => {
         return res.json();
       })
       .then((data) => {
-        setMetrics(Array.isArray(data) ? data : []);
+        if (Array.isArray(data) && data.length > 0) {
+          const stats = data[0];
+          setMetrics([
+            { id: 1, icon: Umbrella, value: `+${stats.movesCompleted || 30000}`, label: "Moves Completed" },
+            { id: 2, icon: Warehouse, value: `${stats.secureStorageSpace || 4500} m2`, label: "Secure Storage Space" },
+            { id: 3, icon: Ship, value: `${stats.yearsOfExperience || 65}`, label: "Years of Experience" },
+          ]);
+        } else {
+          setMetrics([
+            { id: 1, icon: Umbrella, value: "+30000", label: "Moves Completed" },
+            { id: 2, icon: Warehouse, value: "4500 m2", label: "Secure Storage Space" },
+            { id: 3, icon: Ship, value: "65", label: "Years of Experience" },
+          ]);
+        }
       })
       .catch(() => {
-        // Fallback to empty — the section metrics simply won't display
-        setMetrics([]);
+        // Fallback to default if there is a network error
+        setMetrics([
+          { id: 1, icon: Umbrella, value: "+30000", label: "Moves Completed" },
+          { id: 2, icon: Warehouse, value: "4500 m2", label: "Secure Storage Space" },
+          { id: 3, icon: Ship, value: "65", label: "Years of Experience" },
+        ]);
       })
       .finally(() => setMetricsLoading(false));
   }, []);
 
   return (
-  <section id="about" className="py-20 md:py-32 relative section-glow overflow-hidden">
+  <section id="about" className="py-20 md:py-32 relative overflow-hidden bg-[#0f2044] text-[#cbd5e1] border-y border-white/5">
     {/* Abstract background blobs for extra interactivity feel */}
-    <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl opacity-50 mix-blend-multiply pointer-events-none" />
-    <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl opacity-50 mix-blend-multiply pointer-events-none" />
+    <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+    <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
 
     <div className="relative z-10 mx-auto w-full max-w-[1320px] px-4 sm:px-6">
-      <div className="flex flex-col items-center justify-center text-center mb-16">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(249,115,22,0.15)] ring-1 ring-white/10 relative group cursor-default">
-          <CarFront className="w-8 h-8 sm:w-10 sm:h-10 text-primary transition-transform duration-700 ease-out group-hover:scale-110 group-hover:rotate-12" strokeWidth={1.8} />
-          <div className="absolute inset-0 rounded-2xl animate-ping opacity-20 bg-primary/40" style={{ animationDuration: '3s' }}/>
+      <div className="flex flex-col items-center justify-center text-center mb-16 md:mb-24">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#0f2044] border border-blue-400/30 flex items-center justify-center mb-6 shadow-lg shadow-blue-900/40 ring-1 ring-white/10 relative group cursor-default">
+          <CarFront className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-rotate-6" strokeWidth={1.8} />
+          <div className="absolute inset-0 rounded-2xl animate-ping opacity-20 bg-blue-400" style={{ animationDuration: '3s' }}/>
         </div>
         
-        <h2 className="text-xl sm:text-2xl md:text-[34px] font-extrabold tracking-[0.2em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/80 to-foreground relative inline-block">
-          WHY CHOOSE US
-          <div className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-full" />
+        <h2 className="text-2xl sm:text-3xl md:text-[38px] font-extrabold tracking-[0.15em] uppercase text-white relative inline-block drop-shadow-md">
+          {t('about.whyChooseUs', 'WHY CHOOSE US')}
+          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-blue-400 to-primary rounded-full shadow-sm" />
         </h2>
       </div>
 
-      <div className="flex justify-center mb-16 md:mb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-3 glass rounded-3xl border border-border/70 overflow-hidden shadow-xl">
+      <div className="flex justify-center mb-16 md:mb-24 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-3 bg-white/5 backdrop-blur-3xl rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl shadow-black/40 w-full max-w-5xl">
           {metricsLoading ? (
             // Skeleton loader while fetching backend data
             [...Array(3)].map((_, i) => (
               <div
                 key={`skel-${i}`}
-                className={`relative overflow-hidden px-6 md:px-10 py-8 sm:py-10 text-center sm:text-left sm:min-w-[260px] border-border/70 ${i < 2 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
+                className={`relative overflow-hidden px-6 md:px-12 py-10 sm:py-14 text-center sm:text-left sm:min-w-[260px] border-white/10 ${i < 2 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
               >
                 <div className="flex items-center justify-center sm:justify-start gap-4">
-                  <div className="w-7 h-7 rounded bg-muted/40 animate-pulse" />
-                  <div className="h-10 w-32 rounded bg-muted/40 animate-pulse" />
+                  <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse" />
+                  <div className="h-12 w-32 rounded bg-white/10 animate-pulse" />
                 </div>
-                <div className="w-12 h-1 bg-muted/40 my-4 mx-auto sm:mx-0 rounded-full animate-pulse" />
-                <div className="h-4 w-40 rounded bg-muted/40 animate-pulse" />
+                <div className="w-12 h-1.5 bg-white/10 my-5 mx-auto sm:mx-0 rounded-full animate-pulse" />
+                <div className="h-4 w-40 rounded bg-white/10 mx-auto sm:mx-0 animate-pulse" />
               </div>
             ))
-          ) : metrics.length > 0 ? (
-            metrics.map((metric, i) => {
-              const IconComp = metricIcons[i % metricIcons.length];
+          ) : metrics.map((metric, i) => {
+              const IconComp = metric.icon;
               return (
               <div
                 key={metric.id}
-                className={`group/metric relative overflow-hidden px-6 md:px-10 py-8 sm:py-10 text-center sm:text-left sm:min-w-[260px] border-border/70 transition-all duration-300 hover:bg-muted/30 ${i < metrics.length - 1 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
+                className={`group/metric relative overflow-hidden px-6 md:px-12 py-10 sm:py-14 text-center sm:text-left border-white/10 transition-all duration-500 hover:bg-white/5 ${i < metrics.length - 1 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
               >
                 {/* Metric Hover Glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover/metric:translate-x-full transition-transform duration-1000 ease-in-out" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full group-hover/metric:translate-x-full transition-transform duration-1000 ease-in-out" />
                 
-                <div className="relative z-10 flex items-center justify-center sm:justify-start gap-4 transition-transform duration-500 group-hover/metric:translate-x-2">
-                  <IconComp className="w-7 h-7 text-primary transition-all duration-500 group-hover/metric:-translate-y-1 group-hover/metric:scale-110 group-hover/metric:drop-shadow-md" />
-                  <p className="text-[36px] md:text-[46px] leading-none font-black text-primary tracking-tighter drop-shadow-sm">{metric.value}</p>
+                <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4 transition-transform duration-500 group-hover/metric:translate-x-2">
+                  <div className="p-3 bg-blue-900/30 rounded-xl mb-2 sm:mb-0 shadow-sm border border-blue-400/20 transition-all duration-500 group-hover/metric:bg-blue-600/60 group-hover/metric:border-blue-400/50">
+                    <IconComp className="w-6 h-6 text-blue-300 transition-all duration-500 group-hover/metric:text-white group-hover/metric:scale-110" />
+                  </div>
+                  <p className="text-[30px] md:text-[38px] leading-none font-black font-['Outfit'] text-white tracking-tight drop-shadow-sm">{metric.value}</p>
                 </div>
-                <div className="relative z-10 w-12 h-1 bg-primary/60 my-4 mx-auto sm:mx-0 transition-all duration-500 group-hover/metric:w-20 group-hover/metric:bg-primary rounded-full" />
-                <p className="relative z-10 text-xs sm:text-sm tracking-widest text-muted-foreground uppercase font-semibold transition-colors duration-300 group-hover/metric:text-foreground">{metric.label}</p>
+                <div className="relative z-10 w-12 h-1.5 bg-white/10 my-6 mx-auto sm:mx-0 transition-all duration-500 group-hover/metric:w-24 group-hover/metric:bg-blue-400 rounded-full" />
+                <p className="relative z-10 text-[13px] sm:text-[15px] tracking-[0.1em] text-blue-200 uppercase font-bold transition-colors duration-300 group-hover/metric:text-white">
+                  {metric.id === 1 ? t('about.metrics.moves', metric.label) : 
+                   metric.id === 2 ? t('about.metrics.space', metric.label) : 
+                   metric.id === 3 ? t('about.metrics.years', metric.label) : 
+                   metric.label}
+                </p>
               </div>
               );
-            })
-          ) : null}
+            })}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8">
-        {highlights.map((item) => (
+        {getHighlights(t).map((item) => (
           <article
             key={item.title}
             className="group relative h-[320px] sm:h-[380px] overflow-hidden rounded-3xl border border-border/40 cursor-default shadow-lg"

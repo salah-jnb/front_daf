@@ -2,14 +2,15 @@ import { useState, useEffect, useContext } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import { useTranslation } from "react-i18next";
 import jafLogo from "@/assets/logo_jaf-566x412.webp";
 
 const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "Services", href: "/#services" },
-  { label: "About", href: "/#about" },
-  { label: "How We Work", href: "/how-we-work" },
-  { label: "Contact", href: "/contact" },
+  { key: "home", href: "/#home" },
+  { key: "services", href: "/#services" },
+  { key: "about", href: "/#about" },
+  { key: "howWeWork", href: "/how-we-work" },
+  { key: "contact", href: "/contact" },
 ];
 
 interface NavbarProps {
@@ -20,6 +21,7 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useContext(AppContext);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -36,7 +38,7 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
     >
       <div className="container mx-auto flex items-center justify-between px-6">
         {/* Logo */}
-        <a href="#home" className="inline-flex items-center">
+        <a href="/#home" className="inline-flex items-center">
           <img
             src={jafLogo}
             alt="JAF Demenagements"
@@ -49,49 +51,51 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            link.href.startsWith("/#") ? (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${scrolled
-                    ? "text-muted-foreground hover:text-foreground"
-                    : lightTextOnTop
-                      ? "text-white/95 hover:text-white drop-shadow-md"
-                      : "text-foreground/80 hover:text-foreground"
-                  }`}
-              >
-                {link.label}
+          {navLinks.map((link) => {
+            const isHash = link.href.startsWith("/#");
+            const classes = `text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${scrolled
+              ? "text-muted-foreground hover:text-foreground"
+              : lightTextOnTop
+                ? "text-white/95 hover:text-white drop-shadow-md"
+                : "text-foreground/80 hover:text-foreground"
+              }`;
+            
+            return isHash ? (
+              <a key={link.href} href={link.href} className={classes}>
+                {t(`navbar.${link.key}`, link.key)}
               </a>
             ) : (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`text-sm font-semibold transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${scrolled
-                    ? "text-muted-foreground hover:text-foreground"
-                    : lightTextOnTop
-                      ? "text-white/95 hover:text-white drop-shadow-md"
-                      : "text-foreground/80 hover:text-foreground"
-                  }`}
-              >
-                {link.label}
+              <Link key={link.href} to={link.href} className={classes}>
+                {t(`navbar.${link.key}`, link.key)}
               </Link>
-            )
-          ))}
+            );
+          })}
 
-          {/* Theme toggle */}
-          <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+          <div className="flex items-center gap-3">
+            {/* Language toggle */}
+            <LanguageToggle 
+              currentLang={i18n.language} 
+              onToggle={() => i18n.changeLanguage(i18n.language?.startsWith('fr') ? 'en' : 'fr')} 
+            />
+
+            {/* Theme toggle */}
+            <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+          </div>
 
           <Link
             to="/contact"
             className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold glow-primary hover:scale-105 transition-transform duration-300"
           >
-            Get a Quote
+            {t('navbar.getQuote', 'Get a Quote')}
           </Link>
         </div>
 
         {/* Mobile controls */}
         <div className="md:hidden flex items-center gap-3">
+          <LanguageToggle 
+            currentLang={i18n.language} 
+            onToggle={() => i18n.changeLanguage(i18n.language?.startsWith('fr') ? 'en' : 'fr')} 
+          />
           <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
           <button
             className={`transition-colors ${scrolled ? "text-foreground" : (lightTextOnTop ? "text-white drop-shadow-md" : "text-foreground")}`}
@@ -117,7 +121,7 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
                 onClick={() => setMobileOpen(false)}
                 className="block py-3 text-foreground font-medium border-b border-border/30 last:border-0"
               >
-                {link.label}
+                {t(`navbar.${link.key}`, link.key)}
               </a>
             ) : (
               <Link
@@ -126,7 +130,7 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
                 onClick={() => setMobileOpen(false)}
                 className="block py-3 text-foreground font-medium border-b border-border/30 last:border-0"
               >
-                {link.label}
+                {t(`navbar.${link.key}`, link.key)}
               </Link>
             )
           ))}
@@ -135,13 +139,32 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
             onClick={() => setMobileOpen(false)}
             className="block mt-4 text-center px-5 py-3 rounded-lg bg-primary text-primary-foreground font-semibold"
           >
-            Get a Quote
+            {t('navbar.getQuote', 'Get a Quote')}
           </Link>
         </div>
       )}
     </nav>
   );
 };
+
+/* ── Custom Language Toggle Button ─────────────────────── */
+const LanguageToggle = ({
+  currentLang,
+  onToggle,
+}: {
+  currentLang: string;
+  onToggle: () => void;
+}) => (
+  <button
+    onClick={onToggle}
+    type="button"
+    aria-label="Switch language"
+    className="theme-toggle-btn text-[12px] font-extrabold"
+    title="Switch language"
+  >
+    {currentLang?.startsWith('fr') ? 'FR' : 'EN'}
+  </button>
+);
 
 /* ── Animated theme toggle button ───────────────────────── */
 const ThemeToggle = ({
@@ -174,14 +197,13 @@ const ThemeToggle = ({
         width: 36px;
         height: 36px;
         border-radius: 50%;
-        border: 1.5px solid hsl(var(--border));
+        border: 1.5px solid hsl(var(--border) / 0.5);
         background: hsl(var(--card) / 0.7);
         backdrop-filter: blur(10px);
-        color: hsl(var(--muted-foreground));
+        color: hsl(var(--foreground));
         cursor: pointer;
         overflow: hidden;
         flex-shrink: 0;
-        /* override global transition for fast icon swap */
         transition:
           background 0.25s ease,
           border-color 0.25s ease,
@@ -199,7 +221,6 @@ const ThemeToggle = ({
       .theme-toggle-btn:active {
         transform: scale(0.94);
       }
-      /* Icon layers */
       .theme-icon {
         position: absolute;
         display: flex;

@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { Trophy, Star, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
@@ -14,28 +15,10 @@ import heroAir from "@/assets/hero-air.webp";
 import heroRoad from "@/assets/hero-road.webp";
 import heroSea from "@/assets/hero-sea.webp";
 
-const slides = [
-  {
-    image: heroAir,
-    title: "Air Freight",
-    subtitle: "Fast Global Air Cargo",
-    description: "Time-critical air freight solutions with secure handling, customs coordination, and reliable worldwide delivery.",
-  },
-  {
-    image: heroRoad,
-    title: "Road Transport",
-    subtitle: "Reliable Overland Logistics",
-    description: "Flexible road transport across local and cross-border routes with clear communication and on-time performance.",
-  },
-  {
-    image: heroSea,
-    title: "Sea Freight",
-    subtitle: "Cost-Effective Ocean Shipping",
-    description: "FCL and LCL sea freight services designed for dependable transit times and competitive international shipping costs.",
-  },
-];
+const slideImages = [heroAir, heroRoad, heroSea];
 
 const HeroCarousel = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -110,7 +93,7 @@ const HeroCarousel = () => {
         onSlideChange={(swiper: SwiperType) => setActiveIndex(swiper.realIndex)}
         className="w-full h-full pb-0 [&_.swiper-pagination]:bottom-8 lg:[&_.swiper-pagination]:bottom-12"
       >
-        {slides.map((slide, i) => (
+        {slideImages.map((image, i) => (
           <SwiperSlide key={i}>
             <div className="relative w-full h-full">
               {/* Image with parallax */}
@@ -121,8 +104,8 @@ const HeroCarousel = () => {
                 }}
               >
                 <img
-                  src={slide.image}
-                  alt={slide.title}
+                  src={image}
+                  alt={t(`hero.slide${i + 1}.title`, '')}
                   className={`w-full h-full object-cover transition-transform [transition-duration:6000ms] ${activeIndex === i ? "scale-110" : "scale-100"
                     }`}
                   width={1920}
@@ -143,16 +126,15 @@ const HeroCarousel = () => {
               {/* Content */}
               <div className="absolute inset-0 flex items-center z-10">
                 <div className="container mx-auto px-6">
-                  <div className="max-w-2xl mt-32 md:mt-40">
-                    <p
+                  <div className="max-w-2xl mt-32 md:mt-40">                    <p
                       className={`text-blue-400 font-semibold text-sm uppercase tracking-[0.3em] mb-4 transition-all duration-700 ${(isFirstRender && i === 0) || activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                         }`}
                       style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : "200ms" }}
                     >
-                      {slide.subtitle}
+                      {t(`hero.slide${i + 1}.subtitle`, '')}
                     </p>
                     <div className="overflow-hidden mb-6 py-2 flex flex-wrap gap-x-4 md:gap-x-6 gap-y-2">
-                      {slide.title.split(" ").map((word, wIdx) => (
+                      {t(`hero.slide${i + 1}.title`, '').split(" ").map((word: string, wIdx: number) => (
                         <div key={wIdx} className="overflow-hidden pb-[0.4em] -mb-[0.4em]">
                           <h2
                             className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-1000 ease-out ${(isFirstRender && i === 0) || activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
@@ -171,7 +153,7 @@ const HeroCarousel = () => {
                         }`}
                       style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : "600ms" }}
                     >
-                      {slide.description}
+                      {t(`hero.slide${i + 1}.description`, '')}
                     </p>
                     <div
                       className={`flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none transition-transform duration-1000 ease-out ${(isFirstRender && i === 0) || activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"
@@ -182,13 +164,13 @@ const HeroCarousel = () => {
                         onClick={() => navigate('/contact')}
                         className="w-full sm:w-auto text-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg glow-primary shadow-[0_0_20px_rgba(249,115,22,0.3)] z-20"
                       >
-                        Get a Quote
+                        {t('navbar.getQuote', 'Get a Quote')}
                       </MagneticButton>
                       <MagneticButton
                         href="#services"
                         className="w-full sm:w-auto text-center whitespace-nowrap px-8 py-4 rounded-xl border border-white/40 text-white font-semibold text-base sm:text-lg hover:bg-white/10 transition-colors duration-300 backdrop-blur-sm shadow-md z-20"
                       >
-                        Our Services
+                        {t('hero.ourServices', 'Our Services')}
                       </MagneticButton>
                     </div>
                   </div>

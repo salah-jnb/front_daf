@@ -9,6 +9,7 @@ import App from "./App.tsx";
 import "./index.css";
 import "./Admin/admin.css";
 import { AppProvider } from "./context/AppContext";
+import "./i18n"; // Import i18n configuration
 
 const queryClient = new QueryClient();
 

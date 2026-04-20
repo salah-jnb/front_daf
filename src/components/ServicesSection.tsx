@@ -8,6 +8,7 @@ import {
   Truck,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const services = [
   {
@@ -68,7 +69,10 @@ const services = [
   },
 ];
 
-const ServicesSection = () => (
+const ServicesSection = () => {
+  const { t } = useTranslation();
+
+  return (
   <section id="services" className="services-section py-24 md:py-36 relative overflow-hidden">
     {/* Ambient background blobs */}
     <div className="services-bg-blob services-blob-1" aria-hidden="true" />
@@ -78,15 +82,14 @@ const ServicesSection = () => (
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
         <div className="services-eyebrow-wrap">
-          <span className="services-eyebrow">Moving &amp; Freight Services</span>
+          <span className="services-eyebrow">{t('services.eyebrow2')}</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-extrabold mb-5 leading-tight tracking-tight">
-          Complete{" "}
-          <span className="gradient-text">Relocation Solutions</span>
+          {t('services.complete')}{" "}
+          <span className="gradient-text">{t('services.relocation')}</span>
         </h2>
         <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-          From local moving to global freight, we deliver secure, tailored
-          logistics for homes, offices, and specialised cargo.
+          {t('services.desc2')}
         </p>
       </div>
 
@@ -121,10 +124,10 @@ const ServicesSection = () => (
                 </span>
 
                 <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
-                  {service.title}
+                  {t('servicesData.' + slug + '.title', service.title)}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                  {service.description}
+                  {t('servicesData.' + slug + '.description', service.description)}
                 </p>
 
                 {/* Bottom accent line */}
@@ -308,6 +311,7 @@ const ServicesSection = () => (
       }
     `}</style>
   </section>
-);
+  );
+};
 
 export default ServicesSection;

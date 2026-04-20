@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import { AppContext } from "../context/AppContext";
 import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type ServiceItem = {
   title: string;
@@ -49,6 +50,7 @@ const SkeletonCard = () => (
 /* ─── Single service slide card ────────────────────────────── */
 const ServiceSlideCard = ({ title, description, image, slug }: ServiceItem) => {
   const [imgError, setImgError] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <Link to={`/services/${slug}`} className="sbs-card" style={{ textDecoration: 'none' }}>
@@ -73,11 +75,11 @@ const ServiceSlideCard = ({ title, description, image, slug }: ServiceItem) => {
 
       {/* Content */}
       <div className="sbs-card-content">
-        <div className="sbs-card-tag">Service</div>
-        <h3 className="sbs-card-title">{title}</h3>
-        <p className="sbs-card-desc">{description}</p>
+        <div className="sbs-card-tag">{t('services.serviceTag', 'Service')}</div>
+        <h3 className="sbs-card-title">{t('servicesData.' + slug + '.title', title)}</h3>
+        <p className="sbs-card-desc">{t('servicesData.' + slug + '.description', description)}</p>
         <div className="sbs-card-cta">
-          <span>Learn more</span>
+          <span>{t('services.learnMore', 'Learn more')}</span>
           <ArrowUpRight className="sbs-cta-icon" size={15} strokeWidth={2.2} />
         </div>
       </div>
@@ -89,7 +91,9 @@ const ServiceSlideCard = ({ title, description, image, slug }: ServiceItem) => {
 };
 
 /* ─── Main section ──────────────────────────────────────────── */
-const ServicesBentoSection = () => (
+const ServicesBentoSection = () => {
+  const { t } = useTranslation();
+  return (
   <section id="services-bento" className="sbs-section py-24 md:py-36 relative overflow-hidden">
     {/* Ambient blobs */}
     <div className="sbs-blob sbs-blob-a" aria-hidden="true" />
@@ -99,15 +103,14 @@ const ServicesBentoSection = () => (
       {/* Section header */}
       <div className="sbs-header">
         <div className="sbs-eyebrow-wrap">
-          <span className="sbs-eyebrow">Featured Services</span>
+          <span className="sbs-eyebrow">{t('services.eyebrow', 'Featured Services')}</span>
         </div>
         <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight leading-tight">
-          Discover Our{" "}
-          <span className="gradient-text">Moving Expertise</span>
+          {t('services.discover', 'Discover Our ')}
+          <span className="gradient-text">{t('services.expertise', 'Moving Expertise')}</span>
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          Explore our key services: household moving, office relocation, car
-          shipping, secure storage, fine art logistics, and pet relocation.
+          {t('services.desc', 'Explore our key services: household moving, office relocation, car shipping, secure storage, fine art logistics, and pet relocation.')}
         </p>
       </div>
 
@@ -122,70 +125,71 @@ const ServicesBentoSection = () => (
       .sbs-blob {
         position: absolute;
         border-radius: 50%;
-        filter: blur(130px);
+        filter: blur(120px);
         pointer-events: none;
-        opacity: 0.3;
+        opacity: 0.25;
       }
       .sbs-blob-a {
-        width: 700px; height: 700px;
-        top: -200px; right: -200px;
-        background: radial-gradient(circle, hsl(210 100% 55% / 0.2) 0%, transparent 70%);
+        width: 600px; height: 600px;
+        top: -150px; right: -100px;
+        background: radial-gradient(circle, hsl(var(--primary) / 0.5) 0%, transparent 70%);
       }
       .sbs-blob-b {
-        width: 500px; height: 500px;
-        bottom: -150px; left: -160px;
-        background: radial-gradient(circle, hsl(200 100% 60% / 0.15) 0%, transparent 70%);
+        width: 600px; height: 600px;
+        bottom: -200px; left: -100px;
+        background: radial-gradient(circle, hsl(var(--accent) / 0.4) 0%, transparent 70%);
       }
 
       /* ── Header ── */
       .sbs-header {
         text-align: center;
-        max-width: 680px;
+        max-width: 720px;
         margin: 0 auto 4rem;
       }
 
       /* ── Eyebrow pill ── */
       .sbs-eyebrow-wrap {
         display: inline-flex;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
       }
       .sbs-eyebrow {
         display: inline-flex;
         align-items: center;
-        padding: 0.35rem 1.1rem;
+        padding: 0.4rem 1.2rem;
         border-radius: 999px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.22em;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.25em;
         text-transform: uppercase;
-        background: hsl(var(--primary) / 0.12);
-        border: 1px solid hsl(var(--primary) / 0.25);
+        background: hsl(var(--primary) / 0.1);
+        border: 1px solid hsl(var(--primary) / 0.3);
         color: hsl(var(--primary));
+        box-shadow: 0 0 20px hsl(var(--primary) / 0.15);
       }
 
       /* ── Card ── */
       .sbs-card {
         position: relative;
-        border-radius: 24px;
+        border-radius: 28px;
         overflow: hidden;
-        min-height: 460px;
+        min-height: 480px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         cursor: pointer;
         background: hsl(var(--card));
-        border: 1px solid hsl(var(--border) / 0.6);
+        border: 1px solid hsl(var(--border) / 0.3);
         transition:
-          transform 0.42s cubic-bezier(.22,1,.36,1),
-          box-shadow 0.42s ease,
-          border-color 0.3s ease;
+          transform 0.5s cubic-bezier(.19,1,.22,1),
+          box-shadow 0.5s ease,
+          border-color 0.4s ease;
       }
       .sbs-card:hover {
-        transform: translateY(-8px) scale(1.012);
+        transform: translateY(-8px) scale(1.02);
         box-shadow:
-          0 30px 60px -12px rgba(0,0,0,0.55),
-          0 0 0 1px hsl(var(--primary) / 0.2);
-        border-color: hsl(var(--primary) / 0.3);
+          0 40px 80px -15px rgba(0,0,0,0.5),
+          0 0 0 1px hsl(var(--primary) / 0.3);
+        border-color: hsl(var(--primary) / 0.5);
       }
 
       /* ── Media ── */
@@ -193,20 +197,22 @@ const ServicesBentoSection = () => (
         position: absolute;
         inset: 0;
         overflow: hidden;
+        border-radius: 28px;
+        z-index: 1;
       }
       .sbs-card-img {
         width: 100%; height: 100%;
         object-fit: cover;
-        transition: transform 0.65s cubic-bezier(.22,1,.36,1);
+        transition: transform 0.8s cubic-bezier(.19,1,.22,1), filter 0.8s ease;
+        filter: brightness(0.9) contrast(1.1);
       }
       .sbs-card:hover .sbs-card-img {
-        transform: scale(1.08);
+        transform: scale(1.12);
+        filter: brightness(1) contrast(1.1) saturate(1.1);
       }
       .sbs-card-img-fallback {
         width: 100%; height: 100%;
-        background: linear-gradient(135deg,
-          hsl(var(--card)) 0%,
-          hsl(var(--secondary)) 100%);
+        background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--secondary)) 100%);
       }
 
       /* ── Overlay ── */
@@ -215,54 +221,59 @@ const ServicesBentoSection = () => (
         inset: 0;
         background: linear-gradient(
           to top,
-          rgba(0,0,0,0.92) 0%,
-          rgba(0,0,0,0.65) 40%,
-          rgba(0,0,0,0.15) 70%,
-          transparent 100%
+          rgba(0,0,0,0.85) 0%,
+          rgba(0,0,0,0.2) 60%,
+          rgba(0,0,0,0) 100%
         );
-        transition: background 0.4s ease;
+        z-index: 2;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
       }
       .sbs-card:hover .sbs-card-overlay {
-        background: linear-gradient(
-          to top,
-          rgba(0,0,0,0.96) 0%,
-          rgba(0,0,0,0.72) 45%,
-          rgba(0,0,0,0.20) 75%,
-          transparent 100%
-        );
+        opacity: 0.8;
       }
 
-      /* ── Content ── */
+      /* ── Content (Glass Panel) ── */
       .sbs-card-content {
         position: relative;
         z-index: 10;
-        padding: 1.75rem;
+        margin: 1.25rem;
+        padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        transform: translateY(8px);
-        transition: transform 0.42s cubic-bezier(.22,1,.36,1);
+        gap: 0.6rem;
+        transform: translateY(12px);
+        transition: transform 0.5s cubic-bezier(.19,1,.22,1), background 0.5s ease, border-color 0.5s ease;
+        background: rgba(20, 25, 40, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       }
       .sbs-card:hover .sbs-card-content {
         transform: translateY(0);
+        background: rgba(20, 25, 40, 0.6);
+        border-color: rgba(255, 255, 255, 0.25);
       }
 
       /* ── Tag ── */
       .sbs-card-tag {
         display: inline-flex;
         width: fit-content;
-        padding: 0.2rem 0.75rem;
-        border-radius: 999px;
+        padding: 0.35rem 0.85rem;
+        border-radius: 8px;
         font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
+        font-weight: 800;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
-        background: hsl(var(--primary) / 0.18);
-        border: 1px solid hsl(var(--primary) / 0.3);
-        color: hsl(var(--primary));
+        background: hsl(var(--primary));
+        color: #fff;
+        box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
         opacity: 0;
         transform: translateY(6px);
-        transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+        transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+        margin-bottom: 0.25rem;
       }
       .sbs-card:hover .sbs-card-tag {
         opacity: 1;
@@ -271,26 +282,29 @@ const ServicesBentoSection = () => (
 
       /* ── Title ── */
       .sbs-card-title {
-        font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(1.4rem, 2.5vw, 1.85rem);
         font-weight: 800;
-        line-height: 1.2;
+        line-height: 1.15;
         color: #ffffff;
         letter-spacing: -0.01em;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
       }
 
       /* ── Description ── */
       .sbs-card-desc {
-        font-size: 0.875rem;
-        color: rgba(255,255,255,0.75);
-        line-height: 1.65;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.85);
+        line-height: 1.6;
         max-width: 52ch;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         opacity: 0;
         transform: translateY(8px);
-        transition: opacity 0.35s ease 0.08s, transform 0.35s ease 0.08s;
+        transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.5);
       }
       .sbs-card:hover .sbs-card-desc {
         opacity: 1;
@@ -301,40 +315,44 @@ const ServicesBentoSection = () => (
       .sbs-card-cta {
         display: inline-flex;
         align-items: center;
-        gap: 0.35rem;
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: hsl(var(--primary));
-        letter-spacing: 0.04em;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
         opacity: 0;
         transform: translateY(8px);
-        transition: opacity 0.35s ease 0.12s, transform 0.35s ease 0.12s;
-        margin-top: 0.25rem;
+        transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
       }
       .sbs-card:hover .sbs-card-cta {
         opacity: 1;
         transform: translateY(0);
       }
       .sbs-cta-icon {
-        transition: transform 0.25s ease;
+        color: hsl(var(--primary));
+        transition: transform 0.3s cubic-bezier(.19,1,.22,1);
       }
       .sbs-card:hover .sbs-cta-icon {
-        transform: translate(2px, -2px);
+        transform: translate(3px, -3px) scale(1.1);
       }
 
       /* ── Corner accent ── */
       .sbs-card-corner {
         position: absolute;
-        top: 1.25rem;
-        right: 1.25rem;
-        width: 10px;
-        height: 10px;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
         background: hsl(var(--primary));
-        box-shadow: 0 0 14px 4px hsl(var(--primary) / 0.5);
+        box-shadow: 0 0 20px 6px hsl(var(--primary) / 0.6);
         opacity: 0;
         transform: scale(0);
-        transition: opacity 0.3s ease, transform 0.35s cubic-bezier(.22,1,.36,1);
+        transition: opacity 0.3s ease, transform 0.5s cubic-bezier(.19,1,.22,1);
         z-index: 10;
       }
       .sbs-card:hover .sbs-card-corner {
@@ -344,7 +362,7 @@ const ServicesBentoSection = () => (
 
       /* ── Swiper overrides ── */
       .sbs-swiper {
-        padding-bottom: 4rem !important;
+        padding-bottom: 4.5rem !important;
         overflow: visible !important;
       }
       .sbs-swiper .swiper-wrapper {
@@ -354,57 +372,55 @@ const ServicesBentoSection = () => (
         height: auto;
       }
       .sbs-swiper .swiper-pagination {
-        bottom: 0.5rem;
+        bottom: 0rem;
       }
       .sbs-swiper .swiper-pagination-bullet {
-        width: 6px;
-        height: 6px;
-        background: hsl(var(--muted-foreground) / 0.4);
+        width: 8px;
+        height: 8px;
+        background: hsl(var(--muted-foreground) / 0.5);
         opacity: 1;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(.19,1,.22,1);
       }
       .sbs-swiper .swiper-pagination-bullet-active {
         background: hsl(var(--primary));
-        width: 22px;
+        width: 32px;
         border-radius: 999px;
-        box-shadow: 0 0 8px hsl(var(--primary) / 0.5);
+        box-shadow: 0 0 12px hsl(var(--primary) / 0.6);
       }
 
       /* ── Custom nav buttons ── */
       .sbs-nav-row {
         display: flex;
         justify-content: center;
-        gap: 0.75rem;
-        margin-top: 2rem;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        position: relative;
+        z-index: 20;
       }
       .sbs-nav-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 44px;
-        height: 44px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
-        border: 1.5px solid hsl(var(--border));
-        background: hsl(var(--card) / 0.7);
+        border: 1px solid hsl(var(--border) / 0.8);
+        background: hsl(var(--card) / 0.6);
         backdrop-filter: blur(12px);
-        color: hsl(var(--muted-foreground));
+        color: hsl(var(--foreground));
         cursor: pointer;
         transition:
-          background 0.25s ease,
-          border-color 0.25s ease,
-          color 0.25s ease,
-          transform 0.2s ease,
-          box-shadow 0.25s ease;
+          all 0.3s cubic-bezier(.19,1,.22,1);
       }
       .sbs-nav-btn:hover {
-        background: hsl(var(--primary) / 0.15);
-        border-color: hsl(var(--primary) / 0.5);
+        background: hsl(var(--primary) / 0.1);
+        border-color: hsl(var(--primary) / 0.4);
         color: hsl(var(--primary));
-        transform: scale(1.08);
-        box-shadow: 0 0 16px hsl(var(--primary) / 0.2);
+        transform: scale(1.1);
+        box-shadow: 0 8px 24px hsl(var(--primary) / 0.2);
       }
       .sbs-nav-btn:active {
-        transform: scale(0.96);
+        transform: scale(0.95);
       }
       .sbs-nav-btn:disabled {
         opacity: 0.3;
@@ -413,41 +429,42 @@ const ServicesBentoSection = () => (
 
       /* ── Skeleton loader ── */
       .sbs-skeleton {
-        border-radius: 24px;
-        min-height: 460px;
+        border-radius: 28px;
+        min-height: 480px;
         overflow: hidden;
         background: hsl(var(--card));
-        border: 1px solid hsl(var(--border) / 0.5);
+        border: 1px solid hsl(var(--border) / 0.3);
       }
       .sbs-skeleton-img {
-        height: 270px;
+        height: 300px;
         background: hsl(var(--muted));
-        animation: sbs-shimmer 1.6s ease-in-out infinite;
+        animation: sbs-shimmer 2s ease-in-out infinite;
       }
       .sbs-skeleton-body {
-        padding: 1.5rem;
+        padding: 1.75rem;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1rem;
       }
       .sbs-skeleton-line {
-        height: 14px;
+        height: 16px;
         border-radius: 999px;
         background: hsl(var(--muted));
-        animation: sbs-shimmer 1.6s ease-in-out infinite;
+        animation: sbs-shimmer 2s ease-in-out infinite;
       }
-      .sbs-line-title  { width: 60%; height: 18px; animation-delay: 0.1s; }
-      .sbs-line-sub    { width: 85%; animation-delay: 0.2s; }
-      .sbs-line-sub2   { width: 55%; animation-delay: 0.3s; }
+      .sbs-line-title  { width: 65%; height: 22px; animation-delay: 0.1s; }
+      .sbs-line-sub    { width: 90%; animation-delay: 0.2s; }
+      .sbs-line-sub2   { width: 60%; animation-delay: 0.3s; }
 
       @keyframes sbs-shimmer {
-        0%   { opacity: 0.5; }
-        50%  { opacity: 1;   }
-        100% { opacity: 0.5; }
+        0%   { opacity: 0.4; }
+        50%  { opacity: 0.8; }
+        100% { opacity: 0.4; }
       }
     `}</style>
   </section>
-);
+  );
+};
 
 export default ServicesBentoSection;
 

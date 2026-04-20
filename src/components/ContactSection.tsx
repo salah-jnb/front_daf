@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 // Lazy load Lottie (346KB!) — only download when Contact section is visible
 const LottieWrapper = lazy(() =>
@@ -15,6 +16,7 @@ const LottieWrapper = lazy(() =>
 );
 
 const ContactSection = () => {
+  const { t } = useTranslation();
   const apiBaseUrl = useMemo(
     () =>
       (localStorage.getItem("tg_api") || import.meta.env.VITE_API_URL || "").replace(
@@ -137,15 +139,15 @@ const ContactSection = () => {
             className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4 opacity-0"
             style={{ animation: "contact-fade-up 0.8s ease forwards 0.2s" }}
           >
-            Contact Our Team
+            {t('contact.team', 'Contact Our Team')}
           </p>
           <h2
             className="text-4xl md:text-5xl font-bold mb-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 opacity-0"
             style={{ animation: "contact-fade-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s" }}
           >
-            <span>Plan Your</span>
+            <span>{t('contact.plan', 'Plan Your')}</span>
             <span className="gradient-text flex items-center justify-center gap-2">
-              Next Move
+              {t('contact.nextMove', 'Next Move')}
               <span className="inline-flex items-center justify-center w-32 h-32 md:w-48 md:h-48 -mx-2 md:-mx-4 -my-8 md:-my-12" title="JAF Logistics Truck">
                 <Suspense fallback={<div className="w-32 h-32 md:w-48 md:h-48" />}>
                   <LottieWrapper loop={true} />
@@ -157,7 +159,7 @@ const ContactSection = () => {
             className="text-muted-foreground text-lg opacity-0"
             style={{ animation: "contact-fade-up 0.8s ease forwards 0.6s" }}
           >
-            Need an international moving quote or logistics advice? Send us your request and we will get back quickly.
+            {t('contact.subtitle', 'Need an international moving quote or logistics advice? Send us your request and we will get back quickly.')}
           </p>
 
           <style>{`
@@ -176,7 +178,7 @@ const ContactSection = () => {
                   id="contact-name"
                   aria-label="Full Name"
                   type="text"
-                  placeholder="Full Name"
+                  placeholder={t('contact.fields.fullName', 'Full Name')}
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -186,7 +188,7 @@ const ContactSection = () => {
                   id="contact-email"
                   aria-label="Email Address"
                   type="email"
-                  placeholder="Email Address"
+                  placeholder={t('contact.fields.email', 'Email Address')}
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -197,7 +199,7 @@ const ContactSection = () => {
                 id="contact-phone"
                 aria-label="Phone Number"
                 type="tel"
-                placeholder="Phone Number"
+                placeholder={t('contact.fields.phone', 'Phone Number')}
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300"
@@ -207,7 +209,7 @@ const ContactSection = () => {
                   id="contact-origin"
                   aria-label="Origin City"
                   type="text"
-                  placeholder="Origin City"
+                  placeholder={t('contact.fields.origin', 'Origin City')}
                   required
                   value={form.originCity}
                   onChange={(e) => setForm({ ...form, originCity: e.target.value })}
@@ -217,7 +219,7 @@ const ContactSection = () => {
                   id="contact-destination"
                   aria-label="Destination City"
                   type="text"
-                  placeholder="Destination City"
+                  placeholder={t('contact.fields.dest', 'Destination City')}
                   required
                   value={form.destinationCity}
                   onChange={(e) => setForm({ ...form, destinationCity: e.target.value })}
@@ -228,23 +230,23 @@ const ContactSection = () => {
                 id="contact-message"
                 aria-label="Message"
                 rows={5}
-                placeholder="Tell us about your shipment..."
+                placeholder={t('contact.fields.msg', 'Tell us about your shipment...')}
                 required
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className="w-full px-5 py-4 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors duration-300 resize-none"
               />
               {submitError ? (
-                <div className="text-sm text-destructive">{submitError}</div>
+                <div className="text-sm text-destructive">{t('contact.btn.err', submitError)}</div>
               ) : submitOk ? (
-                <div className="text-sm text-primary">{submitOk}</div>
+                <div className="text-sm text-primary">{t('contact.btn.success', submitOk)}</div>
               ) : null}
               <button
                 type="submit"
                 disabled={submitting}
                 className="w-full px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg glow-primary hover:scale-[1.02] transition-transform duration-300 disabled:opacity-70 disabled:hover:scale-100"
               >
-                {submitting ? "Sending..." : "Send Message"}
+                {submitting ? t('contact.btn.sending', 'Sending...') : t('contact.btn.send', 'Send Message')}
               </button>
             </form>
           </div>
@@ -255,12 +257,12 @@ const ContactSection = () => {
                 <div className="flex items-start gap-4">
                   <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
                   <div>
-                    <h4 className="font-bold mb-1">Call Us</h4>
-                    <p className="text-muted-foreground text-sm">Free moving estimate & support</p>
+                    <h4 className="font-bold mb-1">{t('contact.call.title', 'Call Us')}</h4>
+                    <p className="text-muted-foreground text-sm">{t('contact.call.desc', 'Free moving estimate & support')}</p>
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  {infoLoading ? "Loading…" : "Available"}
+                  {infoLoading ? t('contact.call.loading', 'Loading…') : t('contact.call.available', 'Available')}
                 </div>
               </div>
 
@@ -272,7 +274,7 @@ const ContactSection = () => {
                   <span className="text-sm font-semibold text-foreground">
                     {infoLoading ? "…" : info?.phone1 || "+216 12 345 678"}
                   </span>
-                  <span className="text-xs text-muted-foreground">Tap to call</span>
+                  <span className="text-xs text-muted-foreground">{t('contact.call.tap', 'Tap to call')}</span>
                 </a>
 
                 <a
@@ -282,7 +284,7 @@ const ContactSection = () => {
                   <span className="text-sm font-semibold text-foreground">
                     {infoLoading ? "…" : info?.phone2 || info?.phone1 || "+216 98 765 432"}
                   </span>
-                  <span className="text-xs text-muted-foreground">Support line</span>
+                  <span className="text-xs text-muted-foreground">{t('contact.call.support', 'Support line')}</span>
                 </a>
 
                 <a
@@ -292,19 +294,19 @@ const ContactSection = () => {
                   <span className="text-sm font-semibold text-foreground">
                     {infoLoading ? "…" : info?.email || "contact@example.com"}
                   </span>
-                  <span className="text-xs text-muted-foreground">Email us</span>
+                  <span className="text-xs text-muted-foreground">{t('contact.call.email', 'Email us')}</span>
                 </a>
               </div>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
-                  Fast response
+                  {t('contact.tags.t1', 'Fast response')}
                 </span>
                 <span className="text-xs px-3 py-1 rounded-full bg-secondary/60 text-muted-foreground border border-border">
-                  International moves
+                  {t('contact.tags.t2', 'International moves')}
                 </span>
                 <span className="text-xs px-3 py-1 rounded-full bg-secondary/60 text-muted-foreground border border-border">
-                  Storage & logistics
+                  {t('contact.tags.t3', 'Storage & logistics')}
                 </span>
               </div>
             </div>
@@ -313,21 +315,21 @@ const ContactSection = () => {
               <div className="flex items-start gap-4">
                 <Mail className="w-6 h-6 text-primary mt-1 shrink-0" />
                 <div className="flex-1">
-                  <h4 className="font-bold mb-1">What we can help with</h4>
+                  <h4 className="font-bold mb-1">{t('contact.help.title', 'What we can help with')}</h4>
                   <p className="text-muted-foreground text-sm">
-                    Share your origin, destination and details — we’ll prepare your quote.
+                    {t('contact.help.desc', 'Share your origin, destination and details — we’ll prepare your quote.')}
                   </p>
                 </div>
               </div>
 
               <div className="mt-5 grid sm:grid-cols-2 gap-3 text-sm">
                 <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3">
-                  <div className="text-xs text-muted-foreground">Professional moving</div>
-                  <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : "Included"}</div>
+                  <div className="text-xs text-muted-foreground">{t('contact.help.t1', 'Professional moving')}</div>
+                  <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : t('contact.help.t2', 'Included')}</div>
                 </div>
                 <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3">
-                  <div className="text-xs text-muted-foreground">Secure storage</div>
-                  <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : "Available"}</div>
+                  <div className="text-xs text-muted-foreground">{t('contact.help.t3', 'Secure storage')}</div>
+                  <div className="font-semibold text-foreground mt-1">{infoLoading ? "…" : t('contact.call.available', 'Available')}</div>
                 </div>
               </div>
             </div>
@@ -336,16 +338,16 @@ const ContactSection = () => {
               <div className="flex items-start gap-4">
                 <MapPin className="w-6 h-6 text-primary mt-1 shrink-0" />
                 <div className="flex-1">
-                  <h4 className="font-bold mb-1">Our Offices</h4>
+                  <h4 className="font-bold mb-1">{t('contact.offices.title', 'Our Offices')}</h4>
                   <p className="text-muted-foreground text-sm">
-                    Find us at these locations
+                    {t('contact.offices.desc', 'Find us at these locations')}
                   </p>
                 </div>
               </div>
 
               <div className="mt-5 grid gap-3 text-sm">
                 {infoLoading ? (
-                  <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3 text-muted-foreground">Loading offices...</div>
+                  <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3 text-muted-foreground">{t('contact.offices.loading', 'Loading offices...')}</div>
                 ) : offices.length > 0 ? (
                   offices.map((office) => (
                     <div key={office.id} className="rounded-xl bg-secondary/60 border border-border px-4 py-3 flex items-start gap-2">
@@ -354,7 +356,7 @@ const ContactSection = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3 text-muted-foreground">No offices available currently.</div>
+                  <div className="rounded-xl bg-secondary/60 border border-border px-4 py-3 text-muted-foreground">{t('contact.offices.empty', 'No offices available currently.')}</div>
                 )}
               </div>
             </div>

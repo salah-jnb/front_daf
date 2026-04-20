@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Download,
   Globe,
@@ -42,6 +43,7 @@ const policyLinks = [
 
 /* ── Footer component ─────────────────────────────────────── */
 const Footer = () => {
+  const { t, i18n } = useTranslation();
   const apiBaseUrl = useMemo(
     () =>
       (
@@ -110,11 +112,11 @@ const Footer = () => {
             <div className="ft-partner-text">
               <div className="ft-eyebrow-wrap">
                 <Globe size={13} strokeWidth={2.2} />
-                <span>International Partner Network</span>
+                <span>{t('footer.partnerEyebrow')}</span>
               </div>
               <h2 className="ft-partner-title">
-                Trusted Partner in{" "}
-                <span className="gradient-text">Morocco</span>
+                {t('footer.trustedPartner')}{" "}
+                <span className="gradient-text">{t('footer.morocco')}</span>
               </h2>
               <p className="ft-partner-company">
                 Moumene International Moving Company
@@ -188,8 +190,7 @@ const Footer = () => {
               />
             </a>
             <p className="ft-tagline">
-              International relocation specialists delivering safe, seamless
-              moves across the globe since 1961.
+              {t('footer.tagline')}
             </p>
 
             {/* Founder/CEO Signature */}
@@ -245,22 +246,24 @@ const Footer = () => {
 
           {/* Col 2: Quick Links */}
           <div className="ft-col">
-            <h3 className="ft-col-heading">Quick Links</h3>
+            <h3 className="ft-col-heading">{t('footer.quickLinks')}</h3>
             <ul className="ft-link-list">
-              {quickLinks.map((l) => (
+              {quickLinks.map((l) => {
+                const camelCase = l.label.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase());
+                return (
                 <li key={l.href}>
                   <a href={l.href} className="ft-nav-link">
                     <ChevronRight size={13} className="ft-nav-arrow" />
-                    {l.label}
+                    {t('navbar.' + camelCase, l.label)}
                   </a>
                 </li>
-              ))}
+              )})}
             </ul>
           </div>
 
           {/* Col 3: Policies */}
           <div className="ft-col">
-            <h3 className="ft-col-heading">Policies & Documents</h3>
+            <h3 className="ft-col-heading">{t('footer.policies')}</h3>
             <ul className="ft-link-list">
               {policyLinks.map((item) => (
                 <li key={item.label}>
@@ -283,7 +286,7 @@ const Footer = () => {
                   <span className="ft-stat-val">
                     {Array.isArray(info.offices) ? info.offices.length : "—"}
                   </span>
-                  <span className="ft-stat-label">Offices</span>
+                  <span className="ft-stat-label">{t('footer.offices')}</span>
                 </div>
                 <div className="ft-stat-sep" />
                 <div className="ft-stat">
@@ -292,14 +295,14 @@ const Footer = () => {
                       ? `${info.yearsExperience}+`
                       : "65+"}
                   </span>
-                  <span className="ft-stat-label">Yrs exp.</span>
+                  <span className="ft-stat-label">{t('footer.yearsExp')}</span>
                 </div>
                 <div className="ft-stat-sep" />
                 <div className="ft-stat">
                   <span className="ft-stat-val">
-                    {Array.isArray(info.contacts) ? info.contacts.length : "—"}
+                    {Array.isArray(info.sponsors) ? info.sponsors.length : "—"}
                   </span>
-                  <span className="ft-stat-label">Contacts</span>
+                  <span className="ft-stat-label">{t('footer.sponsors', 'Sponsors')}</span>
                 </div>
               </div>
             )}
@@ -307,23 +310,35 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* ── Bottom bar ────────────────────────────────────────── */}
+      {/* ── Bottom bar ── */}
       <div className="ft-bottom">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="ft-bottom-inner">
-            <span>
-              © {new Date().getFullYear()} JAF Logistics.{" "}
-              <a
-                href="/polices.txt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors hover:underline"
-              >
-                All rights reserved.
-              </a>
-            </span>
-            <span className="ft-bottom-sep" aria-hidden="true">·</span>
-            <span>International Moving &amp; Freight Services</span>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-2">
+            <div className="ft-bottom-inner text-center md:text-left flex-wrap justify-center md:justify-start !w-auto">
+              <span>
+                © {new Date().getFullYear()} JAF Logistics.{" "}
+                <a
+                  href="/polices.txt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors hover:underline"
+                >
+                  {t('footer.rights', 'All rights reserved.')}
+                </a>
+              </span>
+              <span className="ft-bottom-sep" aria-hidden="true">·</span>
+              <span>{t('footer.international', 'International Moving & Freight Services')}</span>
+            </div>
+
+            {/* Footer Language Toggle */}
+            <button
+              onClick={() => i18n.changeLanguage(i18n.language?.startsWith('fr') ? 'en' : 'fr')}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-[0.1em] text-[#cbd5e1] hover:bg-white/10 hover:text-white transition-colors"
+              title="Change Language"
+            >
+              <span>{i18n.language?.startsWith('fr') ? '🌍 Français' : '🌍 English'}</span>
+              <span className="opacity-40 text-[10px] ml-1">({i18n.language?.startsWith('fr') ? 'EN' : 'FR'})</span>
+            </button>
           </div>
         </div>
       </div>
