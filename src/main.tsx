@@ -22,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
           <Sonner />
           <App />
           <SpeedInsights />
+          <Analytics />
         </AppProvider>
       </TooltipProvider>
     </QueryClientProvider>
