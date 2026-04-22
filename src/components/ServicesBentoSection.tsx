@@ -108,7 +108,7 @@ const ServicesBentoSection = () => {
         <div className="sbs-eyebrow-wrap">
           <span className="sbs-eyebrow">{t('services.eyebrow', 'Featured Services')}</span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight leading-tight">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight leading-tight text-white">
           {t('services.discover', 'Discover Our ')}
           <span className="gradient-text">{t('services.expertise', 'Moving Expertise')}</span>
         </h2>

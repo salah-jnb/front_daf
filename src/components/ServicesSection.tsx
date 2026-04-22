@@ -28,78 +28,78 @@ const ServicesSection = () => {
   const { blocks, loading } = useBlocks();
 
   return (
-  <section id="services" className="services-section py-24 md:py-36 relative overflow-hidden">
-    {/* Ambient background blobs */}
-    <div className="services-bg-blob services-blob-1" aria-hidden="true" />
-    <div className="services-bg-blob services-blob-2" aria-hidden="true" />
+    <section id="services" className="services-section py-24 md:py-36 relative overflow-hidden">
+      {/* Ambient background blobs */}
+      <div className="services-bg-blob services-blob-1" aria-hidden="true" />
+      <div className="services-bg-blob services-blob-2" aria-hidden="true" />
 
-    <div className="container mx-auto px-4 sm:px-6 relative z-10">
-      {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
-        <div className="services-eyebrow-wrap">
-          <span className="services-eyebrow">{t('services.eyebrow2')}</span>
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-24">
+          <div className="services-eyebrow-wrap">
+            <span className="services-eyebrow">{t('services.eyebrow2')}</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-5 leading-tight tracking-tight">
+            {t('services.complete')}{" "}
+            <span className="gradient-text">{t('services.relocation')}</span>
+          </h2>
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+            {t('services.desc2')}
+          </p>
         </div>
-        <h2 className="text-3xl md:text-5xl font-extrabold mb-5 leading-tight tracking-tight">
-          {t('services.complete')}{" "}
-          <span className="gradient-text">{t('services.relocation')}</span>
-        </h2>
-        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-          {t('services.desc2')}
-        </p>
-      </div>
 
-      {/* Cards flex container */}
-      <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
-        {loading ? (
-          <div className="w-full text-center py-10 text-muted-foreground">Loading services...</div>
-        ) : (
-          blocks.map((block, i) => {
-            const slug = slugify(block.titre);
-            const style = GRADIENTS[i % GRADIENTS.length];
-            const IconComponent = ICONS[i % ICONS.length];
-            return (
-              <Link
-                key={block.id || i}
-                to={`/services/${slug}`}
-                className="service-card w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)] flex-shrink-0"
-                style={{
-                  animationDelay: `${i * 80}ms`,
-                  "--card-glow": style.glow,
-                } as React.CSSProperties}
-              >
-                {/* Animated border gradient */}
-                <div className="service-card-border" aria-hidden="true" />
+        {/* Cards flex container */}
+        <div className="flex flex-wrap justify-center gap-5 sm:gap-6">
+          {loading ? (
+            <div className="w-full text-center py-10 text-muted-foreground">Loading services...</div>
+          ) : (
+            blocks.map((block, i) => {
+              const slug = slugify(block.titre);
+              const style = GRADIENTS[i % GRADIENTS.length];
+              const IconComponent = ICONS[i % ICONS.length];
+              return (
+                <Link
+                  key={block.id || i}
+                  to={`/services/${slug}`}
+                  className="service-card w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)] flex-shrink-0"
+                  style={{
+                    animationDelay: `${i * 80}ms`,
+                    "--card-glow": style.glow,
+                  } as React.CSSProperties}
+                >
+                  {/* Animated border gradient */}
+                  <div className="service-card-border" aria-hidden="true" />
 
-                {/* Inner content */}
-                <div className="service-card-inner">
-                  {/* Icon */}
-                  <div className={`service-icon-wrap bg-gradient-to-br ${style.grad} overflow-hidden flex items-center justify-center`}>
-                    <IconComponent className="w-6 h-6 text-white" strokeWidth={1.8} />
+                  {/* Inner content */}
+                  <div className="service-card-inner">
+                    {/* Icon */}
+                    <div className={`service-icon-wrap bg-gradient-to-br ${style.grad} overflow-hidden flex items-center justify-center`}>
+                      <IconComponent className="w-6 h-6 text-white" strokeWidth={1.8} />
+                    </div>
+
+                    {/* Number badge */}
+                    <span className="service-number">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+
+                    <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
+                      {t('servicesData.' + slug + '.title', block.titre)}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
+                      {t('servicesData.' + slug + '.description', block.description)}
+                    </p>
+
+                    {/* Bottom accent line */}
+                    <div className={`service-card-line bg-gradient-to-r ${style.grad}`} />
                   </div>
-
-                  {/* Number badge */}
-                  <span className="service-number">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
-                    {t('servicesData.' + slug + '.title', block.titre)}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
-                    {t('servicesData.' + slug + '.description', block.description)}
-                  </p>
-
-                  {/* Bottom accent line */}
-                  <div className={`service-card-line bg-gradient-to-r ${style.grad}`} />
-                </div>
-              </Link>
-            );
-          })
-        )}
+                </Link>
+              );
+            })
+          )}
+        </div>
       </div>
-    </div>
 
-    <style>{`
+      <style>{`
       /* ── Section background ─────────────────────────── */
       .services-section {
         background: hsl(var(--background));
@@ -270,7 +270,7 @@ const ServicesSection = () => {
         100% { background-position: 0% 50%; }
       }
     `}</style>
-  </section>
+    </section>
   );
 };
 

@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { useState, useEffect, useContext, useRef } from "react";
+import { Menu, X, Sun, Moon, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { useTranslation } from "react-i18next";
@@ -59,7 +59,7 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
                 ? "text-white/95 hover:text-white drop-shadow-md"
                 : "text-foreground/80 hover:text-foreground"
               }`;
-            
+
             return isHash ? (
               <a key={link.href} href={link.href} className={classes}>
                 {t(`navbar.${link.key}`, link.key)}
@@ -72,10 +72,10 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
           })}
 
           <div className="flex items-center gap-3">
-            {/* Language toggle */}
-            <LanguageToggle 
-              currentLang={i18n.language} 
-              onToggle={() => i18n.changeLanguage(i18n.language?.startsWith('fr') ? 'en' : 'fr')} 
+            {/* Language selector */}
+            <LanguageSelector
+              currentLang={i18n.language}
+              onChange={(lang) => i18n.changeLanguage(lang)}
             />
 
             {/* Theme toggle */}
@@ -92,9 +92,9 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
 
         {/* Mobile controls */}
         <div className="md:hidden flex items-center gap-3">
-          <LanguageToggle 
-            currentLang={i18n.language} 
-            onToggle={() => i18n.changeLanguage(i18n.language?.startsWith('fr') ? 'en' : 'fr')} 
+          <LanguageSelector
+            currentLang={i18n.language}
+            onChange={(lang) => i18n.changeLanguage(lang)}
           />
           <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
           <button
@@ -147,24 +147,156 @@ const Navbar = ({ lightTextOnTop = true }: NavbarProps) => {
   );
 };
 
-/* ── Custom Language Toggle Button ─────────────────────── */
-const LanguageToggle = ({
+/* ── Flag SVG components ────────────────────────────────── */
+const FlagFR = () => (
+  <svg width="20" height="14" viewBox="0 0 30 20" style={{ borderRadius: 2, flexShrink: 0, boxShadow: '0 0 0 0.5px rgba(0,0,0,0.1)' }}>
+    <rect width="10" height="20" fill="#002395" />
+    <rect x="10" width="10" height="20" fill="#fff" />
+    <rect x="20" width="10" height="20" fill="#ED2939" />
+  </svg>
+);
+
+const FlagEN = () => (
+  <svg width="20" height="14" viewBox="0 0 60 40" style={{ borderRadius: 2, flexShrink: 0, boxShadow: '0 0 0 0.5px rgba(0,0,0,0.1)' }}>
+    <rect width="60" height="40" fill="#012169" />
+    <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" strokeWidth="6" />
+    <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="4" />
+    <path d="M30,0 V40 M0,20 H60" stroke="#fff" strokeWidth="8" />
+    <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" strokeWidth="5" />
+  </svg>
+);
+
+const LANGUAGES = [
+  { code: "en", label: "En", Flag: FlagEN },
+  { code: "fr", label: "Fr", Flag: FlagFR },
+];
+
+/* ── Language Selector Dropdown ─────────────────────────── */
+const LanguageSelector = ({
   currentLang,
-  onToggle,
+  onChange,
 }: {
   currentLang: string;
-  onToggle: () => void;
-}) => (
-  <button
-    onClick={onToggle}
-    type="button"
-    aria-label="Switch language"
-    className="theme-toggle-btn text-[12px] font-extrabold"
-    title="Switch language"
-  >
-    {currentLang?.startsWith('fr') ? 'FR' : 'EN'}
-  </button>
-);
+  onChange: (lang: string) => void;
+}) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const current = LANGUAGES.find((l) => currentLang?.startsWith(l.code)) || LANGUAGES[0];
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div className="lang-select" ref={ref}>
+      <button
+        type="button"
+        className="lang-select__btn"
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Select language"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+      >
+        <current.Flag />
+        <span className="lang-select__label">{current.label}</span>
+        <ChevronDown size={14} className={`lang-select__arrow ${open ? "lang-select__arrow--up" : ""}`} />
+      </button>
+
+      {open && (
+        <ul className="lang-select__list" role="listbox">
+          {LANGUAGES.map((lang) => (
+            <li
+              key={lang.code}
+              role="option"
+              aria-selected={current.code === lang.code}
+              className={`lang-select__item ${current.code === lang.code ? "lang-select__item--active" : ""}`}
+              onClick={() => { onChange(lang.code); setOpen(false); }}
+            >
+              <lang.Flag />
+              <span>{lang.label}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <style>{`
+        .lang-select {
+          position: relative;
+          z-index: 100;
+          flex-shrink: 0;
+        }
+        .lang-select__btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 10px;
+          border-radius: 8px;
+          border: 1.5px solid hsl(var(--border) / 0.5);
+          background: hsl(var(--card) / 0.75);
+          backdrop-filter: blur(10px);
+          color: hsl(var(--foreground));
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 1.2;
+          transition: background .2s, border-color .2s, box-shadow .2s;
+        }
+        .lang-select__btn:hover {
+          background: hsl(var(--primary) / 0.1);
+          border-color: hsl(var(--primary) / 0.4);
+          box-shadow: 0 0 10px hsl(var(--primary) / 0.15);
+        }
+        .lang-select__label { white-space: nowrap; }
+        .lang-select__arrow {
+          opacity: 0.5;
+          transition: transform .2s ease;
+        }
+        .lang-select__arrow--up { transform: rotate(180deg); }
+        .lang-select__list {
+          position: absolute;
+          top: calc(100% + 6px);
+          right: 0;
+          min-width: 155px;
+          padding: 4px;
+          margin: 0;
+          list-style: none;
+          border-radius: 10px;
+          border: 1px solid hsl(var(--border) / 0.4);
+          background: hsl(var(--card));
+          box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 2px 10px rgba(0,0,0,0.06);
+          animation: langFadeIn .18s ease-out;
+        }
+        @keyframes langFadeIn {
+          from { opacity: 0; transform: translateY(-4px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .lang-select__item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 9px 12px;
+          border-radius: 7px;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 400;
+          color: hsl(var(--foreground));
+          transition: background .12s;
+        }
+        .lang-select__item:hover {
+          background: hsl(var(--muted));
+        }
+        .lang-select__item--active {
+          font-weight: 600;
+          color: hsl(var(--primary));
+        }
+      `}</style>
+    </div>
+  );
+};
 
 /* ── Animated theme toggle button ───────────────────────── */
 const ThemeToggle = ({
