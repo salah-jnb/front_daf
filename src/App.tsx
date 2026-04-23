@@ -23,6 +23,20 @@ const Entraindemaintenance = lazy(() => import("./pages/Entraindemaintenance"));
 const SectionFallback = () => <div className="h-24" aria-hidden="true" />;
 
 export default function App() {
+  // Set this to true to enable maintenance mode across the site
+  const isMaintenance = true;
+
+  if (isMaintenance) {
+    return (
+      <BrowserRouter>
+        <AnalyticsTracker />
+        <Routes>
+          <Route path="*" element={<Suspense fallback={<SectionFallback />}><Entraindemaintenance /></Suspense>} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
   return (
     <BrowserRouter>
       <AnalyticsTracker />
