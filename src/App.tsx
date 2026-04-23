@@ -19,12 +19,14 @@ const ServiceDetailPage = lazy(() => import("@/pages/ServiceDetailPage"));
 const ContactPage = lazy(() => import("@/pages/ContactPage"));
 const HowWeWorkPage = lazy(() => import("@/pages/HowWeWorkPage"));
 const Entraindemaintenance = lazy(() => import("./pages/Entraindemaintenance"));
+const NewsPage = lazy(() => import("@/pages/NewsPage"));
+const NewsDetailPage = lazy(() => import("@/pages/NewsDetailPage"));
 
 const SectionFallback = () => <div className="h-24" aria-hidden="true" />;
 
 export default function App() {
   // Set this to true to enable maintenance mode across the site
-  const isMaintenance = true;
+  const isMaintenance = false;
 
   if (isMaintenance) {
     return (
@@ -45,6 +47,7 @@ export default function App() {
         <Route path="/services/:slug" element={<Suspense fallback={<SectionFallback />}><ServiceDetailPage /></Suspense>} />
         <Route path="/how-we-work" element={<Suspense fallback={<SectionFallback />}><HowWeWorkPage /></Suspense>} />
         <Route path="/contact" element={<Suspense fallback={<SectionFallback />}><ContactPage /></Suspense>} />
+        <Route path="/news" element={<Suspense fallback={<SectionFallback />}><NewsPage /></Suspense>} />
         <Route path="/login" element={<Suspense fallback={<SectionFallback />}><LoginRoute /></Suspense>} />
         <Route path="/maintenance" element={<Suspense fallback={<SectionFallback />}><Entraindemaintenance /></Suspense>} />
 

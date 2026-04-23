@@ -12,6 +12,7 @@ const AboutSection = lazy(() => import("@/components/AboutSection"));
 const ProcessSection = lazy(() => import("@/components/ProcessSection"));
 const ServicesBentoSection = lazy(() => import("@/components/ServicesBentoSection"));
 const AccreditationsSection = lazy(() => import("@/components/AccreditationsSection"));
+const NewsSection = lazy(() => import("@/components/NewsSection"));
 
 const Footer = lazy(() => import("@/components/Footer"));
 
@@ -42,6 +43,9 @@ const Index = () => (
         
         <RevealOnScroll delay={100}>
           <ServicesBentoSection />
+        </RevealOnScroll>
+        <RevealOnScroll delay={150}>
+          <NewsSection />
         </RevealOnScroll>
         <RevealOnScroll delay={200}>
           <AccreditationsSection />

@@ -5,9 +5,10 @@ interface RevealProps {
   delay?: number;
   className?: string;
   threshold?: number;
+  scale?: number;
 }
 
-export function RevealOnScroll({ children, delay = 0, className = "", threshold = 0.15 }: RevealProps) {
+export function RevealOnScroll({ children, delay = 0, className = "", threshold = 0.15, scale = 1 }: RevealProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,9 +36,13 @@ export function RevealOnScroll({ children, delay = 0, className = "", threshold 
     <div
       ref={ref}
       className={`transition-all duration-1000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+        isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-16"
       } ${className}`}
-      style={{ transitionDelay: `${delay}ms`, willChange: "opacity, transform" }}
+      style={{ 
+        transitionDelay: `${delay}ms`, 
+        willChange: "opacity, transform",
+        transform: !isVisible ? `translateY(4rem) scale(${scale})` : undefined
+      }}
     >
       {children}
     </div>

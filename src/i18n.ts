@@ -5,7 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   en: {
     translation: {
-      navbar: { home: "Home", services: "Services", about: "About Us", howWeWork: "How We Work", contact: "Contact", getQuote: "Get a Quote" },
+      navbar: { home: "Home", services: "Services", about: "About Us", howWeWork: "How We Work", news: "News", contact: "Contact", getQuote: "Get a Quote" },
       footer: {
         rights: "All rights reserved.", international: "International Moving & Freight Services",
         partnerEyebrow: "International Partner Network", trustedPartner: "Trusted Partner in", morocco: "Morocco",
@@ -34,6 +34,10 @@ const resources = {
       },
       accreditations: {
         globalTrust: "Global Trust", our: "Our ", accrs: "Accreditations", desc: "We are proudly certified and recognized by the most prestigious international moving and logistics organizations across the globe."
+      },
+      news: {
+        eyebrow: "Updates", title: "Latest News", updates: "Updates", description: "Stay informed about the latest trends in international transport and our company life.", viewAll: "View all news", readMore: "Read more",
+        pageTitle: "Our News", pageDesc: "Discover the latest logistics trends, our new services, and global trade updates.", search: "Search news...", filter: "Filter", empty: "No articles found."
       },
       contact: {
         team: "Contact Our Team", plan: "Plan Your", nextMove: "Next Move", subtitle: "Need an international moving quote or logistics advice? Send us your request and we will get back quickly.",
@@ -103,7 +107,7 @@ const resources = {
   },
   fr: {
     translation: {
-      navbar: { home: "Accueil", services: "Services", about: "À propos", howWeWork: "Notre Méthode", contact: "Contact", getQuote: "Obtenir un Devis" },
+      navbar: { home: "Accueil", services: "Services", about: "À propos", howWeWork: "Notre Méthode", news: "Actualités", contact: "Contact", getQuote: "Obtenir un Devis" },
       footer: {
         rights: "Tous droits réservés.", international: "Déménagement International et Fret",
         partnerEyebrow: "Réseau de Partenariat International", trustedPartner: "Partenaire de Confiance au", morocco: "Maroc",
@@ -132,6 +136,10 @@ const resources = {
       },
       accreditations: {
         globalTrust: "Confiance Mondiale", our: "Nos ", accrs: "Accréditations", desc: "Nous sommes fièrement certifiés et reconnus par les organisations internationales de déménagement et de logistique les plus prestigieuses."
+      },
+      news: {
+        eyebrow: "Actualités", title: "Dernières Nouvelles", updates: "Mises à jour", description: "Restez informé des dernières tendances du transport international et de la vie de notre entreprise.", viewAll: "Voir toutes les actualités", readMore: "Lire la suite",
+        pageTitle: "Notre Actualité", pageDesc: "Découvrez les dernières tendances logistiques, nos nouveaux services et les actualités du commerce mondial.", search: "Rechercher un article...", filter: "Filtrer", empty: "Aucun article trouvé."
       },
       contact: {
         team: "Contactez-Nous", plan: "Planifiez Votre", nextMove: "Prochain Déménagement", subtitle: "Besoin d'un devis de déménagement ou de conseils? Envoyez-nous votre demande et nous vous répondrons rapidement.",

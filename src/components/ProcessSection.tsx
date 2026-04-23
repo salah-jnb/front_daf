@@ -11,7 +11,7 @@ const ProcessSection = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
-    }, 4000); // Transitions every 4 seconds
+    }, 2500); // Transitions every 2.5 seconds
     return () => clearInterval(timer);
   }, []);
 
@@ -84,7 +84,7 @@ const ProcessSection = () => {
                       {/* Desktop Horizontal Line */}
                       <div className="hidden md:block absolute top-7 left-[56px] w-[calc(100%-56px+24px)] h-[2px] bg-border/40 z-0">
                         <div 
-                          className="h-full bg-[#E6683A] transition-all duration-1000 ease-in-out"
+                          className="h-full bg-[#E6683A] transition-all duration-500 ease-in-out"
                           style={{ width: isCompleted ? '100%' : '0%' }}
                         />
                       </div>
@@ -92,7 +92,7 @@ const ProcessSection = () => {
                       {/* Mobile Vertical Line */}
                       <div className="md:hidden absolute top-[56px] left-7 w-[2px] h-[calc(100%-56px+32px)] bg-border/40 z-0">
                         <div 
-                          className="w-full bg-[#E6683A] transition-all duration-1000 ease-in-out"
+                          className="w-full bg-[#E6683A] transition-all duration-500 ease-in-out"
                           style={{ height: isCompleted ? '100%' : '0%' }}
                         />
                       </div>
@@ -102,21 +102,21 @@ const ProcessSection = () => {
                   {/* Timeline Node */}
                   <div className="relative flex justify-start z-10">
                     <div 
-                      className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-background
+                      className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 bg-background
                         ${isActive ? 'border-[#E6683A] shadow-[0_0_15px_rgba(230,104,58,0.25)]' : 
                           isCompleted ? 'border-[#E6683A] bg-[#E6683A]' : 'border-border/60'}
                       `}
                     >
                       {/* Active Pulse Animation */}
                       {isActive && (
-                        <div className="absolute inset-0 rounded-full bg-[#E6683A]/20 animate-ping" style={{ animationDuration: '2.5s' }} />
+                        <div className="absolute inset-0 rounded-full bg-[#E6683A]/20 animate-ping" style={{ animationDuration: '1.5s' }} />
                       )}
                       
                       {/* Node Content */}
                       {isCompleted ? (
                         <Check className="w-5 h-5 text-white" strokeWidth={2.5} />
                       ) : (
-                        <span className={`text-sm font-semibold transition-colors duration-500 ${isActive ? 'text-[#E6683A]' : 'text-muted-foreground/60'}`}>
+                        <span className={`text-sm font-semibold transition-colors duration-300 ${isActive ? 'text-[#E6683A]' : 'text-muted-foreground/60'}`}>
                           0{index + 1}
                         </span>
                       )}
@@ -126,7 +126,7 @@ const ProcessSection = () => {
                   {/* Card Content */}
                   <div 
                     className={`
-                      relative mt-6 md:mt-8 p-6 rounded-[12px] transition-all duration-500
+                      relative mt-6 md:mt-8 p-6 rounded-[12px] transition-all duration-300
                       backdrop-blur-md border 
                       ${isActive 
                         ? 'bg-card/90 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border-border/80 border-t-[3px] border-t-[#E6683A] md:-translate-y-1' 
@@ -134,15 +134,15 @@ const ProcessSection = () => {
                     `}
                   >
                     <step.icon 
-                      className={`w-5 h-5 mb-4 transition-colors duration-500
+                      className={`w-5 h-5 mb-4 transition-colors duration-300
                         ${isActive ? 'text-[#E6683A]' : isCompleted ? 'text-foreground/80' : 'text-muted-foreground/50'}
                       `} 
                       strokeWidth={1.5}
                     />
-                    <h3 className={`text-base font-semibold mb-2 transition-colors duration-500 ${isActive ? 'text-foreground' : 'text-foreground/70'}`}>
+                    <h3 className={`text-base font-semibold mb-2 transition-colors duration-300 ${isActive ? 'text-foreground' : 'text-foreground/70'}`}>
                       {step.title}
                     </h3>
-                    <p className={`text-sm leading-relaxed transition-colors duration-500 ${isActive ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>
+                    <p className={`text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>
                       {step.description}
                     </p>
                   </div>
