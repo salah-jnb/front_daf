@@ -18,6 +18,7 @@ const BlockNews = lazy(() => import("./Admin/BlockNews"));
 const ServiceDetailPage = lazy(() => import("@/pages/ServiceDetailPage"));
 const ContactPage = lazy(() => import("@/pages/ContactPage"));
 const HowWeWorkPage = lazy(() => import("@/pages/HowWeWorkPage"));
+const Entraindemaintenance = lazy(() => import("./pages/Entraindemaintenance"));
 
 const SectionFallback = () => <div className="h-24" aria-hidden="true" />;
 
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/how-we-work" element={<Suspense fallback={<SectionFallback />}><HowWeWorkPage /></Suspense>} />
         <Route path="/contact" element={<Suspense fallback={<SectionFallback />}><ContactPage /></Suspense>} />
         <Route path="/login" element={<Suspense fallback={<SectionFallback />}><LoginRoute /></Suspense>} />
+        <Route path="/maintenance" element={<Suspense fallback={<SectionFallback />}><Entraindemaintenance /></Suspense>} />
 
         <Route path="/da" element={<Suspense fallback={<SectionFallback />}><AdminLayout /></Suspense>}>
           <Route index element={<Navigate to="/da/contacts" replace />} />
