@@ -11,6 +11,7 @@ import { AppContext } from "../context/AppContext";
 import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { autoTranslate } from "../utils/autoTranslate";
 
 type ServiceItem = {
   title: string;
@@ -51,6 +52,8 @@ const SkeletonCard = () => (
 );
 
 /* ─── Single service slide card ────────────────────────────── */
+// title & description are already translated by the parent effect —
+// this component just renders them, keeping t() only for static UI strings.
 const ServiceSlideCard = ({ title, description, image, slug, onClick }: ServiceItem & { onClick: () => void }) => {
   const [imgError, setImgError] = useState(false);
   const { t } = useTranslation();
@@ -79,8 +82,8 @@ const ServiceSlideCard = ({ title, description, image, slug, onClick }: ServiceI
       {/* Content */}
       <div className="sbs-card-content">
         <div className="sbs-card-tag">{t('services.serviceTag', 'Service')}</div>
-        <h3 className="sbs-card-title">{t('servicesData.' + slug + '.title', title)}</h3>
-        <p className="sbs-card-desc">{t('servicesData.' + slug + '.description', description)}</p>
+        <h3 className="sbs-card-title">{title}</h3>
+        <p className="sbs-card-desc">{description}</p>
         <div className="sbs-card-cta">
           <span>{t('services.learnMore', 'Voir plus')}</span>
           <ArrowUpRight className="sbs-cta-icon" size={15} strokeWidth={2.2} />
@@ -437,19 +440,52 @@ const ServicesBentoSection = () => {
 
 export default ServicesBentoSection;
 
+/* ─── Slug map (EN + FR titles → route slug) ───────────────── */
+const SLUG_MAP: Record<string, string> = {
+  "international moving":          "international-moving",
+  "demenagement international":    "international-moving",
+  "pet relocation":                "pet-relocation",
+  "demenagement d'animaux":        "pet-relocation",
+  "demenagement danimaux":         "pet-relocation",
+  "relocation des animaux":        "pet-relocation",
+  "office moving":                 "office-moving",
+  "transfert d'entreprise":        "office-moving",
+  "transfert dentreprise":         "office-moving",
+  "car shipping":                  "car-shipping",
+  "transport de vehicules":        "car-shipping",
+  "transport de voitures":         "car-shipping",
+  "national moving":               "national-moving",
+  "demenagement national":         "national-moving",
+  "fine art":                      "fine-art",
+  "fine art logistics":            "fine-art",
+  "logistique oeuvres d'art":      "fine-art",
+  "logistique oeuvres dart":       "fine-art",
+  "storage solutions":             "storage-solutions",
+  "garde-meubles":                 "storage-solutions",
+  "garde meubles":                 "storage-solutions",
+  // legacy highlight keys
+  "secure storage facilities":     "storage-solutions",
+  "professional movers":           "national-moving",
+  "dedicated move coordinators":   "office-moving",
+  "worldwide accreditation":       "international-moving",
+};
+
 /* ─── Swiper inner component ────────────────────────────────── */
 function ServicesBentoSwiper() {
   const { baseUrl } = useContext(AppContext);
   const swiperRef = useRef<SwiperType | null>(null);
 
   const [blocks, setBlocks] = useState<Block[]>([]);
+  const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [translating, setTranslating] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const root = useMemo(() => baseUrl.replace(/\/$/, ""), [baseUrl]);
 
+  /* 1️⃣  Fetch raw blocks from backend */
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -472,56 +508,65 @@ function ServicesBentoSwiper() {
     return () => { cancelled = true; };
   }, [root]);
 
-  const services: ServiceItem[] = useMemo(() => {
-    const slugMap: Record<string, string> = {
-      // Keys should be lowercase and without accents for easier matching
-      "international moving": "international-moving",
-      "demenagement international": "international-moving",
-      "pet relocation": "pet-relocation",
-      "demenagement d'animaux": "pet-relocation",
-      "demenagement danimaux": "pet-relocation",
-      "office moving": "office-moving",
-      "transfert d'entreprise": "office-moving",
-      "transfert dentreprise": "office-moving",
-      "car shipping": "car-shipping",
-      "transport de vehicules": "car-shipping",
-      "national moving": "national-moving",
-      "demenagement national": "national-moving",
-      "fine art": "fine-art",
-      "fine art logistics": "fine-art",
-      "logistique oeuvres d'art": "fine-art",
-      "logistique oeuvres dart": "fine-art",
-      "storage solutions": "storage-solutions",
-      "garde-meubles": "storage-solutions",
-      "garde meubles": "storage-solutions",
-      
-      // Legacy highlight keys
-      "secure storage facilities": "storage-solutions",
-      "professional movers": "national-moving",
-      "dedicated move coordinators": "office-moving",
-      "worldwide accreditation": "international-moving",
-    };
+  /* 2️⃣  Translate blocks whenever blocks load OR the active language changes.
+   *
+   *  Priority:
+   *   ① slug exists in i18n.ts  → use i18n (instant, no network call)
+   *   ② unknown service          → call free MyMemory API (cached)
+   */
+  useEffect(() => {
+    if (loading) return;                        // wait for fetch
+    if (blocks.length === 0) { setServices([]); return; }
 
-    const getTitle = (b: Block) => b.titre || b.title || "";
-    return blocks
-      .map((b) => {
-        const title = getTitle(b);
-        const lowerTitle = title.toLowerCase().trim()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove accents
+    let cancelled = false;
+    setTranslating(true);
+    const lang = i18n.language.split('-')[0];   // 'fr' | 'en' | …
 
-        return {
-          title,
-          description: b.description ?? "",
-          image: normalizeImageUrl(b.image || "", root),
-          slug: slugMap[lowerTitle] || lowerTitle.replace(/\s+/g, '-'),
-          keywords: b.motcle || [],
-        };
-      })
-      .filter((s) => s.title && s.image);
-  }, [blocks, root]);
+    (async () => {
+      const results = await Promise.all(
+        blocks.map(async (b) => {
+          const rawTitle = b.titre || b.title || '';
+          const rawDesc  = b.description ?? '';
+          const image    = normalizeImageUrl(b.image || '', root);
+          if (!rawTitle || !image) return null;
 
-  /* ── Loading skeleton ── */
-  if (loading) {
+          const lowerTitle = rawTitle
+            .toLowerCase().trim()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          const slug = SLUG_MAP[lowerTitle] ?? lowerTitle.replace(/\s+/g, '-');
+
+          /* ① Known service → i18n translation (instant) */
+          if (i18n.exists(`servicesData.${slug}.title`)) {
+            return {
+              title:       t(`servicesData.${slug}.title`),
+              description: t(`servicesData.${slug}.description`),
+              image, slug, keywords: b.motcle || [],
+            } as ServiceItem;
+          }
+
+          /* ② Unknown service → auto-translate via free API (cached in sessionStorage) */
+          const [title, description] = await Promise.all([
+            lang !== 'en' ? autoTranslate(rawTitle, 'en', lang) : Promise.resolve(rawTitle),
+            lang !== 'en' && rawDesc
+              ? autoTranslate(rawDesc, 'en', lang)
+              : Promise.resolve(rawDesc),
+          ]);
+
+          return { title, description, image, slug, keywords: b.motcle || [] } as ServiceItem;
+        })
+      );
+
+      if (!cancelled) {
+        setServices(results.filter(Boolean) as ServiceItem[]);
+        setTranslating(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, [blocks, loading, root, i18n.language, t]);
+
+  /* ── Loading skeleton (shown during fetch AND first translation) ── */
+  if (loading || (translating && services.length === 0)) {
     return (
       <div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
@@ -597,7 +642,11 @@ function ServicesBentoSwiper() {
               <div className="inline-block px-3 py-1 mb-4 text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 rounded-full border border-primary/20 backdrop-blur-md">
                 {t('services.serviceTag', 'Service')}
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t('servicesData.' + selectedService.slug + '.title', selectedService.title)}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+                {selectedService.slug && i18n.exists(`servicesData.${selectedService.slug}.title`)
+                  ? t(`servicesData.${selectedService.slug}.title`)
+                  : selectedService.title}
+              </h2>
               
               {selectedService.keywords && selectedService.keywords.length > 0 && (
                 <div className="mb-6 flex flex-wrap gap-2">
@@ -610,7 +659,11 @@ function ServicesBentoSwiper() {
               )}
 
               <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap text-lg">
-                {t('servicesData.' + selectedService.slug + '.description', selectedService.description)}
+                {/* longDescription from i18n if available; otherwise selectedService.description
+                    is already translated (set by the translation effect above) */}
+                {selectedService.slug && i18n.exists(`servicesData.${selectedService.slug}.longDescription`)
+                  ? t(`servicesData.${selectedService.slug}.longDescription`)
+                  : selectedService.description}
               </p>
               
               <div className="mt-8 flex justify-end">

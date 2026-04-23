@@ -10,6 +10,7 @@ const routeMeta: Record<string, [string, string]> = {
   "/da/sponsors": ["Sponsors", "Gestion des logos partenaires et sponsors"],
   "/da/content-blocks": ["Blocs de Contenu", "Titre · Description · Image — Gestion modulaire"],
   "/da/why-choose-us": ["Pourquoi Nous", "Gérer les chiffres clés affichés sur le site"],
+  "/da/block-news": ["Block News", "Gestion des actualités avec image, date et pays"],
 };
 
 function Sidebar({
@@ -73,6 +74,13 @@ function Sidebar({
             className={({ isActive }) => `ni ${isActive ? "active" : ""}`}
           >
             Blocs de Contenu
+          </NavLink>
+          <NavLink
+            to="/da/block-news"
+            onClick={() => setOpen(false)}
+            className={({ isActive }) => `ni ${isActive ? "active" : ""}`}
+          >
+            Block News
           </NavLink>
         </nav>
 
@@ -159,6 +167,11 @@ function Topbar({ setSidebarOpen }: { setSidebarOpen: (v: boolean) => void }) {
         {location.pathname === "/da/why-choose-us" && (
           <button className="btn btn-p" onClick={() => triggerAction("new-why-choose-us")}>
             + Nouvelle Entrée
+          </button>
+        )}
+        {location.pathname === "/da/block-news" && (
+          <button className="btn btn-p" onClick={() => triggerAction("new-block-news")}>
+            + Nouvelle News
           </button>
         )}
       </div>
