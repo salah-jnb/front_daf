@@ -2,6 +2,8 @@ import { Globe, PawPrint, Building2, Car, Truck, Palette, Package, Archive } fro
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useBlocks, slugify } from "@/hooks/useBlocks";
+import { useAutoTranslateArray } from "@/hooks/useAutoTranslate";
+import type { BlockDTO } from "@/hooks/useBlocks";
 
 const GRADIENTS = [
   { grad: "from-blue-500 to-cyan-400", glow: "rgba(59,130,246,0.25)" },
@@ -26,6 +28,13 @@ const ICONS = [
 const ServicesSection = () => {
   const { t } = useTranslation();
   const { blocks, loading } = useBlocks();
+
+  // ── Traduction automatique de la liste des services ──────────────
+  const { data: translatedBlocks, loading: translating } = useAutoTranslateArray(
+    blocks,
+    ['titre', 'description'] as (keyof BlockDTO)[],
+    'fr'
+  );
 
   return (
     <section id="services" className="services-section py-24 md:py-36 relative overflow-hidden">
@@ -77,16 +86,27 @@ const ServicesSection = () => {
                       <IconComponent className="w-6 h-6 text-white" strokeWidth={1.8} />
                     </div>
 
-                    {/* Number badge */}
+                      {/* Number badge */}
                     <span className="service-number">
                       {String(i + 1).padStart(2, "0")}
                     </span>
 
                     <h3 className="text-lg font-bold mt-4 mb-2 leading-snug">
-                      {t('servicesData.' + slug + '.title', block.titre)}
+                      {translating ? (
+                        <span className="inline-block w-3/4 h-5 bg-foreground/10 rounded animate-pulse" />
+                      ) : (
+                        (translatedBlocks[i]?.titre || block.titre)?.split('|')[0].trim()
+                      )}
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
-                      {t('servicesData.' + slug + '.description', block.description)}
+                      {translating ? (
+                        <span className="block space-y-1">
+                          <span className="block w-full h-3 bg-foreground/10 rounded animate-pulse" />
+                          <span className="block w-4/5 h-3 bg-foreground/10 rounded animate-pulse" />
+                        </span>
+                      ) : (
+                        translatedBlocks[i]?.description || block.description
+                      )}
                     </p>
 
                     {/* Bottom accent line */}

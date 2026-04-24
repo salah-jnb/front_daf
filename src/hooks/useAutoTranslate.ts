@@ -58,7 +58,7 @@ export function useAutoTranslate(
  * useAutoTranslateObject
  * Traduit plusieurs champs d'un objet en une seule opération.
  */
-export function useAutoTranslateObject<T extends Record<string, unknown>>(
+export function useAutoTranslateObject<T extends object>(
   obj: T | null,
   fields: (keyof T)[],
   sourceLang = 'fr',
@@ -109,7 +109,7 @@ export function useAutoTranslateObject<T extends Record<string, unknown>>(
         setLoading(false);
       }
     });
-  }, [obj?.id, targetLang]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [(obj as any)?.id, targetLang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return { data, loading };
 }
@@ -118,7 +118,7 @@ export function useAutoTranslateObject<T extends Record<string, unknown>>(
  * useAutoTranslateArray
  * Traduit un tableau d'objets complet
  */
-export function useAutoTranslateArray<T extends Record<string, unknown>>(
+export function useAutoTranslateArray<T extends object>(
   arr: T[],
   fields: (keyof T)[],
   sourceLang = 'fr',

@@ -11,7 +11,7 @@ import { AppContext } from "../context/AppContext";
 import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { autoTranslate } from "../utils/autoTranslate";
+import { translateText } from "../utils/translateService";
 
 type ServiceItem = {
   title: string;
@@ -440,50 +440,7 @@ const ServicesBentoSection = () => {
 
 export default ServicesBentoSection;
 
-/* ─── Slug map (EN + FR titles → route slug) ───────────────── */
-const SLUG_MAP: Record<string, string> = {
-  // ── Titres exacts courts ──────────────────────────────────────────────
-  "international moving":          "international-moving",
-  "demenagement international":    "international-moving",
-  "pet relocation":                "pet-relocation",
-  "demenagement d'animaux":        "pet-relocation",
-  "demenagement danimaux":         "pet-relocation",
-  "relocation des animaux":        "pet-relocation",
-  "office moving":                 "office-moving",
-  "transfert d'entreprise":        "office-moving",
-  "transfert dentreprise":         "office-moving",
-  "car shipping":                  "car-shipping",
-  "transport de vehicules":        "car-shipping",
-  "transport de voitures":         "car-shipping",
-  "national moving":               "national-moving",
-  "demenagement national":         "national-moving",
-  "fine art":                      "fine-art",
-  "fine art logistics":            "fine-art",
-  "logistique oeuvres d'art":      "fine-art",
-  "logistique oeuvres dart":       "fine-art",
-  "storage solutions":             "storage-solutions",
-  "garde-meubles":                 "storage-solutions",
-  "garde meubles":                 "storage-solutions",
-  // ── Variantes longues retournées par le backend ───────────────────────
-  "services de demenagement international": "international-moving",
-  "services de demenagement national":      "national-moving",
-  "services de relocalisation":             "pet-relocation",
-  "relocalisation danimaux":                "pet-relocation",
-  "transport et logistique doeuvres":       "fine-art",
-  "logistique doeuvres dart":               "fine-art",
-  "transport doeuvres dart":                "fine-art",
-  "services de garde":                      "storage-solutions",
-  "solutions de stockage":                  "storage-solutions",
-  "demenagement de bureaux":                "office-moving",
-  "services de bureaux":                    "office-moving",
-  "transport de vehicule":                  "car-shipping",
-  "expedition de vehicules":                "car-shipping",
-  // ── Clés legacy (highlights) ──────────────────────────────────────────
-  "secure storage facilities":     "storage-solutions",
-  "professional movers":           "national-moving",
-  "dedicated move coordinators":   "office-moving",
-  "worldwide accreditation":       "international-moving",
-};
+
 
 /* ─── Swiper inner component ────────────────────────────────── */
 function ServicesBentoSwiper() {
@@ -567,8 +524,8 @@ function ServicesBentoSwiper() {
           const slug = cleanTitle.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
           const [title, description] = await Promise.all([
-            autoTranslate(cleanTitle, 'fr', lang),
-            rawDesc ? autoTranslate(rawDesc, 'fr', lang) : Promise.resolve(''),
+            translateText(cleanTitle, lang, 'fr'),
+            rawDesc ? translateText(rawDesc, lang, 'fr') : Promise.resolve(''),
           ]);
 
           return { title, description, image, slug, keywords: b.motcle || [] } as ServiceItem;
@@ -582,7 +539,7 @@ function ServicesBentoSwiper() {
     })();
 
     return () => { cancelled = true; };
-  }, [blocks, loading, root, i18n.language, t]);
+  }, [blocks, loading, root, i18n.language]);
 
   /* ── Loading skeleton (shown during fetch AND first translation) ── */
   if (loading || (translating && services.length === 0)) {

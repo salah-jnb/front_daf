@@ -7,7 +7,7 @@ export interface BlockNewsDTO {
   description: string | null;
   pays: string | null;       // optionnel — peut être null
   date: string;              // "yyyy-MM-dd"
-  image: string;             // URL publique 
+  image: string;             // URL publique
 }
 
 /* ── Normalise image URL ── */
