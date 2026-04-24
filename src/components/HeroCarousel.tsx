@@ -20,9 +20,7 @@ const slideImages = [heroAir, heroRoad, heroSea];
 const HeroCarousel = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isFirstRender, setIsFirstRender] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -63,11 +61,7 @@ const HeroCarousel = () => {
     return () => el.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
 
-  // After first paint, enable animations for subsequent slides
-  useEffect(() => {
-    const timer = setTimeout(() => setIsFirstRender(false), 100);
-    return () => clearTimeout(timer);
-  }, []);
+  // Removed isFirstRender effect
 
   return (
     <section id="home" ref={containerRef} className="relative w-full h-screen overflow-hidden">
@@ -99,6 +93,59 @@ const HeroCarousel = () => {
           0% { transform: scaleX(0); }
           100% { transform: scaleX(1); }
         }
+
+        /* Hero Animations using native Swiper classes (zero React state updates) */
+        .swiper-slide .hero-anim-img {
+          transform: scale(1);
+          transition: transform 6000ms ease-out;
+        }
+        .swiper-slide-active .hero-anim-img {
+          transform: scale(1.1);
+        }
+
+        .swiper-slide .hero-anim-subtitle {
+          opacity: 0;
+          transform: translateY(1rem);
+          transition: all 700ms ease-out;
+          transition-delay: 0ms !important;
+        }
+        .swiper-slide-active .hero-anim-subtitle {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .swiper-slide .hero-anim-title {
+          opacity: 0;
+          transform: translateY(120%) rotate(8deg);
+          transition: transform 1000ms ease-out, opacity 1000ms ease-out;
+          transition-delay: 0ms !important;
+        }
+        .swiper-slide-active .hero-anim-title {
+          opacity: 1;
+          transform: translateY(0) rotate(0deg);
+        }
+
+        .swiper-slide .hero-anim-desc {
+          opacity: 0;
+          transform: translateY(2rem);
+          transition: all 700ms ease-out;
+          transition-delay: 0ms !important;
+        }
+        .swiper-slide-active .hero-anim-desc {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .swiper-slide .hero-anim-btns {
+          opacity: 0;
+          transform: translateY(100%);
+          transition: transform 1000ms ease-out, opacity 1000ms ease-out;
+          transition-delay: 0ms !important;
+        }
+        .swiper-slide-active .hero-anim-btns {
+          opacity: 1;
+          transform: translateY(0);
+        }
       `}</style>
 
       <Swiper
@@ -113,7 +160,6 @@ const HeroCarousel = () => {
           }
         }}
         loop
-        onSlideChange={(swiper: SwiperType) => setActiveIndex(swiper.realIndex)}
         className="w-full h-full pb-0 [&_.swiper-pagination]:bottom-8 lg:[&_.swiper-pagination]:bottom-12"
       >
         {slideImages.map((image, i) => (
@@ -129,8 +175,7 @@ const HeroCarousel = () => {
                 <img
                   src={image}
                   alt={t(`hero.slide${i + 1}.title`, '')}
-                  className={`w-full h-full object-cover transition-transform [transition-duration:6000ms] ${activeIndex === i ? "scale-110" : "scale-100"
-                    }`}
+                  className="hero-anim-img w-full h-full object-cover"
                   width={1920}
                   height={1080}
                   fetchPriority={i === 0 ? "high" : "auto"}
@@ -151,9 +196,8 @@ const HeroCarousel = () => {
               <div className="absolute inset-0 flex items-center z-10">
                 <div className="container mx-auto px-6">
                   <div className="max-w-2xl mt-32 md:mt-40">                    <p
-                      className={`text-blue-400 font-semibold text-sm uppercase tracking-[0.3em] mb-4 transition-all duration-700 ${(isFirstRender && i === 0) || activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                        }`}
-                      style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : "200ms" }}
+                      className="hero-anim-subtitle text-blue-400 font-semibold text-sm uppercase tracking-[0.3em] mb-4"
+                      style={{ transitionDelay: "200ms" }}
                     >
                       {t(`hero.slide${i + 1}.subtitle`, '')}
                     </p>
@@ -161,9 +205,8 @@ const HeroCarousel = () => {
                       {t(`hero.slide${i + 1}.title`, '').split(" ").map((word: string, wIdx: number) => (
                         <div key={wIdx} className="overflow-hidden pb-[0.4em] -mb-[0.4em]">
                           <h2
-                            className={`text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white transition-transform duration-1000 ease-out ${(isFirstRender && i === 0) || activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[120%] opacity-0 rotate-[8deg]"
-                              }`}
-                            style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : (activeIndex === i ? `${400 + wIdx * 150}ms` : "0ms") }}
+                            className="hero-anim-title text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white"
+                            style={{ transitionDelay: `${400 + wIdx * 150}ms` }}
                           >
                             <span className="block pb-[0.3em]" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5d8ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                               {word}
@@ -173,16 +216,14 @@ const HeroCarousel = () => {
                       ))}
                     </div>
                     <p
-                      className={`text-lg text-white/80 max-w-lg mb-8 transition-all duration-700 ${(isFirstRender && i === 0) || activeIndex === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                        }`}
-                      style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : "600ms" }}
+                      className="hero-anim-desc text-lg text-white/80 max-w-lg mb-8"
+                      style={{ transitionDelay: "600ms" }}
                     >
                       {t(`hero.slide${i + 1}.description`, '')}
                     </p>
                     <div
-                      className={`flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none transition-transform duration-1000 ease-out ${(isFirstRender && i === 0) || activeIndex === i ? "translate-y-0 opacity-100" : "translate-y-[100%] opacity-0"
-                        }`}
-                      style={{ transitionDelay: isFirstRender && i === 0 ? "0ms" : (activeIndex === i ? "700ms" : "0ms") }}
+                      className="hero-anim-btns flex flex-col sm:flex-row gap-4 w-full max-w-sm sm:max-w-none"
+                      style={{ transitionDelay: "700ms" }}
                     >
                       <MagneticButton
                         onClick={() => navigate('/contact')}

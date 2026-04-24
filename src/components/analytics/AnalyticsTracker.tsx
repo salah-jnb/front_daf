@@ -43,7 +43,7 @@ const initAnalytics = () => {
     document.head.appendChild(script);
   };
 
-  const timer = setTimeout(loadScript, 5000);
+  const timer = setTimeout(loadScript, 8000);
   const handleInteraction = () => {
     loadScript();
     clearTimeout(timer);

@@ -3,7 +3,7 @@ import { Menu, X, Sun, Moon, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { useTranslation } from "react-i18next";
-import jafLogo from "@/assets/logo_jaf-566x412.webp";
+import jafLogo from "@/assets/logo_jaf-187x112.webp";
 
 const navLinks = [
   { key: "home", href: "/#home" },
