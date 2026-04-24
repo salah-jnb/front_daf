@@ -106,7 +106,7 @@ const HeroCarousel = () => {
         .swiper-slide .hero-anim-subtitle {
           opacity: 0;
           transform: translateY(1rem);
-          transition: all 700ms ease-out;
+          transition: opacity 700ms ease-out, transform 700ms ease-out;
           transition-delay: 0ms !important;
         }
         .swiper-slide-active .hero-anim-subtitle {
@@ -128,7 +128,7 @@ const HeroCarousel = () => {
         .swiper-slide .hero-anim-desc {
           opacity: 0;
           transform: translateY(2rem);
-          transition: all 700ms ease-out;
+          transition: opacity 700ms ease-out, transform 700ms ease-out;
           transition-delay: 0ms !important;
         }
         .swiper-slide-active .hero-anim-desc {
