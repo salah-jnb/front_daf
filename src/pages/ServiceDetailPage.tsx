@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Phone, CheckCircle2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import { useBlockBySlug, slugify, getColorForIndex } from "@/hooks/useBlocks";
 import { useAutoTranslateObject, useAutoTranslateArray } from "@/hooks/useAutoTranslate";
 import type { BlockDTO } from "@/hooks/useBlocks";
+import { translateText } from "@/utils/translateService";
 
 /* ── Gradient palette (cycled per card index) ── */
 const GRADIENTS = [
@@ -57,7 +58,7 @@ function PageSkeleton() {
 
 /* ─── Page component ─────────────────────────────────────────── */
 export default function ServiceDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { block, others, index, loading } = useBlockBySlug(slug);
@@ -80,6 +81,38 @@ export default function ServiceDetailPage() {
 
   const color = getColorForIndex(index);
   const grad = GRADIENTS[index % GRADIENTS.length];
+
+  // ── Traduction automatique des mots clés ─────────
+  const [translatedKeywords, setTranslatedKeywords] = useState<string[]>([]);
+  const [translatingKeywords, setTranslatingKeywords] = useState(false);
+
+  useEffect(() => {
+    if (!block?.motcle?.length) {
+      setTranslatedKeywords([]);
+      return;
+    }
+
+    const lang = i18n.language.split('-')[0];
+    if (lang === 'fr') {
+      setTranslatedKeywords(block.motcle);
+      return;
+    }
+
+    let cancelled = false;
+    setTranslatingKeywords(true);
+
+    (async () => {
+      const results = await Promise.all(
+        block.motcle!.map((kw) => translateText(kw, lang, 'fr'))
+      );
+      if (!cancelled) {
+        setTranslatedKeywords(results);
+        setTranslatingKeywords(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, [block?.motcle, i18n.language]);
 
   // 404 redirect (only after loading finishes)
   useEffect(() => {
@@ -176,7 +209,7 @@ export default function ServiceDetailPage() {
               <h2 className="svc-section-title">{t('svcDetails.features', 'Caractéristiques Clés')}</h2>
 
               <div className="svc-features-grid">
-                {block.motcle.map((kw, i) => (
+                {(translatingKeywords ? block.motcle : (translatedKeywords.length > 0 ? translatedKeywords : block.motcle)).map((kw, i) => (
                   <div
                     key={i}
                     className="svc-feature-card"
@@ -188,7 +221,11 @@ export default function ServiceDetailPage() {
                       style={{ color }}
                       strokeWidth={2.2}
                     />
-                    <span>{kw}</span>
+                    <span>
+                      {translatingKeywords ? (
+                        <span className="inline-block w-32 h-4 bg-foreground/10 rounded animate-pulse" />
+                      ) : kw}
+                    </span>
                   </div>
                 ))}
               </div>
