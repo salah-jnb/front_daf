@@ -69,13 +69,20 @@ const Footer = () => {
 
   const [offices, setOffices] = useState<any[]>([]);
 
+  const [whyChooseUs, setWhyChooseUs] = useState<{
+    movesCompleted?: number;
+    secureStorageSpace?: number;
+    yearsOfExperience?: number;
+  } | null>(null);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const [resInfo, resOffices] = await Promise.all([
+        const [resInfo, resOffices, resWhy] = await Promise.all([
           fetch(`${apiBaseUrl}/informations/1`),
-          fetch(`${apiBaseUrl}/offices`)
+          fetch(`${apiBaseUrl}/offices`),
+          fetch(`${apiBaseUrl}/why-choose-us`)
         ]);
 
         if (resInfo.ok) {
@@ -86,6 +93,13 @@ const Footer = () => {
         if (resOffices.ok) {
           const dataOffices = await resOffices.json();
           if (!cancelled) setOffices(dataOffices);
+        }
+
+        if (resWhy.ok) {
+          const dataWhy = await resWhy.json();
+          if (!cancelled && Array.isArray(dataWhy) && dataWhy.length > 0) {
+            setWhyChooseUs(dataWhy[0]);
+          }
         }
       } catch {
         if (!cancelled) {
@@ -153,7 +167,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-
+                
             {/* Right: logo card */}
             <div className="ft-partner-logo-wrap">
               <div className="ft-partner-logo-card">
@@ -280,29 +294,27 @@ const Footer = () => {
             </ul>
 
             {/* Stats strip */}
-            {info && (
+            {whyChooseUs && (
               <div className="ft-stats-strip">
                 <div className="ft-stat">
                   <span className="ft-stat-val">
-                    {Array.isArray(info.offices) ? info.offices.length : "—"}
+                    +{whyChooseUs.movesCompleted}
                   </span>
-                  <span className="ft-stat-label">{t('footer.offices')}</span>
+                  <span className="ft-stat-label">{t('footer.moves', 'Déménagements')}</span>
                 </div>
                 <div className="ft-stat-sep" />
                 <div className="ft-stat">
                   <span className="ft-stat-val">
-                    {typeof info.yearsExperience === "number"
-                      ? `${info.yearsExperience}+`
-                      : "65+"}
+                    {whyChooseUs.secureStorageSpace} m²
                   </span>
-                  <span className="ft-stat-label">{t('footer.yearsExp')}</span>
+                  <span className="ft-stat-label">{t('footer.storage', 'Espace de Stockage')}</span>
                 </div>
                 <div className="ft-stat-sep" />
                 <div className="ft-stat">
                   <span className="ft-stat-val">
-                    {Array.isArray(info.sponsors) ? info.sponsors.length : "—"}
+                    {whyChooseUs.yearsOfExperience}
                   </span>
-                  <span className="ft-stat-label">{t('footer.sponsors', 'Sponsors')}</span>
+                  <span className="ft-stat-label">{t('footer.yearsExp', "Années d'Expérience")}</span>
                 </div>
               </div>
             )}
