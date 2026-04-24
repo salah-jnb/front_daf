@@ -37,7 +37,9 @@ const resources = {
       },
       news: {
         eyebrow: "Updates", title: "Latest News", updates: "Updates", description: "Stay informed about the latest trends in international transport and our company life.", viewAll: "View all news", readMore: "Read more",
-        pageTitle: "Our News", pageDesc: "Discover the latest logistics trends, our new services, and global trade updates.", search: "Search news...", filter: "Filter", empty: "No articles found."
+        pageTitle: "Our News", pageDesc: "Discover the latest logistics trends, our new services, and global trade updates.", search: "Search articles...", filter: "Filter", empty: "No articles found.",
+        recentLabel: "News", recentTitle: "Recent Articles", readAnother: "Read another article", swipe: "Swipe →", loading: "Loading...",
+        support: "Priority Support", needHelp: "Need help?", supportDesc: "Our team of experts is available to assist you with your projects.", directCall: "Direct Call"
       },
       contact: {
         team: "Contact Our Team", plan: "Plan Your", nextMove: "Next Move", subtitle: "Need an international moving quote or logistics advice? Send us your request and we will get back quickly.",
@@ -139,7 +141,9 @@ const resources = {
       },
       news: {
         eyebrow: "Actualités", title: "Dernières Nouvelles", updates: "Mises à jour", description: "Restez informé des dernières tendances du transport international et de la vie de notre entreprise.", viewAll: "Voir toutes les actualités", readMore: "Lire la suite",
-        pageTitle: "Notre Actualité", pageDesc: "Découvrez les dernières tendances logistiques, nos nouveaux services et les actualités du commerce mondial.", search: "Rechercher un article...", filter: "Filtrer", empty: "Aucun article trouvé."
+        pageTitle: "Notre Actualité", pageDesc: "Découvrez les dernières tendances logistiques, nos nouveaux services et les actualités du commerce mondial.", search: "Rechercher un article...", filter: "Filtrer", empty: "Aucun article trouvé.",
+        recentLabel: "Actualités", recentTitle: "Articles récents", readAnother: "Lire un autre article", swipe: "Balayer →", loading: "Chargement...",
+        support: "Support Prioritaire", needHelp: "Besoin d'aide ?", supportDesc: "Notre équipe d'experts est disponible pour vous accompagner dans vos projets.", directCall: "Appel Direct"
       },
       contact: {
         team: "Contactez-Nous", plan: "Planifiez Votre", nextMove: "Prochain Déménagement", subtitle: "Besoin d'un devis de déménagement ou de conseils? Envoyez-nous votre demande et nous vous répondrons rapidement.",

@@ -10,6 +10,8 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useBlockBySlug, slugify, getColorForIndex } from "@/hooks/useBlocks";
+import { useAutoTranslateObject, useAutoTranslateArray } from "@/hooks/useAutoTranslate";
+import type { BlockDTO } from "@/hooks/useBlocks";
 
 /* ── Gradient palette (cycled per card index) ── */
 const GRADIENTS = [
@@ -60,6 +62,22 @@ export default function ServiceDetailPage() {
   const navigate = useNavigate();
   const { block, others, index, loading } = useBlockBySlug(slug);
 
+  // Supprime "| JAF Logistics" ou tout suffixe après "|"
+  const cleanPipe = (val?: string) => val?.includes('|') ? val.split('|')[0].trim() : (val || '');
+
+  // ── Traduction automatique ──────────────
+  const { data: translatedBlock, loading: translating } = useAutoTranslateObject(
+    block || null,
+    ['titre', 'description'] as (keyof BlockDTO)[],
+    'fr'
+  );
+
+  const { data: translatedOthers, loading: translatingOthers } = useAutoTranslateArray(
+    others,
+    ['titre'] as (keyof BlockDTO)[],
+    'fr'
+  );
+
   const color = getColorForIndex(index);
   const grad = GRADIENTS[index % GRADIENTS.length];
 
@@ -79,9 +97,9 @@ export default function ServiceDetailPage() {
   return (
     <>
       <Seo
-        title={`${block.titre} | JAF Logistics`}
-        description={block.description}
-        path={`/services/${slugify(block.titre)}`}
+        title={`${translatedBlock?.titre || cleanPipe(block.titre)} | JAF Logistics`}
+        description={translatedBlock?.description || block.description}
+        path={`/services/${slugify(cleanPipe(block.titre))}`}
         image={block.imageUrl}
       />
 
@@ -106,9 +124,19 @@ export default function ServiceDetailPage() {
               <div className="svc-hero-text">
                 <div className="svc-eyebrow">{t('svcDetails.service')}</div>
                 <h1 className="svc-title" style={{ "--svc-color": color } as React.CSSProperties}>
-                  {block.titre}
+                  {translating ? (
+                    <span className="inline-block w-3/4 h-12 bg-foreground/10 rounded-xl animate-pulse" />
+                  ) : (translatedBlock?.titre || block.titre)}
                 </h1>
-                <p className="svc-body">{block.description}</p>
+                <p className="svc-body">
+                  {translating ? (
+                    <span className="block space-y-2">
+                      <span className="block w-full h-4 bg-foreground/10 rounded animate-pulse" />
+                      <span className="block w-4/5 h-4 bg-foreground/10 rounded animate-pulse" />
+                      <span className="block w-3/4 h-4 bg-foreground/10 rounded animate-pulse" />
+                    </span>
+                  ) : (translatedBlock?.description || block.description)}
+                </p>
 
                 <a
                   href="tel:+21671906446"
@@ -202,7 +230,7 @@ export default function ServiceDetailPage() {
                 }}
                 className="svc-others-swiper pb-10"
               >
-                {others.map((s, i) => {
+                {(translatingOthers ? others : translatedOthers).map((s, i) => {
                   const otherSlug = slugify(s.titre);
                   const otherColor = getColorForIndex(i);
                   return (

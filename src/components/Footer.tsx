@@ -416,7 +416,7 @@ const Footer = () => {
           font-size: 1.05rem;
           font-weight: 600;
           color: #94a3b8;
-          margin-bottom: 1.5rem;
+          margin-bottom: 2.5rem;
         }
 
         /* Contact rows */

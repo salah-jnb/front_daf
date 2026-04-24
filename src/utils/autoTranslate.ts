@@ -37,23 +37,24 @@ export async function autoTranslate(
     /* sessionStorage unavailable (private mode, Safari ITP, …) */
   }
 
-  // 3. Free MyMemory API with 6 s timeout
+  // 3. Free Google Translate API with 6 s timeout
   try {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 6_000);
 
-    const res = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`,
-      { signal: ctrl.signal },
-    );
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url, { signal: ctrl.signal });
     clearTimeout(timer);
 
     if (!res.ok) return text;
 
     const data = await res.json();
-    const result: string = data.responseData?.translatedText ?? text;
+    let result = text;
+    if (Array.isArray(data) && Array.isArray(data[0]) && Array.isArray(data[0][0])) {
+      result = data[0][0][0] || text;
+    }
 
-    if (result && !result.startsWith('PLEASE SELECT')) {
+    if (result && result !== text) {
       memCache.set(key, result);
       try { sessionStorage.setItem(key, result); } catch { /* ignore */ }
       return result;

@@ -442,6 +442,7 @@ export default ServicesBentoSection;
 
 /* ─── Slug map (EN + FR titles → route slug) ───────────────── */
 const SLUG_MAP: Record<string, string> = {
+  // ── Titres exacts courts ──────────────────────────────────────────────
   "international moving":          "international-moving",
   "demenagement international":    "international-moving",
   "pet relocation":                "pet-relocation",
@@ -463,7 +464,21 @@ const SLUG_MAP: Record<string, string> = {
   "storage solutions":             "storage-solutions",
   "garde-meubles":                 "storage-solutions",
   "garde meubles":                 "storage-solutions",
-  // legacy highlight keys
+  // ── Variantes longues retournées par le backend ───────────────────────
+  "services de demenagement international": "international-moving",
+  "services de demenagement national":      "national-moving",
+  "services de relocalisation":             "pet-relocation",
+  "relocalisation danimaux":                "pet-relocation",
+  "transport et logistique doeuvres":       "fine-art",
+  "logistique doeuvres dart":               "fine-art",
+  "transport doeuvres dart":                "fine-art",
+  "services de garde":                      "storage-solutions",
+  "solutions de stockage":                  "storage-solutions",
+  "demenagement de bureaux":                "office-moving",
+  "services de bureaux":                    "office-moving",
+  "transport de vehicule":                  "car-shipping",
+  "expedition de vehicules":                "car-shipping",
+  // ── Clés legacy (highlights) ──────────────────────────────────────────
   "secure storage facilities":     "storage-solutions",
   "professional movers":           "national-moving",
   "dedicated move coordinators":   "office-moving",
@@ -508,19 +523,36 @@ function ServicesBentoSwiper() {
     return () => { cancelled = true; };
   }, [root]);
 
-  /* 2️⃣  Translate blocks whenever blocks load OR the active language changes.
-   *
-   *  Priority:
-   *   ① slug exists in i18n.ts  → use i18n (instant, no network call)
-   *   ② unknown service          → call free MyMemory API (cached)
+  /* 2️⃣  Traduit les blocks à chaque changement de langue (même approche que NewsPage).
+   *  Tout le contenu vient du backend en français → traduit via Google Translate API.
+   *  Cache localStorage pour éviter les appels redondants.
    */
   useEffect(() => {
-    if (loading) return;                        // wait for fetch
+    if (loading) return;
     if (blocks.length === 0) { setServices([]); return; }
 
     let cancelled = false;
+    const lang = i18n.language.split('-')[0]; // 'fr' | 'en' | …
+
+    // Si langue = français (source), afficher directement sans appel API
+    if (lang === 'fr') {
+      const mapped = blocks
+        .map((b) => {
+          const rawTitle = b.titre || b.title || '';
+          const rawDesc  = b.description ?? '';
+          const image    = normalizeImageUrl(b.image || '', root);
+          if (!rawTitle || !image) return null;
+          const cleanTitle = rawTitle.split('|')[0].trim();
+          const slug = cleanTitle.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          return { title: cleanTitle, description: rawDesc, image, slug, keywords: b.motcle || [] } as ServiceItem;
+        })
+        .filter(Boolean) as ServiceItem[];
+      setServices(mapped);
+      return;
+    }
+
+    // Autre langue → traduction via API Google Translate (avec cache)
     setTranslating(true);
-    const lang = i18n.language.split('-')[0];   // 'fr' | 'en' | …
 
     (async () => {
       const results = await Promise.all(
@@ -530,26 +562,13 @@ function ServicesBentoSwiper() {
           const image    = normalizeImageUrl(b.image || '', root);
           if (!rawTitle || !image) return null;
 
-          const lowerTitle = rawTitle
-            .toLowerCase().trim()
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          const slug = SLUG_MAP[lowerTitle] ?? lowerTitle.replace(/\s+/g, '-');
+          // Nettoie le titre (supprime "| JAF Logistics" et variantes)
+          const cleanTitle = rawTitle.split('|')[0].trim();
+          const slug = cleanTitle.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-          /* ① Known service → i18n translation (instant) */
-          if (i18n.exists(`servicesData.${slug}.title`)) {
-            return {
-              title:       t(`servicesData.${slug}.title`),
-              description: t(`servicesData.${slug}.description`),
-              image, slug, keywords: b.motcle || [],
-            } as ServiceItem;
-          }
-
-          /* ② Unknown service → auto-translate via free API (cached in sessionStorage) */
           const [title, description] = await Promise.all([
-            lang !== 'en' ? autoTranslate(rawTitle, 'en', lang) : Promise.resolve(rawTitle),
-            lang !== 'en' && rawDesc
-              ? autoTranslate(rawDesc, 'en', lang)
-              : Promise.resolve(rawDesc),
+            autoTranslate(cleanTitle, 'fr', lang),
+            rawDesc ? autoTranslate(rawDesc, 'fr', lang) : Promise.resolve(''),
           ]);
 
           return { title, description, image, slug, keywords: b.motcle || [] } as ServiceItem;
