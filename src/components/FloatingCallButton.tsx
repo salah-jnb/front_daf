@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Phone } from "lucide-react";
 
-const PHONE_NUMBER = "+21671906446";
-const PHONE_DISPLAY = "(+216) 71 906 446";
+const PHONE_NUMBER = "+21652757510";
+const PHONE_DISPLAY = "(+216) 52 757 510";
 
 const FloatingCallButton = () => {
   const [hovered, setHovered] = useState(false);

@@ -8,7 +8,7 @@ import jafLogo from "@/assets/logo_jaf-187x112.webp";
 const navLinks = [
   { key: "home", href: "/#home" },
   { key: "services", href: "/#services" },
-  { key: "about", href: "/#about" },
+  { key: "about", href: "/#heritage" },
   { key: "howWeWork", href: "/how-we-work" },
   { key: "news", href: "/news" },
   { key: "contact", href: "/contact" },

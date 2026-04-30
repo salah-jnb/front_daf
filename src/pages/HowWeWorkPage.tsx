@@ -18,30 +18,7 @@ const HowWeWorkPage = () => {
       <Navbar lightTextOnTop={false} />
       <div className="min-h-screen bg-background pt-24 md:pt-32">
         
-        {/* 1. HERO - COMPANY HISTORY */}
-      <section className="py-16 md:py-20 relative overflow-hidden section-glow">
-        {/* Animated Background Orbs */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-[-100px] left-[-100px] w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-        
-        <div className="container mx-auto px-6 max-w-5xl text-center relative z-10">
-          <p className="text-primary font-bold text-sm uppercase tracking-[0.4em] mb-4 animate-fade-in-up">
-            {t('howWeWork.legacy', 'Our Legacy')}
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black mb-8 leading-[1.1] animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-            {t('howWeWork.established', 'Established in the')} <span className="gradient-text">1950's</span>
-          </h1>
-          
-          <div className="glass p-8 md:p-12 rounded-[2rem] border border-border/50 shadow-2xl animate-fade-in-up" style={{ animationDelay: "400ms" }}>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6 font-medium">
-              <strong className="text-foreground">DEMENAGEMENTS JAF</strong> {t('howWeWork.p1').replace('DEMENAGEMENTS JAF', '')}
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              {t('howWeWork.p2')}
-            </p>
-          </div>
-        </div>
-      </section>
+
 
       {/* 2. SERVICES DEEP DIVE (ZZ Layout) */}
       <section className="py-16 md:py-24 relative z-10">

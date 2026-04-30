@@ -52,24 +52,24 @@ const AboutSection = () => {
         if (Array.isArray(data) && data.length > 0) {
           const stats = data[0];
           setMetrics([
-            { id: 1, icon: Umbrella, value: `+${stats.movesCompleted || 30000}`, label: "Moves Completed" },
-            { id: 2, icon: Warehouse, value: `${stats.secureStorageSpace || 4500} m2`, label: "Secure Storage Space" },
-            { id: 3, icon: Ship, value: `${stats.yearsOfExperience || 65}`, label: "Years of Experience" },
+            { id: 1, icon: Umbrella, value: `+${stats.movesCompleted || 10000}`, label: "Moves Completed" },
+            { id: 2, icon: Warehouse, value: `${stats.secureStorageSpace || 2500} m2`, label: "Secure Storage Space" },
+            { id: 3, icon: Ship, value: `${stats.yearsOfExperience || 50}`, label: "Years of Experience" },
           ]);
         } else {
           setMetrics([
-            { id: 1, icon: Umbrella, value: "+30000", label: "Moves Completed" },
-            { id: 2, icon: Warehouse, value: "4500 m2", label: "Secure Storage Space" },
-            { id: 3, icon: Ship, value: "65", label: "Years of Experience" },
+            { id: 1, icon: Umbrella, value: "+10000", label: "Moves Completed" },
+            { id: 2, icon: Warehouse, value: "2500 m2", label: "Secure Storage Space" },
+            { id: 3, icon: Ship, value: "50", label: "Years of Experience" },
           ]);
         }
       })
       .catch(() => {
         // Fallback to default if there is a network error
         setMetrics([
-          { id: 1, icon: Umbrella, value: "+30000", label: "Moves Completed" },
-          { id: 2, icon: Warehouse, value: "4500 m2", label: "Secure Storage Space" },
-          { id: 3, icon: Ship, value: "65", label: "Years of Experience" },
+          { id: 1, icon: Umbrella, value: "+10000", label: "Moves Completed" },
+          { id: 2, icon: Warehouse, value: "2500 m2", label: "Secure Storage Space" },
+          { id: 3, icon: Ship, value: "50", label: "Years of Experience" },
         ]);
       })
       .finally(() => setMetricsLoading(false));
@@ -89,7 +89,7 @@ const AboutSection = () => {
         </div>
         
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-widest uppercase text-white relative inline-block drop-shadow-md">
-          {t('about.whyChooseUs', 'WHY CHOOSE US')}
+          {t('about.whyChooseUs', 'WHY JAF')}
           <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-blue-400 to-primary rounded-full shadow-sm" />
         </h2>
       </div>

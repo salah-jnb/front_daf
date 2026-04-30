@@ -9,6 +9,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 const ServicesSection = lazy(() => import("@/components/ServicesSection"));
 const AboutSection = lazy(() => import("@/components/AboutSection"));
+const HeritageSection = lazy(() => import("@/components/HeritageSection").then(m => ({ default: m.HeritageSection })));
 const ProcessSection = lazy(() => import("@/components/ProcessSection"));
 const ServicesBentoSection = lazy(() => import("@/components/ServicesBentoSection"));
 const AccreditationsSection = lazy(() => import("@/components/AccreditationsSection"));
@@ -35,6 +36,7 @@ const Index = () => (
         <RevealOnScroll>
           <ServicesSection />
         </RevealOnScroll>
+        <HeritageSection />
         <RevealOnScroll delay={100}>
           <AboutSection />
         </RevealOnScroll>

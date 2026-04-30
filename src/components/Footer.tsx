@@ -228,11 +228,11 @@ const Footer = () => {
                 </a>
               )}
               {info?.phone2 && (
-                <a href={`tel:${info.phone2}`} className="ft-info-row">
+                <a href={`tel:+21652757510`} className="ft-info-row">
                   <div className="ft-info-icon-wrap">
                     <Phone size={14} />
                   </div>
-                  <span>{line(info.phone2)}</span>
+                  <span>(+216) 52 757 510</span>
                 </a>
               )}
               {info?.email && (
@@ -328,18 +328,10 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-2">
             <div className="ft-bottom-inner text-center md:text-left flex-wrap justify-center md:justify-start !w-auto">
               <span>
-                © {new Date().getFullYear()} JAF Logistics.{" "}
-                <a
-                  href="/polices.txt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors hover:underline"
-                >
-                  {t('footer.rights', 'All rights reserved.')}
-                </a>
+                © {new Date().getFullYear()} {t('footer.rights')}
               </span>
               <span className="ft-bottom-sep" aria-hidden="true">·</span>
-              <span>{t('footer.international', 'International Moving & Freight Services')}</span>
+              <span className="uppercase tracking-[0.05em]">{t('footer.international')}</span>
             </div>
 
             {/* Footer Language Toggle */}

@@ -205,7 +205,7 @@ const HeroCarousel = () => {
                       {t(`hero.slide${i + 1}.title`, '').split(" ").map((word: string, wIdx: number) => (
                         <div key={wIdx} className="overflow-hidden pb-[0.4em] -mb-[0.4em]">
                           <h2
-                            className="hero-anim-title text-6xl md:text-8xl lg:text-[100px] font-black leading-[0.95] text-white"
+                            className="hero-anim-title text-4xl sm:text-5xl md:text-6xl lg:text-[70px] font-black leading-[0.95] text-white"
                             style={{ transitionDelay: `${400 + wIdx * 150}ms` }}
                           >
                             <span className="block pb-[0.3em]" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5d8ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>

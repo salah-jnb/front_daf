@@ -100,30 +100,30 @@ const ServiceSlideCard = ({ title, description, image, slug, onClick }: ServiceI
 const ServicesBentoSection = () => {
   const { t } = useTranslation();
   return (
-  <section id="services-bento" className="sbs-section py-24 md:py-36 relative overflow-hidden">
-    {/* Ambient blobs */}
-    <div className="sbs-blob sbs-blob-a" aria-hidden="true" />
-    <div className="sbs-blob sbs-blob-b" aria-hidden="true" />
+    <section id="services-bento" className="sbs-section py-24 md:py-36 relative overflow-hidden">
+      {/* Ambient blobs */}
+      <div className="sbs-blob sbs-blob-a" aria-hidden="true" />
+      <div className="sbs-blob sbs-blob-b" aria-hidden="true" />
 
-    <div className="container mx-auto px-4 sm:px-6 relative z-10">
-      {/* Section header */}
-      <div className="sbs-header">
-        <div className="sbs-eyebrow-wrap">
-          <span className="sbs-eyebrow">{t('services.eyebrow', 'Featured Services')}</span>
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        {/* Section header */}
+        <div className="sbs-header">
+          <div className="sbs-eyebrow-wrap">
+            <span className="sbs-eyebrow">{t('services.eyebrow', 'Featured Services')}</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight leading-tight text-white">
+            {t('services.discover', 'Discover Our ')}
+            <span className="gradient-text">{t('services.expertise', 'Moving Expertise')}</span>
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            {t('services.desc', 'Explore our key services: household moving, office relocation, car shipping, secure storage, fine art logistics, and pet relocation.')}
+          </p>
         </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight leading-tight text-white">
-          {t('services.discover', 'Discover Our ')}
-          <span className="gradient-text">{t('services.expertise', 'Moving Expertise')}</span>
-        </h2>
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          {t('services.desc', 'Explore our key services: household moving, office relocation, car shipping, secure storage, fine art logistics, and pet relocation.')}
-        </p>
+
+        <ServicesBentoSwiper />
       </div>
 
-      <ServicesBentoSwiper />
-    </div>
-
-    <style>{`
+      <style>{`
       /* ── Section ── */
       .sbs-section { background: #030814; }
 
@@ -434,7 +434,7 @@ const ServicesBentoSection = () => {
         100% { opacity: 0.4; }
       }
     `}</style>
-  </section>
+    </section>
   );
 };
 
@@ -496,8 +496,8 @@ function ServicesBentoSwiper() {
       const mapped = blocks
         .map((b) => {
           const rawTitle = b.titre || b.title || '';
-          const rawDesc  = b.description ?? '';
-          const image    = normalizeImageUrl(b.image || '', root);
+          const rawDesc = b.description ?? '';
+          const image = normalizeImageUrl(b.image || '', root);
           if (!rawTitle || !image) return null;
           const cleanTitle = rawTitle.split('|')[0].trim();
           const slug = cleanTitle.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -515,8 +515,8 @@ function ServicesBentoSwiper() {
       const results = await Promise.all(
         blocks.map(async (b) => {
           const rawTitle = b.titre || b.title || '';
-          const rawDesc  = b.description ?? '';
-          const image    = normalizeImageUrl(b.image || '', root);
+          const rawDesc = b.description ?? '';
+          const image = normalizeImageUrl(b.image || '', root);
           if (!rawTitle || !image) return null;
 
           // Nettoie le titre (supprime "| JAF Logistics" et variantes)
@@ -589,9 +589,9 @@ function ServicesBentoSwiper() {
         pagination={{ clickable: true }}
         spaceBetween={24}
         breakpoints={{
-          0:    { slidesPerView: 1 },
-          640:  { slidesPerView: 1.3 },
-          768:  { slidesPerView: 2 },
+          0: { slidesPerView: 1 },
+          640: { slidesPerView: 1.3 },
+          768: { slidesPerView: 2 },
           1280: { slidesPerView: 3 },
         }}
         className="sbs-swiper"
@@ -623,7 +623,7 @@ function ServicesBentoSwiper() {
                   ? t(`servicesData.${selectedService.slug}.title`)
                   : selectedService.title}
               </h2>
-              
+
               {selectedService.keywords && selectedService.keywords.length > 0 && (
                 <div className="mb-6 flex flex-wrap gap-2">
                   {selectedService.keywords.map((kw, i) => (
@@ -641,7 +641,7 @@ function ServicesBentoSwiper() {
                   ? t(`servicesData.${selectedService.slug}.longDescription`)
                   : selectedService.description}
               </p>
-              
+
               <div className="mt-8 flex justify-end">
                 <button onClick={() => setSelectedService(null)} className="px-6 py-3 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:-translate-y-1 transition-transform">
                   Fermer les détails
