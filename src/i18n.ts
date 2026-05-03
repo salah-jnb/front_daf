@@ -63,6 +63,7 @@ const resources = {
         p2: "As one of the largest moving companies in North Africa, we are committed to providing the best, most professional, responsive, and safe relocation services available to corporate, government, residential, and commercial customers. We strive to provide our customers with a full service from door to door!",
         national: { title: "National Move", p1: "From the very first contact, until the completion of your local move, nothing is left to chance. Our goal is to provide excellent, stress-free services at an affordable rate. Once you decide you are ready to move, call us to schedule a no-cost in-home estimate. One of our professional estimators will visit your home and provide our best rate to have all your furniture wrapped by our experienced local movers!", p2: "With our extensive range of domestic moving services, we take care of every single detail of your transfer to make your experience the smoothest possible—from sorting household goods to packing, labeling, loading, transportation, unloading, unpacking, and even trash and debris removal." },
         intl: { title: "International Move", p1: "Moving to a new country isn’t easy as it involves numerous steps such as pre-move survey, packing, freight, storage, customs clearance, and delivery at destination. DEMENAGEMENTS JAF works hand in hand with our partners throughout the world to make your move a premier relocation experience.", p2: "We fully understand how critical planning and attention to detail are the keys to a successful moving project. To make you feel safe and comforted, each move is overseen by a designated move coordinator who will be in charge of advising, supporting, and updating our customers at every step from door to door.", shield: "For both Origin and Destination services, we only offer the best! We Deliver on Time—Every Time!" },
+        storage: { title: "Secure Storage", p1: "We offer secure short and long-term storage solutions tailored to your needs. Whether you need extra space during a transition or long-term storage, our facilities are ready.", p2: "Our modern warehouses are equipped with 24/7 surveillance, climate control, and advanced fire protection systems to guarantee the absolute safety of your belongings." },
         processLabel: "The Process", howWeWorkLabel: "How We Work?",
         processSteps: {
           s1: { title: "Initial Survey", desc: "As soon as you contact us, we'll set up a physical or virtual survey to assess your belongings, listen to your needs (export documents, special artwork boxes, storage, insurance), and provide vital preliminary info." },
@@ -120,8 +121,8 @@ const resources = {
       navbar: { home: "Accueil", services: "Services", about: "À propos", howWeWork: "Nos Solutions", news: "Pourquoi JAF", contact: "Contact", getQuote: "Obtenir un Devis" },
       footer: {
         rights: "JAF DEMENAGEMENTS", international: "Déménagements Nationaux, Internationaux & Garde-Meubles",
-        partnerEyebrow: "Réseau de Partenariat International", trustedPartner: "Partenaire de Confiance au", morocco: "Maroc",
-        tagline: "Spécialistes globaux du déménagement, garants d'un transfert sécurisé et sans failles depuis 1950.",
+        partnerEyebrow: "Notre Bureau au Maroc", trustedPartner: "Votre Partenaire de Confiance au", morocco: "Maroc",
+        tagline: "Spécialistes international du déménagement, pour d'un transfert sécurisé et sans failles depuis 1950.",
         quickLinks: "Liens Utiles", policies: "Documents & Politiques", offices: "Agences", yearsExp: "Années d'exp."
       },
       hero: {
@@ -148,7 +149,7 @@ const resources = {
         globalTrust: "Confiance Mondiale", our: "Nos ", accrs: "Accréditations", desc: "Nous sommes fièrement certifiés et reconnus par les organisations internationales de déménagement et de logistique les plus prestigieuses."
       },
       news: {
-        eyebrow: "Pourquoi JAF", title: "Pourquoi Choisir JAF", updates: "Avantages", description: "Découvrez pourquoi JAF Logistics est le leader de confiance dans les services de déménagement et de fret.", viewAll: "En savoir plus", readMore: "Lire la suite",
+        eyebrow: "Pourquoi JAF", title: "Pourquoi Choisir JAF", updates: "Avantages", description: "Découvrez pourquoi JAF demenagements est le leader de confiance dans les services de déménagement , fret et garde-meubles.", viewAll: "En savoir plus", readMore: "Lire la suite",
         pageTitle: "Pourquoi JAF", pageDesc: "Découvrez l'expertise et l'héritage de JAF Logistics, votre partenaire de confiance.", search: "Rechercher...", filter: "Filtrer", empty: "Aucun résultat trouvé.",
         recentLabel: "Pourquoi JAF", recentTitle: "À propos", readAnother: "En savoir plus", swipe: "Balayer →", loading: "Chargement...",
         support: "Support Prioritaire", needHelp: "Besoin d'aide ?", supportDesc: "Notre équipe d'experts est disponible pour vous accompagner.", directCall: "Appel Direct"
@@ -165,27 +166,28 @@ const resources = {
       process: {
         eyebrow: "Comment Ça Marche", title: "Simple. Efficace. Fiable.", desc: "Un processus simple en quatre étapes, de la planification à la livraison finale en toute sécurité.",
         s1: { title: "Demandez votre devis", desc: "Parlez-nous de votre déménagement ou de votre expédition et recevez un devis clair et compétitif." },
-        s2: { title: "Planification Personnalisée", desc: "Notre équipe logistique élabore le plan, le calendrier et la stratégie d'emballage adaptés à vos besoins." },
+        s2: { title: "Planification Personnalisée", desc: "Notre équipe logistique élabore le plan, le calendrier et la stratégie d'emballage adapté à vos besoins." },
         s3: { title: "Manipulation Sécurisée", desc: "Vos biens sont emballés, manipulés et chargés selon des normes strictes de sécurité et de qualité." },
-        s4: { title: "Suivi et Livraison", desc: "Suivez la progression de votre envoi et recevez-le à temps avec une assistance proactive." }
+        s4: { title: "Suivi et Livraison", desc: "Suivez la progression de votre envoi et recevez à temps avec une assistance proactive." }
       },
       howWeWork: {
         legacy: "À propos", established: "Fondé dans les années",
-        p1: "DEMENAGEMENTS JAF est une entreprise familiale de premier plan dans le secteur du déménagement et du stockage en Tunisie et en Afrique du Nord. Avec nos équipes hautement qualifiées, nous proposons une gamme complète de services.",
-        p2: "En tant que l'une des plus grandes entreprises de déménagement en Afrique du Nord, nous nous engageons à fournir les services de relocalisation les plus professionnels, réactifs et sûrs aux clients. Nous nous efforçons de fournir à nos clients un service de porte à porte !",
+        p1: "DEMENAGEMENTS JAF est une entreprise familiale de premier plan dans le secteur du déménagement et du garde-meuble en Tunisie et en Afrique du Nord. Avec nos équipes hautement qualifiées, nous proposons une gamme complète de services.",
+        p2: "En tant que l'une des plus grandes entreprises de déménagement en Afrique du Nord, nous nous engageons à fournir les services  les plus professionnels, réactifs et sûrs a nos clients",
         national: { title: "Déménagement National", p1: "Dès le premier contact jusqu'à l'achèvement de votre déménagement local, rien n'est laissé au hasard. Notre objectif est de fournir d'excellents services sans stress à un tarif abordable. Une fois que vous avez décidé que vous êtes prêt à déménager, appelez-nous pour planifier une estimation gratuite à domicile !", p2: "Grâce à notre vaste gamme de services de déménagement national, nous prenons en charge chaque détail de votre transfert pour rendre votre expérience la plus fluide possible." },
         intl: { title: "Déménagement International", p1: "Déménager dans un nouveau pays n'est pas facile car cela implique de nombreuses étapes. DEMENAGEMENTS JAF travaille main dans la main avec nos partenaires à travers le monde pour faire de votre déménagement une expérience exceptionnelle.", p2: "Nous comprenons parfaitement à quel point la planification et l'attention aux détails sont essentielles. Pour vous rassurer, chaque déménagement est supervisé par un coordinateur de déménagement désigné.", shield: "Pour les services d'origine et de destination, nous ne proposons que le meilleur ! Nous livrons à temps — à chaque fois !" },
+        storage: { title: "Garde-Meubles Sécurisé", p1: "Nous proposons des solutions de stockage sécurisées à court et à long terme adaptées à vos besoins. Que vous ayez besoin d'un espace supplémentaire lors d'une transition ou d'un stockage à long terme, nos installations sont prêtes.", p2: "Nos entrepôts modernes sont équipés d'une surveillance 24/7, d'un contrôle climatique et de systèmes de protection contre les incendies de pointe pour garantir la sécurité absolue de vos biens." },
         processLabel: "Le Processus", howWeWorkLabel: "Comment nous travaillons?",
         processSteps: {
-          s1: { title: "Etude Initiale", desc: "Dès que vous nous contactez, nous organiserons une visite virtuelle pour évaluer vos biens, écouter vos besoins et fournir des informations." },
+          s1: { title: "Etude Initiale", desc: "Dès que vous nous contactez, nous organiserons une visite virtuelle la domicile  pour évaluer vos biens, écouter vos besoins et fournir des informations." },
           s2: { title: "Offre Financière", desc: "Notre service commercial utilise le rapport de visite pour recueillir tous les détails et vous présenter l'offre financière optimale." },
-          s3: { title: "Emballage et Chargement", desc: "Une équipe expérimentée arrivera le jour de l'emballage en parfait control." },
-          s4: { title: "Exportation et Livraison", desc: "Notre département export gère votre relocalisation de bout en bout avec mises à jour pour vous rassurer." }
+          s3: { title: "Emballage et Chargement", desc: "Une équipe expérimentée arrivera le jour de l'emballage pour faire le necessaire ." },
+          s4: { title: "Exportation et Livraison", desc: "Notre département export gère votre relocalisation de bout en bout avec mises à jour a temps réel." }
         }
       },
       svcDetails: {
         back: "Tous les Services", service: "Service", included: "Au programme", features: "Caractéristiques Clés", ctaHeading: "Prêt à commencer ?",
-        ctaSub: "Notre équipe est disponible 6 jours par semaine pour répondre à vos questions.", ctaBtn: "(+216) 52 757 510 — Appelez-nous", more: "Découvrir plus", otherSvc: "Autres Services", quote: "Obtenir un Devis Gratuit — (+216) 52 757 510"
+        ctaSub: "Notre équipe est disponible 6 jours par semaine pour répondre à vos Besoins.", ctaBtn: "(+216) 52 757 510 — Appelez-nous", more: "Découvrir plus", otherSvc: "Autres Services", quote: "Obtenir un Devis Gratuit — (+216) 52 757 510"
       },
       servicesData: {
         "demenagement-international": {

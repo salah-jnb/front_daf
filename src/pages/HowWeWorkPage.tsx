@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { MapPin, Globe, CalendarSearch, FileText, PackageCheck, PlaneTakeoff, ShieldCheck } from "lucide-react";
+import { MapPin, Globe, CalendarSearch, FileText, PackageCheck, PlaneTakeoff, ShieldCheck, Warehouse } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import img1 from "@/assets/howwework/img1.jpg";
 import img2 from "@/assets/howwework/img2.jpg";
+import img3 from "@/assets/storage.webp";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingCallButton from "@/components/FloatingCallButton";
@@ -46,7 +47,7 @@ const HowWeWorkPage = () => {
           </div>
 
           {/* International Move */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center group">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24 lg:mb-32 group">
             <div className="order-1 lg:order-1">
               <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mb-6">
                 <Globe className="w-8 h-8 text-amber-500" strokeWidth={1.5} />
@@ -67,6 +68,27 @@ const HowWeWorkPage = () => {
             <div className="order-2 lg:order-2 relative rounded-[2rem] overflow-hidden shadow-2xl h-[400px] transform transition-transform duration-700 hover:scale-[1.02]">
               <div className="absolute inset-0 bg-amber-500/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
               <img src={img2} alt="International Move Service" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+            </div>
+          </div>
+
+          {/* Storage */}
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center group">
+            <div className="order-2 lg:order-1 relative rounded-[2rem] overflow-hidden shadow-2xl h-[400px] transform transition-transform duration-700 hover:scale-[1.02]">
+              <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+              <img src={img3} alt="Storage Service" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+            </div>
+            
+            <div className="order-1 lg:order-2">
+              <div className="w-16 h-16 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center mb-6">
+                <Warehouse className="w-8 h-8 text-teal-500" strokeWidth={1.5} />
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black mb-6">{t('howWeWork.storage.title')}</h2>
+              <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
+                {t('howWeWork.storage.p1')}
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                {t('howWeWork.storage.p2')}
+              </p>
             </div>
           </div>
 

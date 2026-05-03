@@ -1,4 +1,4 @@
-import { Globe, Mail, Phone } from "lucide-react";
+import { Globe, Mail, Phone, MapPin, Smartphone, Printer } from "lucide-react";
 import mimcLogo from "@/assets/partners/mimc.webp";
 
 const SponsorSection = () => (
@@ -7,20 +7,19 @@ const SponsorSection = () => (
       <div className="glass rounded-3xl border border-border/70 p-8 md:p-10">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4">International Partner Network</p>
+            <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-4">Notre Bureau au maroc</p>
             <h2 className="text-4xl md:text-5xl font-bold mb-5">
-              Trusted Partner in <span className="gradient-text">Morocco</span>
+              Votre Partenaire de confiance au <span className="gradient-text">Maroc</span>
             </h2>
             <p className="text-xl md:text-2xl leading-snug mb-6">Moumene International Moving Company</p>
 
             <div className="space-y-2 text-muted-foreground text-base md:text-lg leading-relaxed">
-              <p>Rabat Office: 37, Rue Idriss Al Akbar N 3, Hassan, Rabat 10020</p>
-              <p>Casablanca Office: 5, Bd Abdellah Ben Yacine, 5eme Etage N 1, Casablanca</p>
-              <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-primary" /> mimc@moumene.com</p>
-              <p className="flex items-center gap-2"><Globe className="w-4 h-4 text-primary" /> www.moumene.com</p>
-              <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-primary" /> (+212) 537 26 20 46 / 26 31 57</p>
-              <p>GSM: (+212) 661 37 41 66</p>
-              <p>FAX: (+212) 537 26 23 94</p>
+              <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary shrink-0" /> Rabat - Casa - Kenitra</p>
+              <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-primary shrink-0" /> mimc@moumene.com</p>
+              <p className="flex items-center gap-2"><Globe className="w-4 h-4 text-primary shrink-0" /> www.moumene.com</p>
+              <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-primary shrink-0" /> (+212) 537 26 20 46 / 26 31 57</p>
+              <p className="flex items-center gap-2"><Smartphone className="w-4 h-4 text-primary shrink-0" /> (+212) 661 37 41 66</p>
+              <p className="flex items-center gap-2"><Printer className="w-4 h-4 text-primary shrink-0" /> (+212) 537 26 23 94</p>
             </div>
           </div>
 

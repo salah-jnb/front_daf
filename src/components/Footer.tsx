@@ -8,6 +8,8 @@ import {
   Phone,
   ArrowUpRight,
   ChevronRight,
+  Smartphone,
+  Printer
 } from "lucide-react";
 import signatureImg from "@/assets/signature-1-600x400.webp";
 import mimcLogo from "@/assets/partners/mimc.webp";
@@ -139,10 +141,12 @@ const Footer = () => {
               <div className="ft-partner-contacts">
                 {offices.map((office) => (
                   <div key={office.id} className="ft-contact-row">
-                    <MapPin size={14} className="ft-contact-icon" />
-                    <span>{office.officeName}</span>
                   </div>
                 ))}
+                <div className="ft-contact-row">
+                  <MapPin size={14} className="ft-contact-icon" />
+                  <span>Rabat - Casa - Kenitra</span>
+                </div>
                 <div className="ft-contact-row">
                   <Mail size={14} className="ft-contact-icon" />
                   <a href="mailto:mimc@moumene.com" className="ft-link">
@@ -163,7 +167,15 @@ const Footer = () => {
                 </div>
                 <div className="ft-contact-row">
                   <Phone size={14} className="ft-contact-icon" />
-                  <span>(+212) 537 26 20 46 / 26 31 57 · GSM: (+212) 661 37 41 66</span>
+                  <span>(+212) 537 26 20 46 / 26 31 57</span>
+                </div>
+                <div className="ft-contact-row">
+                  <Smartphone size={14} className="ft-contact-icon" />
+                  <span>(+212) 661 37 41 66</span>
+                </div>
+                <div className="ft-contact-row">
+                  <Printer size={14} className="ft-contact-icon" />
+                  <span>(+212) 537 26 23 94</span>
                 </div>
               </div>
             </div>
