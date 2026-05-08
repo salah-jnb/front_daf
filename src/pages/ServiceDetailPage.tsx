@@ -13,6 +13,7 @@ import { useBlockBySlug, slugify, getColorForIndex } from "@/hooks/useBlocks";
 import { useAutoTranslateObject, useAutoTranslateArray } from "@/hooks/useAutoTranslate";
 import type { BlockDTO } from "@/hooks/useBlocks";
 import { translateText } from "@/utils/translateService";
+import { getServiceI18nValue } from "@/utils/serviceTranslation";
 
 /* ── Gradient palette (cycled per card index) ── */
 const GRADIENTS = [
@@ -81,6 +82,9 @@ export default function ServiceDetailPage() {
 
   const color = getColorForIndex(index);
   const grad = GRADIENTS[index % GRADIENTS.length];
+  const i18nTitle = getServiceI18nValue(i18n, t, block?.titre, "title");
+  const i18nDescription = getServiceI18nValue(i18n, t, block?.titre, "description");
+  const i18nLongDescription = getServiceI18nValue(i18n, t, block?.titre, "longDescription");
 
   // ── Traduction automatique des mots clés ─────────
   const [translatedKeywords, setTranslatedKeywords] = useState<string[]>([]);
@@ -130,8 +134,8 @@ export default function ServiceDetailPage() {
   return (
     <>
       <Seo
-        title={`${translatedBlock?.titre || cleanPipe(block.titre)} | JAF Logistics`}
-        description={translatedBlock?.description || block.description}
+        title={`${i18nTitle || translatedBlock?.titre || cleanPipe(block.titre)} | JAF Logistics`}
+        description={i18nDescription || translatedBlock?.description || block.description}
         path={`/services/${slugify(cleanPipe(block.titre))}`}
         image={block.imageUrl}
       />
@@ -159,7 +163,7 @@ export default function ServiceDetailPage() {
                 <h1 className="svc-title" style={{ "--svc-color": color } as React.CSSProperties}>
                   {translating ? (
                     <span className="inline-block w-3/4 h-12 bg-foreground/10 rounded-xl animate-pulse" />
-                  ) : (translatedBlock?.titre || block.titre)}
+                  ) : (i18nTitle || translatedBlock?.titre || block.titre)}
                 </h1>
                 <p className="svc-body">
                   {translating ? (
@@ -168,7 +172,7 @@ export default function ServiceDetailPage() {
                       <span className="block w-4/5 h-4 bg-foreground/10 rounded animate-pulse" />
                       <span className="block w-3/4 h-4 bg-foreground/10 rounded animate-pulse" />
                     </span>
-                  ) : (translatedBlock?.description || block.description)}
+                  ) : (i18nLongDescription || i18nDescription || translatedBlock?.description || block.description)}
                 </p>
 
                 <a

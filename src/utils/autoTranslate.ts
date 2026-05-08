@@ -6,6 +6,17 @@
 
 const memCache = new Map<string, string>();
 
+function extractTranslatedText(data: unknown, fallback: string): string {
+  if (!Array.isArray(data) || !Array.isArray(data[0])) return fallback;
+
+  const chunks = (data[0] as unknown[])
+    .map((segment) => (Array.isArray(segment) ? segment[0] : ""))
+    .filter((part): part is string => typeof part === "string");
+
+  const full = chunks.join("").trim();
+  return full || fallback;
+}
+
 function cacheKey(text: string, from: string, to: string) {
   return `atl:${from}:${to}:${text.slice(0, 180)}`;
 }
@@ -49,10 +60,7 @@ export async function autoTranslate(
     if (!res.ok) return text;
 
     const data = await res.json();
-    let result = text;
-    if (Array.isArray(data) && Array.isArray(data[0]) && Array.isArray(data[0][0])) {
-      result = data[0][0][0] || text;
-    }
+    const result = extractTranslatedText(data, text);
 
     if (result && result !== text) {
       memCache.set(key, result);

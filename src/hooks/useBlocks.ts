@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useMemo } from 'react';
 import { AppContext } from '@/context/AppContext';
+import { normalizeServiceKey } from '@/utils/serviceTranslation';
 
 export type BlockDTO = {
   id: number;
@@ -10,11 +11,7 @@ export type BlockDTO = {
 };
 
 export const slugify = (text: string) => {
-  if (!text) return "";
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '');
+  return normalizeServiceKey(text);
 };
 
 /* ── Color palette cycled per-card index ── */

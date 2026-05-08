@@ -8,6 +8,17 @@
 const CACHE_PREFIX = 'jaf_trans_';
 const DEFAULT_SOURCE = 'fr';
 
+function extractTranslatedText(data: unknown, fallback: string): string {
+  if (!Array.isArray(data) || !Array.isArray(data[0])) return fallback;
+
+  const chunks = (data[0] as unknown[])
+    .map((segment) => (Array.isArray(segment) ? segment[0] : ""))
+    .filter((part): part is string => typeof part === "string");
+
+  const full = chunks.join("").trim();
+  return full || fallback;
+}
+
 /**
  * Génère une clé de cache unique pour un texte + langue cible.
  */
@@ -55,11 +66,8 @@ export async function translateText(
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    // L'API Google retourne un tableau imbriqué : data[0][0][0] contient le texte traduit
-    let translated = text;
-    if (Array.isArray(data) && Array.isArray(data[0]) && Array.isArray(data[0][0])) {
-      translated = data[0][0][0] || text;
-    }
+    // data[0] contient plusieurs segments traduits, pas uniquement data[0][0][0]
+    const translated = extractTranslatedText(data, text);
 
     // Mettre en cache
     try {

@@ -12,6 +12,7 @@ import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { translateText } from "../utils/translateService";
+import { getServiceI18nValue, normalizeServiceKey } from "@/utils/serviceTranslation";
 
 type ServiceItem = {
   title: string;
@@ -500,7 +501,7 @@ function ServicesBentoSwiper() {
           const image = normalizeImageUrl(b.image || '', root);
           if (!rawTitle || !image) return null;
           const cleanTitle = rawTitle.split('|')[0].trim();
-          const slug = cleanTitle.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          const slug = normalizeServiceKey(cleanTitle);
           return { title: cleanTitle, description: rawDesc, image, slug, keywords: b.motcle || [] } as ServiceItem;
         })
         .filter(Boolean) as ServiceItem[];
@@ -521,11 +522,15 @@ function ServicesBentoSwiper() {
 
           // Nettoie le titre (supprime "| JAF Logistics" et variantes)
           const cleanTitle = rawTitle.split('|')[0].trim();
-          const slug = cleanTitle.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          const slug = normalizeServiceKey(cleanTitle);
+          const i18nTitle = getServiceI18nValue(i18n, t, cleanTitle, "title");
+          const i18nDescription = getServiceI18nValue(i18n, t, cleanTitle, "description");
 
           const [title, description] = await Promise.all([
-            translateText(cleanTitle, lang, 'fr'),
-            rawDesc ? translateText(rawDesc, lang, 'fr') : Promise.resolve(''),
+            i18nTitle ? Promise.resolve(i18nTitle) : translateText(cleanTitle, lang, 'fr'),
+            i18nDescription
+              ? Promise.resolve(i18nDescription)
+              : (rawDesc ? translateText(rawDesc, lang, 'fr') : Promise.resolve('')),
           ]);
 
           return { title, description, image, slug, keywords: b.motcle || [] } as ServiceItem;
@@ -619,9 +624,7 @@ function ServicesBentoSwiper() {
                 {t('services.serviceTag', 'Service')}
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                {selectedService.slug && i18n.exists(`servicesData.${selectedService.slug}.title`)
-                  ? t(`servicesData.${selectedService.slug}.title`)
-                  : selectedService.title}
+                {getServiceI18nValue(i18n, t, selectedService.title, "title") || selectedService.title}
               </h2>
 
               {selectedService.keywords && selectedService.keywords.length > 0 && (
@@ -637,9 +640,7 @@ function ServicesBentoSwiper() {
               <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap text-lg">
                 {/* longDescription from i18n if available; otherwise selectedService.description
                     is already translated (set by the translation effect above) */}
-                {selectedService.slug && i18n.exists(`servicesData.${selectedService.slug}.longDescription`)
-                  ? t(`servicesData.${selectedService.slug}.longDescription`)
-                  : selectedService.description}
+                {getServiceI18nValue(i18n, t, selectedService.title, "longDescription") || selectedService.description}
               </p>
 
               <div className="mt-8 flex justify-end">
