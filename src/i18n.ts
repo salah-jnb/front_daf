@@ -122,13 +122,13 @@ const resources = {
       footer: {
         rights: "JAF DEMENAGEMENTS", international: "Déménagements Nationaux, Internationaux & Garde-Meubles",
         partnerEyebrow: "Notre Bureau au Maroc", trustedPartner: "Votre Partenaire de Confiance au", morocco: "Maroc",
-        tagline: "Spécialistes international du déménagement, pour d'un transfert sécurisé et sans failles depuis 1950.",
+        tagline: "Spécialiste international du déménagement, pour d'un transfert sécurisé et sans failles depuis 1950.",
         quickLinks: "Liens Utiles", policies: "Documents & Politiques", offices: "Agences", yearsExp: "Années d'exp."
       },
       hero: {
-        slide1: { title: "Déménagement et Fret Aérien", subtitle: "Cargaison Aérienne Mondiale", description: "Solutions de fret aérien urgentes avec manutention sécurisée, coordination douanière et livraison mondiale fiable." },
+        slide1: { title: "Déménagement et Fret Aérien", subtitle: "La Solution Rapide et Piable", description: "Solutions de fret aérien urgentes avec manutention sécurisée, coordination douanière et livraison mondiale fiable." },
         slide2: { title: "Déménagement et Transport Routier", subtitle: "Logistique Terrestre Fiable", description: "Transport routier flexible sur les itinéraires locaux et transfrontaliers avec une communication claire et des délais respectés." },
-        slide3: { title: "Déménagement et Fret Maritime", subtitle: "Expédition Océanique Rentable", description: "Services de fret maritime FCL et LCL conçus pour des temps de transit fiables et des coûts d'expédition internationaux compétitifs." },
+        slide3: { title: "Déménagement et Fret Maritime", subtitle: "Le Porte à Porte Maritime", description: "Services de fret maritime FCL et LCL conçus pour des temps de transit fiables et des coûts d'expédition internationaux compétitifs." },
         ourServices: "Nos Services"
       },
       about: {
@@ -166,20 +166,20 @@ const resources = {
       process: {
         eyebrow: "Comment Ça Marche", title: "Simple. Efficace. Fiable.", desc: "Un processus simple en quatre étapes, de la planification à la livraison finale en toute sécurité.",
         s1: { title: "Demandez votre devis", desc: "Parlez-nous de votre déménagement ou de votre expédition et recevez un devis clair et compétitif." },
-        s2: { title: "Planification Personnalisée", desc: "Notre équipe logistique élabore le plan, le calendrier et la stratégie d'emballage adapté à vos besoins." },
+        s2: { title: "Planification Personnalisée", desc: "Notre équipe logistique élabore le plan, le calendrier et la stratégie d'emballage adaptés à vos besoins." },
         s3: { title: "Manipulation Sécurisée", desc: "Vos biens sont emballés, manipulés et chargés selon des normes strictes de sécurité et de qualité." },
-        s4: { title: "Suivi et Livraison", desc: "Suivez la progression de votre envoi et recevez à temps avec une assistance proactive." }
+        s4: { title: "Suivi et Livraison", desc: "Suivez la progression de votre envoi et recevez le  à temps avec une assistance proactive." }
       },
       howWeWork: {
         legacy: "À propos", established: "Fondé dans les années",
-        p1: "DEMENAGEMENTS JAF est une entreprise familiale de premier plan dans le secteur du déménagement et du garde-meuble en Tunisie et en Afrique du Nord. Avec nos équipes hautement qualifiées, nous proposons une gamme complète de services.",
-        p2: "En tant que l'une des plus grandes entreprises de déménagement en Afrique du Nord, nous nous engageons à fournir les services  les plus professionnels, réactifs et sûrs a nos clients",
+        p1: "DEMENAGEMENTS JAF est un leader dans le secteur du déménagement et du Garde-meubles en Tunisie et en Afrique du Nord. Avec ses équipes hautement qualifiées, DEMENAGEMNTS JAF propose une gamme complète de services sur mesure tels que les déménagements internationaux, nationaux, les solutions de stockage et garde-meubles, le transport de voitures, le transport d'animaux ainsi que le déménagement des œuvres d’art. DEMENAGEMENTS JAF est une entreprise familiale et l'une des plus grandes entreprises de déménagement en Afrique du Nord qui s’est engagée à fournir la meilleure qualité de service, les collaborateurs les plus réactifs et les déménageurs les plus qualifiés pour les entreprises, les agences gouvernementales, les particuliers et les entreprises.",
+        p2: "Nous nous engageons à fournir à nos clients un service parfait de bout en bout ! ",
         national: { title: "Déménagement National", p1: "Dès le premier contact jusqu'à l'achèvement de votre déménagement local, rien n'est laissé au hasard. Notre objectif est de fournir d'excellents services sans stress à un tarif abordable. Une fois que vous avez décidé que vous êtes prêt à déménager, appelez-nous pour planifier une estimation gratuite à domicile !", p2: "Grâce à notre vaste gamme de services de déménagement national, nous prenons en charge chaque détail de votre transfert pour rendre votre expérience la plus fluide possible." },
         intl: { title: "Déménagement International", p1: "Déménager dans un nouveau pays n'est pas facile car cela implique de nombreuses étapes. DEMENAGEMENTS JAF travaille main dans la main avec nos partenaires à travers le monde pour faire de votre déménagement une expérience exceptionnelle.", p2: "Nous comprenons parfaitement à quel point la planification et l'attention aux détails sont essentielles. Pour vous rassurer, chaque déménagement est supervisé par un coordinateur de déménagement désigné.", shield: "Pour les services d'origine et de destination, nous ne proposons que le meilleur ! Nous livrons à temps — à chaque fois !" },
         storage: { title: "Garde-Meubles Sécurisé", p1: "Nous proposons des solutions de stockage sécurisées à court et à long terme adaptées à vos besoins. Que vous ayez besoin d'un espace supplémentaire lors d'une transition ou d'un stockage à long terme, nos installations sont prêtes.", p2: "Nos entrepôts modernes sont équipés d'une surveillance 24/7, d'un contrôle climatique et de systèmes de protection contre les incendies de pointe pour garantir la sécurité absolue de vos biens." },
         processLabel: "Le Processus", howWeWorkLabel: "Comment nous travaillons?",
         processSteps: {
-          s1: { title: "Etude Initiale", desc: "Dès que vous nous contactez, nous organiserons une visite virtuelle la domicile  pour évaluer vos biens, écouter vos besoins et fournir des informations." },
+          s1: { title: "Etude Initiale", desc: "Dès que vous nous contactez, nous organiserons une visite virtuelle à la domicile  pour évaluer vos biens, écouter vos besoins et fournir des informations." },
           s2: { title: "Offre Financière", desc: "Notre service commercial utilise le rapport de visite pour recueillir tous les détails et vous présenter l'offre financière optimale." },
           s3: { title: "Emballage et Chargement", desc: "Une équipe expérimentée arrivera le jour de l'emballage pour faire le necessaire ." },
           s4: { title: "Exportation et Livraison", desc: "Notre département export gère votre relocalisation de bout en bout avec mises à jour a temps réel." }
